@@ -35,7 +35,15 @@ function Header() {
       </Link>
 
       <nav style={navStyle}>
-        {/* Chúng ta sẽ thêm các link điều hướng khác ở đây sau */}
+        {user ? (
+    <>
+      <Link to="/products">Sản phẩm</Link> {/* <-- Thêm dòng này */}
+      <span>Chào, {user.name} ({user.phan_loai})</span>
+      <button onClick={handleLogout}>Đăng xuất</button>
+    </>
+  ) : (
+    <Link to="/login">Đăng nhập</Link>
+  )}
         {/* Ví dụ: <Link to="/products">Products</Link> */}
         
         {/* Kiểm tra xem user đã đăng nhập hay chưa */}
