@@ -1,8 +1,12 @@
+import AppRoutes from './routes/AppRoutes';
+import { AuthProvider } from './context/AuthContext';
+import './App.css';
+
 function App() {
   return (
-    <div className="App">
-      <h1>My Awesome Dashboard</h1>
-    </div>
+    <AuthProvider>
+      <AppRoutes />
+    </AuthProvider>
   );
 }
 
