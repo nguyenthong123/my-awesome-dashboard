@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
-// CSS đơn giản để Header trông đẹp hơn một chút
+// CSS giữ nguyên
 const headerStyle = {
   display: 'flex',
   justifyContent: 'space-between',
@@ -11,50 +11,39 @@ const headerStyle = {
   backgroundColor: '#f8f9fa',
   borderBottom: '1px solid #dee2e6',
 };
-
 const navStyle = {
   display: 'flex',
-  gap: '1rem', // Khoảng cách giữa các phần tử
+  alignItems: 'center',
+  gap: '1rem',
 };
 
 function Header() {
-  // Lấy thông tin người dùng và hàm logout từ context
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    logout(); // Gọi hàm logout từ context
-    navigate('/login'); // Điều hướng người dùng về trang login sau khi đăng xuất
+    logout();
+    navigate('/login');
   };
 
   return (
     <header style={headerStyle}>
-      {/* Link về trang chủ */}
+      {/* Link về trang chủ công khai */}
       <Link to="/" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>
         My Awesome Dashboard
       </Link>
 
       <nav style={navStyle}>
         {user ? (
-    <>
-      <Link to="/products">Sản phẩm</Link> {/* <-- Thêm dòng này */}
-      <span>Chào, {user.name} ({user.phan_loai})</span>
-      <button onClick={handleLogout}>Đăng xuất</button>
-    </>
-  ) : (
-    <Link to="/login">Đăng nhập</Link>
-  )}
-        {/* Ví dụ: <Link to="/products">Products</Link> */}
-        
-        {/* Kiểm tra xem user đã đăng nhập hay chưa */}
-        {user ? (
-          // Nếu đã đăng nhập, hiển thị thông tin và nút Logout
+          // Giao diện khi đã đăng nhập (đã được dọn dẹp)
           <>
+            {/* LINK "SẢN PHẨM" VÀ "DASHBOARD" ĐÃ ĐƯỢC XÓA */}
+            
             <span>Chào, {user.name} ({user.phan_loai})</span>
             <button onClick={handleLogout}>Đăng xuất</button>
           </>
         ) : (
-          // Nếu chưa đăng nhập, hiển thị link tới trang Login
+          // Giao diện khi chưa đăng nhập
           <Link to="/login">Đăng nhập</Link>
         )}
       </nav>

@@ -1,6 +1,6 @@
-import React, { useState, useMemo, useEffect } from 'react'; // <-- Thêm useMemo và useEffect
+import React, { useState, useMemo, useEffect } from 'react';
 import useFetchData from '../hooks/useFetchData';
-import Header from '../components/layout/Header';
+// KHÔNG cần import Header ở đây nữa
 import { useAuth } from '../context/AuthContext';
 
 const PRODUCTS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/products.json';
@@ -14,11 +14,8 @@ function ProductsPage() {
   const { data: products, isLoading: isLoadingProducts } = useFetchData(PRODUCTS_URL);
   const { data: prices, isLoading: isLoadingPrices } = useFetchData(PRICES_URL);
 
-  // State để quản lý loại giá đang được chọn. Tên của state chính là key trong file JSON
-  const [selectedPriceType, setSelectedPriceType] = useState('Giá chủ nhà'); 
+  const [selectedPriceType, setSelectedPriceType] = useState('Giá chủ nhà');
 
-  // --- LOGIC MỚI: TỰ ĐỘNG LẤY CÁC LOẠI GIÁ ---
-  // useMemo giúp tối ưu hiệu suất, chỉ tính toán lại khi `prices` thay đổi
   const availablePriceTypes = useMemo(() => {
     if (!prices) return [];
     
@@ -27,22 +24,19 @@ function ProductsPage() {
 
     prices.forEach(price => {
       Object.keys(price).forEach(key => {
-        // Chỉ thêm vào nếu key không nằm trong danh sách loại trừ và có giá trị
         if (!excludedKeys.includes(key) && price[key]) {
           priceKeys.add(key);
         }
       });
     });
     
-    return Array.from(priceKeys); // Trả về mảng các loại giá duy nhất, ví dụ: ["Giá Thầu Thợ", "gói 1 kiện", ...]
+    return Array.from(priceKeys);
   }, [prices]);
 
-  // Thiết lập giá trị mặc định cho state khi dữ liệu được tải xong
   useEffect(() => {
     if (user?.phan_loai === 'Thầu Thợ') {
       setSelectedPriceType('Giá chủ nhà');
     } else if (ADVANCED_ROLES.includes(user?.phan_loai)) {
-      // Mặc định cho các vai trò khác là giá niêm yết, nếu không có thì lấy giá đầu tiên
       const defaultPrice = availablePriceTypes.find(p => p.toLowerCase().includes('niêm yết')) || availablePriceTypes[0];
       setSelectedPriceType(defaultPrice);
     }
@@ -50,11 +44,11 @@ function ProductsPage() {
 
 
   if (isLoadingProducts || isLoadingPrices) {
-    return <div>Loading product details...</div>;
+    return <div style={{ padding: '1rem' }}>Loading product details...</div>;
   }
 
   if (!products || !prices) {
-    return <div>Could not load data.</div>;
+    return <div style={{ padding: '1rem' }}>Could not load data.</div>;
   }
 
   const combinedData = Object.values(products).map(product => ({
@@ -62,50 +56,50 @@ function ProductsPage() {
     prices: prices.filter(price => price.group_id === product.id),
   }));
 
-  // --- PHẦN GIAO DIỆN ĐƯỢC CẬP NHẬT ---
+  // return đã được dọn dẹp, không còn Header
   return (
-    <div>
-      <Header />
-      <main style={{ padding: '1rem' }}>
-        <h1>Bảng Giá Sản Phẩm</h1>
-        <p>Hiển thị giá theo vai trò của bạn: <strong>{user?.phan_loai}</strong></p>
+    <div style={{ padding: '1rem' }}>
+      <h1>Bảng Giá Sản Phẩm</h1>
+      <p>Hiển thị giá theo vai trò của bạn: <strong>{user?.phan_loai}</strong></p>
 
-        {/* --- NÚT CHO VAI TRÒ "THẦU THỢ" --- */}
-        {user?.phan_loai === 'Thầu Thợ' && (
-          <div style={{ marginBottom: '1rem', display: 'flex', gap: '10px' }}>
-            <button 
-              onClick={() => setSelectedPriceType('Giá chủ nhà')}
-              style={{ fontWeight: selectedPriceType === 'Giá chủ nhà' ? 'bold' : 'normal' }}
+      {/* --- NÚT CHO VAI TRÒ "THẦU THỢ" --- */}
+      {user?.phan_loai === 'Thầu Thợ' && (
+        <div style={{ marginBottom: '1rem', display: 'flex', gap: '10px' }}>
+          <button 
+            onClick={() => setSelectedPriceType('Giá chủ nhà')}
+            style={{ fontWeight: selectedPriceType === 'Giá chủ nhà' ? 'bold' : 'normal' }}
+          >
+            Xem Giá Chủ nhà
+          </button>
+          <button 
+            onClick={() => setSelectedPriceType('Giá Thầu Thợ')}
+            style={{ fontWeight: selectedPriceType === 'Giá Thầu Thợ' ? 'bold' : 'normal' }}
+          >
+            Xem Giá Thầu Thợ
+          </button>
+        </div>
+      )}
+
+      {/* --- NÚT CHO CÁC VAI TRÒ CAO CẤP KHÁC --- */}
+      {ADVANCED_ROLES.includes(user?.phan_loai) && (
+        <div style={{ marginBottom: '1rem', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+          {availablePriceTypes.map(priceType => (
+            <button
+              key={priceType}
+              onClick={() => setSelectedPriceType(priceType)}
+              style={{ fontWeight: selectedPriceType === priceType ? 'bold' : 'normal' }}
             >
-              Xem Giá Chủ nhà
+              {priceType}
             </button>
-            <button 
-              onClick={() => setSelectedPriceType('Giá Thầu Thợ')}
-              style={{ fontWeight: selectedPriceType === 'Giá Thầu Thợ' ? 'bold' : 'normal' }}
-            >
-              Xem Giá Thầu Thợ
-            </button>
-          </div>
-        )}
+          ))}
+        </div>
+      )}
 
-        {/* --- NÚT CHO CÁC VAI TRÒ CAO CẤP KHÁC --- */}
-        {ADVANCED_ROLES.includes(user?.phan_loai) && (
-          <div style={{ marginBottom: '1rem', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-            {availablePriceTypes.map(priceType => (
-              <button
-                key={priceType}
-                onClick={() => setSelectedPriceType(priceType)}
-                style={{ fontWeight: selectedPriceType === priceType ? 'bold' : 'normal' }}
-              >
-                {priceType}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* --- BẢNG GIÁ ĐỘNG --- */}
-        <div>
-          {combinedData.map(product => (
+      {/* --- BẢNG GIÁ ĐỘNG --- */}
+      <div>
+        {combinedData.map(product => {
+            const priceKey = selectedPriceType;
+            return (
               <div key={product.id} style={{ border: '1px solid #ccc', margin: '1rem', padding: '1rem' }}>
                 <h2>{product.name}</h2>
                 {product.images && product.images.length > 0 &&
@@ -128,7 +122,7 @@ function ProductsPage() {
                             <td>{price["Tên sản phẩm"]}</td>
                             <td>
                               <strong>
-                                {price[selectedPriceType] ? `${price[selectedPriceType].toLocaleString('vi-VN')} VNĐ` : 'N/A'}
+                                {price[priceKey] ? `${price[priceKey].toLocaleString('vi-VN')} VNĐ` : 'N/A'}
                               </strong>
                             </td>
                           </tr>
@@ -139,9 +133,9 @@ function ProductsPage() {
                   <p>Chưa có thông tin giá cho sản phẩm này. Vui lòng liên hệ.</p>
                 )}
               </div>
-          ))}
-        </div>
-      </main>
+            )
+        })}
+      </div>
     </div>
   );
 }
