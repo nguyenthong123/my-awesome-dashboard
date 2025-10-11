@@ -1,50 +1,58 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-
-// CSS giữ nguyên
-const headerStyle = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  padding: '1rem',
-  backgroundColor: '#f8f9fa',
-  borderBottom: '1px solid #dee2e6',
-};
-const navStyle = {
-  display: 'flex',
-  alignItems: 'center',
-  gap: '1rem',
-};
+import './Header.css';
 
 function Header() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
     logout();
+    setIsMobileMenuOpen(false);
     navigate('/login');
   };
 
   return (
-    <header style={headerStyle}>
-      {/* Link về trang chủ công khai */}
-      <Link to="/" style={{ textDecoration: 'none', color: 'black', fontWeight: 'bold' }}>
-        My Awesome Dashboard
-      </Link>
+    <header className="header">
+      <div className="header-logo">
+        <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
+          My Awesome Dashboard
+        </Link>
+      </div>
 
-      <nav style={navStyle}>
+      {/* --- Menu cho máy tính --- */}
+      <nav className="header-nav-desktop">
         {user ? (
-          // Giao diện khi đã đăng nhập (đã được dọn dẹp)
           <>
-            {/* LINK "SẢN PHẨM" VÀ "DASHBOARD" ĐÃ ĐƯỢC XÓA */}
-            
-            <span>Chào, {user.name} ({user.phan_loai})</span>
-            <button onClick={handleLogout}>Đăng xuất</button>
+            <span>Chào, {user.name}</span>
+            <button className="logout-button" onClick={handleLogout}>Đăng xuất</button>
           </>
         ) : (
-          // Giao diện khi chưa đăng nhập
           <Link to="/login">Đăng nhập</Link>
+        )}
+      </nav>
+
+      {/* --- Nút Hamburger và Menu cho điện thoại --- */}
+      <button 
+        className="hamburger-menu" 
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+      >
+        {isMobileMenuOpen ? '✕' : '☰'}
+      </button>
+
+      {/* Thêm class 'open' khi isMobileMenuOpen là true */}
+      <nav className={`header-nav-mobile ${isMobileMenuOpen ? 'open' : ''}`}>
+        {user ? (
+          // KHI ĐÃ ĐĂNG NHẬP
+          <>
+            <span>Chào, {user.name} ({user.phan_loai})</span>
+            <button className="logout-button" onClick={handleLogout}>Đăng xuất</button>
+          </>
+        ) : (
+          // KHI CHƯA ĐĂNG NHẬP (PHẦN BỊ THIẾU)
+          <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>Đăng nhập</Link>
         )}
       </nav>
     </header>

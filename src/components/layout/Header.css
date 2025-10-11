@@ -1,0 +1,104 @@
+/* src/components/layout/Header.css */
+
+.header {
+  display: flex;
+  justify-content: space-between; /* Đẩy các phần tử con ra hai bên */
+  align-items: center; /* Căn giữa theo chiều dọc */
+  padding: 0 2rem;
+  height: 60px;
+  background-color: white;
+  border-bottom: 1px solid #e0e0e0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-logo a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* --- Giao diện cho máy tính --- */
+.header-nav-desktop {
+  display: flex; /* Mặc định là flex cho máy tính */
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* ... (Các style khác của .header-nav-desktop giữ nguyên) ... */
+.header-nav-desktop span { color: #555; }
+.header-nav-desktop a,
+.header-nav-desktop button {
+  text-decoration: none;
+  color: #007bff;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+.header-nav-desktop a:hover { background-color: #f0f0f0; }
+.header-nav-desktop .logout-button {
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  background-color: white;
+  cursor: pointer;
+}
+.header-nav-desktop .logout-button:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+
+/* --- Giao diện cho điện thoại --- */
+.hamburger-menu {
+  display: none; /* Ẩn nút hamburger trên máy tính */
+}
+
+.header-nav-mobile {
+  display: none; /* Ẩn menu mobile trên máy tính */
+}
+
+
+/* --- Responsive (khi màn hình nhỏ hơn 768px) --- */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 1rem;
+  }
+
+  /* Ẩn menu máy tính, hiện nút hamburger */
+  .header-nav-desktop {
+    display: none;
+  }
+
+  .hamburger-menu {
+    display: block; /* Hiện nút hamburger */
+    font-size: 24px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #333;
+  }
+  
+  .header-nav-mobile {
+    /* Các style này vẫn đúng, không cần sửa */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    padding: 2rem 0;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transform: translateY(-150%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .header-nav-mobile.open {
+    transform: translateY(0);
+  }
+}

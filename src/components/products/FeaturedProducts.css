@@ -2,36 +2,42 @@
 
 .featured-products-container {
   display: grid;
-  /* Mặc định trên màn hình lớn, hiển thị 4 cột */
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(4, 1fr); /* Mặc định 4 cột cho màn hình lớn */
+  gap: 1.5rem; /* Khoảng cách giữa các sản phẩm */
 }
 
 .product-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  background-color: white; /* Thêm nền trắng để nổi bật bóng đổ */
+  border: 1px solid #f0f0f0; /* Viền rất nhạt, gần như vô hình */
+  border-radius: 12px; /* Bo góc nhiều hơn cho cảm giác mềm mại */
+  overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài khi bo góc */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Bóng đổ tinh tế hơn */
   transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   display: flex;
   flex-direction: column;
 }
 
 .product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  transform: translateY(-5px); /* Hiệu ứng nhấc lên khi di chuột vào */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
 }
 
 .product-card-image-wrapper {
   width: 100%;
   height: 180px;
   background-color: #f5f5f5;
+  overflow: hidden; /* Đảm bảo ảnh được cắt gọn gàng */
 }
 
 .product-card-image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: cover; /* Lấp đầy khung mà không làm méo ảnh */
+  transition: transform 0.3s ease; /* Thêm hiệu ứng zoom nhẹ */
+}
+
+.product-card:hover .product-card-image {
+  transform: scale(1.05); /* Zoom ảnh lên một chút khi hover */
 }
 
 .product-card-content {
@@ -39,36 +45,38 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+  text-align: left; /* Căn lề trái nội dung cho chuyên nghiệp */
 }
 
 .product-card-title {
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: 600; /* Dùng 600 thay vì 'bold' cho font chữ hiện đại hơn */
   margin: 0 0 0.5rem 0;
-  min-height: 44px;
+  min-height: 44px; /* Giữ chỗ cho 2 dòng tiêu đề */
+  color: #333;
 }
 
 .product-card-info {
-  font-size: 0.9rem;
-  color: #666;
+  font-size: 0.85rem;
+  color: #757575; /* Màu xám nhạt hơn */
   margin: 0.25rem 0;
 }
 
 .product-card-price {
   font-size: 1.2rem;
-  color: #c00;
+  color: #d32f2f; /* Màu đỏ đậm hơn */
   font-weight: bold;
-  margin-top: auto;
+  margin-top: auto; /* Đẩy giá và nút xuống cuối thẻ */
   padding-top: 1rem;
 }
 
 .product-card-button {
   margin-top: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
   border: 1px solid #007bff;
   background-color: white;
   color: #007bff;
-  border-radius: 4px;
+  border-radius: 20px; /* Bo góc tròn cho nút */
   cursor: pointer;
   font-weight: bold;
   align-self: flex-start;
@@ -80,34 +88,21 @@
   color: white;
 }
 
-/* --- Responsive cho máy tính bảng và điện thoại --- */
+/* --- Responsive Layout --- */
 
-/* Khi màn hình nhỏ hơn 992px (máy tính bảng nhỏ) */
+/* Máy tính bảng nhỏ */
 @media (max-width: 992px) {
   .featured-products-container {
-    /* Hiển thị 3 cột */
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* Khi màn hình nhỏ hơn 768px (điện thoại màn hình lớn, máy tính bảng dọc) */
+/* Điện thoại (ngang) và Máy tính bảng (dọc) */
 @media (max-width: 768px) {
   .featured-products-container {
-    /* *** THAY ĐỔI CHÍNH Ở ĐÂY *** */
-    /* Hiển thị 2 cột */
     grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
   }
 }
 
-/* Khi màn hình rất nhỏ, nhỏ hơn 480px */
-@media (max-width: 480px) {
-  .featured-products-container {
-    /* Giữ nguyên 2 cột hoặc chuyển về 1 cột nếu muốn */
-    /* Tùy chọn 1: Giữ 2 cột */
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem; /* Giảm khoảng cách cho màn hình nhỏ hơn */
-
-    /* Tùy chọn 2: Chuyển về 1 cột (bỏ comment dòng dưới nếu muốn) */
-    /* grid-template-columns: 1fr; */
-  }
-}
+/* Điện thoại (dọc) - bỏ breakpoint 480px để giữ 2 cột, tạo cảm giác thoáng */

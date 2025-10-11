@@ -1,17 +1,6 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
 /* src/index.css */
+
+/* --- Reset & Thiết lập Font chữ cơ bản --- */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -19,24 +8,89 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #fff;
+  color: #333;
 }
 
-/* --- LÀM ĐẸP BUTTON CHUNG --- */
+/* 
+  Ngăn chặn lỗi cuộn ngang xảy ra trên toàn bộ trang.
+  Đây là một biện pháp "bảo hiểm" rất quan trọng cho giao diện responsive.
+*/
+html, body {
+  overflow-x: hidden;
+  /* Đảm bảo trang chiếm 100% chiều rộng ngay cả khi nội dung ngắn */
+  width: 100%; 
+}
+
+/* 
+  Thay đổi cách trình duyệt tính toán kích thước của phần tử.
+  Padding và border sẽ được tính vào bên trong, không làm tăng kích thước tổng thể.
+*/
+* {
+  box-sizing: border-box;
+}
+
+/* --- Container Layout chung --- */
+/* Class này sẽ được dùng trên các trang để căn giữa và tạo khoảng trắng */
+.page-container {
+  width: 100%;
+  max-width: 1200px; /* Chiều rộng tối đa của nội dung trên màn hình lớn */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;  /* Khoảng trắng hai bên */
+  padding-right: 1.5rem;
+}
+
+/* --- Style chung cho các Tiêu đề --- */
+h1, h2, h3 {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* --- Style chung cho các Button --- */
 button {
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 6px;
   border: 1px solid #007bff;
   background-color: #007bff;
   color: white;
   font-size: 1rem;
+  font-weight: 500;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
 }
 
 button:hover {
   background-color: #0056b3;
+  border-color: #0056b3;
 }
 
 button:active {
   transform: scale(0.98);
+}
+
+/* --- Footer chung --- */
+.footer {
+  width: 100%;
+  padding: 2rem 1.5rem;
+  margin-top: 4rem;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+  color: #666;
+  background-color: #f8f9fa;
+}
+
+/* --- Responsive cho điện thoại --- */
+@media (max-width: 768px) {
+  .page-container {
+    padding-left: 1rem; /* Giảm khoảng trắng hai bên trên màn hình nhỏ */
+    padding-right: 1rem;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
 }

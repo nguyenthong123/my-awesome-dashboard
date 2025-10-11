@@ -1,0 +1,47 @@
+/* src/components/common/ImageSlider.css */
+
+.slider-container {
+  width: 100%;
+  /* Tỷ lệ khung hình rộng cho banner trên desktop */
+  aspect-ratio: 16 / 5.5; 
+  position: relative;
+  overflow: hidden; /* Rất quan trọng: Ngăn mọi thứ tràn ra ngoài */
+  background-color: #f0f0f0; /* Màu nền trong khi ảnh đang tải */
+}
+
+.slider-slide {
+  width: 100%;
+  height: 100%;
+  /* Sử dụng 'cover' để ảnh luôn lấp đầy khung, trông chuyên nghiệp hơn */
+  /* Vấn đề tràn lề sẽ được giải quyết bằng container chung */
+  object-fit: cover; 
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+/* --- Responsive cho máy tính bảng (< 992px) --- */
+@media (max-width: 992px) {
+  .slider-container {
+    /* Tỷ lệ cao hơn một chút cho màn hình hẹp hơn */
+    aspect-ratio: 16 / 7;
+  }
+}
+
+
+/* --- Responsive cho điện thoại (< 768px) --- */
+@media (max-width: 768px) {
+  .slider-container {
+    /* Tỷ lệ phù hợp cho màn hình dọc */
+    aspect-ratio: 16 / 9;
+    
+    /* Xóa margin vì layout cha (page-container) đã lo việc này */
+    margin: 0; 
+    
+    /* Bỏ bo góc để slider chạm lề trên điện thoại, tạo cảm giác tràn viền hiện đại */
+    border-radius: 0; 
+  }
+}
+
+/* Không cần breakpoint cho 480px nữa, 16/9 là đủ tốt cho hầu hết điện thoại */

@@ -4,7 +4,7 @@ import ImageSlider from '../components/common/ImageSlider';
 import VideoSlider from '../components/common/VideoSlider';
 import { videos } from '../config/videoData';
 import FeaturedProducts from '../components/products/FeaturedProducts';
-import './HomePage.css'; // <-- Import file CSS mới
+import './HomePage.css'; // Import file CSS cho trang
 
 // --- Import ảnh cho Slider chính ---
 import sliderImage1 from '../assets/images/slider-1.jpg';
@@ -17,16 +17,17 @@ const sliderImages = [sliderImage1, sliderImage2, sliderImage3];
 const PRODUCTS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/products.json';
 const PRICES_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/prices.json';
 
-// --- CẤU HÌNH MỚI CHO VIỆC TÍNH VÍT ---
+// --- CẤU HÌNH CHO VIỆC TÍNH VÍT ---
 const SQUARE_METERS_PER_SHEET = 3;
 const SCREWS_PER_SHEET = 20;
 const SCREWS_PER_PACK = 300;
 const PRICE_PER_SCREW_PACK = 150000;
 
 // ==================================================================
-// === COMPONENT CON: CÔNG CỤ TÍNH TOÁN (ĐÃ CẬP NHẬT GIAO DIỆN VÀ LOGIC)
+// === COMPONENT CON: CÔNG CỤ TÍNH TOÁN
 // ==================================================================
 function DraftOrderCalculator({ products, prices }) {
+  // --- Toàn bộ code logic của component này được giữ nguyên ---
   const [selectedProductId, setSelectedProductId] = useState('');
   const [selectedPriceId, setSelectedPriceId] = useState('');
   const [squareMeters, setSquareMeters] = useState('');
@@ -78,14 +79,13 @@ function DraftOrderCalculator({ products, prices }) {
       const numberOfScrews = numberOfSheets * SCREWS_PER_SHEET;
       const screwProduct = calculableProducts.find(p => p.type === 'vit');
       if (screwProduct) {
-        // *** LOGIC TÍNH GIÁ VÍT MỚI ***
         const pricePerScrew = PRICE_PER_SCREW_PACK / SCREWS_PER_PACK;
-        const totalScrewPrice = Math.round(numberOfScrews * pricePerScrew); // Làm tròn tổng tiền vít
+        const totalScrewPrice = Math.round(numberOfScrews * pricePerScrew);
         const screwItem = {
-          id: screwProduct.id + '_screws', // Tạo id duy nhất
+          id: screwProduct.id + '_screws',
           name: screwProduct.name,
           quantity: numberOfScrews,
-          unitPrice: pricePerScrew, // Đơn giá là giá của 1 con vít
+          unitPrice: pricePerScrew,
           total: totalScrewPrice,
         };
         itemsToAdd.push(screwItem);
@@ -165,25 +165,26 @@ function HomePage() {
   const { data: prices, isLoading: isLoadingPrices } = useFetchData(PRICES_URL);
 
   if (isLoadingProducts || isLoadingPrices) {
-    return <div style={{ padding: '1rem' }}>Loading page...</div>;
+    return <div className="page-container">Loading page...</div>;
   }
 
   if (!products || !prices) {
-    return <div style={{ padding: '1rem' }}>Could not load data.</div>;
+    return <div className="page-container">Could not load data.</div>;
   }
 
   return (
     <div>
       <ImageSlider images={sliderImages} />
 
-      <div style={{ padding: '1rem' }}>
+      {/* Sử dụng className chung đã định nghĩa trong index.css */}
+      <div className="page-container">
         <h1>Sản Phẩm Nổi Bật</h1>
         <FeaturedProducts prices={prices} />
         <DraftOrderCalculator products={products} prices={prices} />
         <VideoSlider videoList={videos} />
       </div>
 
-      <footer style={{ padding: '2rem 1rem', marginTop: '2rem', borderTop: '1px solid #ccc', textAlign: 'center', color: '#666', backgroundColor: '#f8f9fa' }}>
+      <footer className="footer">
         <p>© 2025 My Awesome Dashboard. All Rights Reserved.</p>
         <p>Thông tin liên hệ | Chính sách bảo mật</p>
       </footer>
