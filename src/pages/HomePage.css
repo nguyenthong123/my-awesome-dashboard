@@ -1,0 +1,35 @@
+/* src/pages/HomePage.css */
+
+.calculator-container {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px solid #eee;
+}
+
+.calculator-box {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+  max-width: 600px;
+  margin: 2rem auto; /* Căn giữa form */
+}
+
+.calculator-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.calculator-form select,
+.calculator-form input {
+  padding: 12px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  font-size: 1rem;
+}
+
+.calculator-form button {
+  padding: 12px;
+  font-weight: bold;
+}

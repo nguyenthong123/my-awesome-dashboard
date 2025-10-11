@@ -1,0 +1,113 @@
+/* src/components/products/FeaturedProducts.css */
+
+.featured-products-container {
+  display: grid;
+  /* Mặc định trên màn hình lớn, hiển thị 4 cột */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+}
+
+.product-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.product-card-image-wrapper {
+  width: 100%;
+  height: 180px;
+  background-color: #f5f5f5;
+}
+
+.product-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-card-content {
+  padding: 1rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 0 0 0.5rem 0;
+  min-height: 44px;
+}
+
+.product-card-info {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.25rem 0;
+}
+
+.product-card-price {
+  font-size: 1.2rem;
+  color: #c00;
+  font-weight: bold;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.product-card-button {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid #007bff;
+  background-color: white;
+  color: #007bff;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  align-self: flex-start;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.product-card-button:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+/* --- Responsive cho máy tính bảng và điện thoại --- */
+
+/* Khi màn hình nhỏ hơn 992px (máy tính bảng nhỏ) */
+@media (max-width: 992px) {
+  .featured-products-container {
+    /* Hiển thị 3 cột */
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Khi màn hình nhỏ hơn 768px (điện thoại màn hình lớn, máy tính bảng dọc) */
+@media (max-width: 768px) {
+  .featured-products-container {
+    /* *** THAY ĐỔI CHÍNH Ở ĐÂY *** */
+    /* Hiển thị 2 cột */
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Khi màn hình rất nhỏ, nhỏ hơn 480px */
+@media (max-width: 480px) {
+  .featured-products-container {
+    /* Giữ nguyên 2 cột hoặc chuyển về 1 cột nếu muốn */
+    /* Tùy chọn 1: Giữ 2 cột */
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem; /* Giảm khoảng cách cho màn hình nhỏ hơn */
+
+    /* Tùy chọn 2: Chuyển về 1 cột (bỏ comment dòng dưới nếu muốn) */
+    /* grid-template-columns: 1fr; */
+  }
+}

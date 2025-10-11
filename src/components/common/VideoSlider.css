@@ -1,0 +1,94 @@
+/* src/components/common/VideoSlider.css */
+
+/* --- Phần style cho máy tính giữ nguyên --- */
+.video-slider-container {
+  margin-top: 3rem;
+  padding: 2rem 1rem;
+  border-top: 2px solid #007bff;
+  text-align: center;
+}
+
+.icon-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.icon-wrapper {
+  cursor: pointer;
+  text-align: center;
+  width: 100px;
+  padding-bottom: 0.5rem;
+  transition: transform 0.2s;
+}
+
+.icon-wrapper:hover {
+  transform: scale(1.05);
+}
+
+.icon-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding: 10px;
+  background-color: #f0f0f0;
+  object-fit: contain;
+}
+
+.icon-title {
+  margin-top: 0.5rem;
+  font-weight: bold;
+}
+
+/* ... các style khác cho video giữ nguyên ... */
+.video-wrapper {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 800px;
+  background: #000;
+  margin: 0 auto;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  border-radius: 8px;
+}
+
+.video-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* --- GIAO DIỆN CHO ĐIỆN THOẠI (ĐÃ ĐƯỢC CẬP NHẬT) --- */
+@media (max-width: 768px) {
+  .video-slider-container {
+    padding: 2rem 0;
+  }
+  
+  .icon-container {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: 0 1rem 1rem 1rem;
+    gap: 0.5rem; /* Giảm khoảng cách giữa các icon */
+  }
+
+  .icon-wrapper {
+    flex: 0 0 70px; /* Giảm chiều rộng của khu vực bao quanh icon */
+  }
+  
+  .icon-image {
+    width: 40px;   /* Thu nhỏ icon */
+    height: 40px;  /* Thu nhỏ icon */
+    padding: 8px;  /* Giảm padding cho phù hợp */
+  }
+
+  .icon-title {
+    font-size: 0.8rem; /* Thu nhỏ chữ */
+  }
+}
