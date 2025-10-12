@@ -1,0 +1,123 @@
+/* src/pages/ProductsPage.css */
+
+.page-container {
+  /* Giữ nguyên từ index.css */
+}
+
+/* --- Khu vực các nút chọn giá --- */
+.price-selector-container {
+  margin-bottom: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.price-selector-button {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  border: 1px solid #2E7D32;
+  background-color: white;
+  color: #2E7D32;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.price-selector-button.active,
+.price-selector-button:hover {
+  background-color: #2E7D32;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* --- Khu vực sản phẩm --- */
+.product-group {
+  margin-bottom: 3rem;
+}
+
+.product-group-title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.product-group-title .logo {
+  height: 40px;
+  width: auto;
+}
+
+.product-group-title h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+/* --- CẢI TIẾN BẢNG GIÁ --- */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid #dee2e6; /* Thêm viền ngoài cho container */
+  border-radius: 12px; /* Bo góc cho cả bảng */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Thêm bóng đổ nhẹ */
+}
+
+.product-price-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+/* Bỏ viền của table, vì container đã có viền */
+.product-price-table th,
+.product-price-table td {
+  border: none;
+  border-bottom: 1px solid #dee2e6; /* Chỉ giữ lại viền ngang */
+  padding: 1rem; /* Tăng padding cho thoáng */
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* Bỏ viền cho dòng cuối cùng */
+.product-price-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.product-price-table thead {
+  background-color: #28a745;
+  color: white;
+}
+
+/* Điều chỉnh độ rộng các cột cho hợp lý */
+.product-price-table th:nth-child(1), .product-price-table td:nth-child(1) { width: 10%; } /* Hình ảnh */
+.product-price-table th:nth-child(2), .product-price-table td:nth-child(2) { width: 30%; } /* Tên sản phẩm */
+.product-price-table th:nth-child(3), .product-price-table td:nth-child(3) { width: 15%; } /* Kích thước */
+.product-price-table th:nth-child(4), .product-price-table td:nth-child(4) { width: 15%; } /* Số kg */
+.product-price-table th:nth-child(5), .product-price-table td:nth-child(5) { width: 15%; } /* Số tấm */
+.product-price-table th:nth-child(6), .product-price-table td:nth-child(6) { width: 15%; } /* Giá */
+
+
+.product-price-table td.product-image-cell {
+  width: 80px; /* Giữ lại để đảm bảo ảnh không quá to */
+  padding: 0.25rem;
+}
+
+.product-price-table .product-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.product-price-table .price-cell {
+  text-align: right;
+  font-weight: bold;
+}
+
+/* --- Khu vực lưu ý --- */
+.notes-section {
+  /* ... giữ nguyên ... */
+}
