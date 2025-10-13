@@ -1,0 +1,80 @@
+/* src/pages/DashboardPage.css */
+
+/* --- Khu vực Bộ lọc --- */
+.filter-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 1.5rem;
+  background-color: white;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.filter-container input,
+.filter-container select {
+  padding: 12px 14px;
+  border-radius: 6px;
+  border: 1px solid #ced4da;
+  font-size: 0.9rem;
+  background-color: #f8f9fa;
+}
+
+/* --- Khu vực Thống kê --- */
+.stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.stat-card {
+  background-color: #28a745;
+  color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(40, 167, 69, 0.2);
+  transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.stat-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.stat-card p {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1.2;
+  /* Thêm thuộc tính này để xử lý số quá dài */
+  word-wrap: break-word; 
+}
+
+/* --- PHẦN QUAN TRỌNG: RESPONSIVE CHO THẺ THỐNG KÊ --- */
+@media (max-width: 768px) {
+  .stat-card p {
+    font-size: 2rem; /* Giảm cỡ chữ trên màn hình nhỏ hơn */
+  }
+  .stats-container {
+    gap: 1rem; /* Giảm khoảng cách */
+  }
+}
+
+@media (max-width: 480px) {
+  .stat-card p {
+    font-size: 1.8rem; /* Giảm cỡ chữ thêm nữa trên màn hình rất nhỏ */
+  }
+  .stat-card {
+    padding: 1rem; /* Giảm padding của thẻ */
+  }
+}

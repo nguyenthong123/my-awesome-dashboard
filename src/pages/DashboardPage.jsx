@@ -1,34 +1,28 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import useFetchData from '../hooks/useFetchData';
-import './ProductsPage.css'; // Tái sử dụng CSS của bảng giá
+import './ProductsPage.css'; // Vẫn tái sử dụng style của bảng
+import './DashboardPage.css'; // Import file CSS mới cho Dashboard
+import DashboardCharts from '../components/dashboard/DashboardCharts'; // <-- Thêm import
 
 const ORDERS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/orderData.json';
 const ORDER_DETAILS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/orderDetails.json';
 
-// --- COMPONENT CON: MODAL CHI TIẾT ĐƠN HÀNG (ĐÃ SỬA LỖI) ---
-// Trong file DashboardPage.jsx
-
+// --- COMPONENT CON: MODAL CHI TIẾT ĐƠN HÀNG ---
 function OrderDetailsModal({ order, details, onClose }) {
   const modalOverlayStyle = {
     position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
     backgroundColor: 'rgba(0, 0, 0, 0.6)', display: 'flex',
     justifyContent: 'center', alignItems: 'center', zIndex: 1050,
   };
-  
   const modalContentStyle = {
-    position: 'relative',
-    backgroundColor: 'white',
-    padding: '2rem',
-    borderRadius: '8px',
-    width: '90%',
-    // Tăng chiều rộng tối đa của Modal
-    maxWidth: '90vw', 
-    maxHeight: '90vh',
-    overflowY: 'auto',
+    position: 'relative', backgroundColor: 'white', padding: '2rem', borderRadius: '8px',
+    width: '90%', maxWidth: '960px', maxHeight: '90vh', overflowY: 'auto',
     boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
   };
-
-  const closeButtonStyle = { /* ... giữ nguyên ... */ };
+  const closeButtonStyle = {
+    position: 'absolute', top: '10px', right: '15px', background: 'none',
+    border: 'none', fontSize: '1.8rem', cursor: 'pointer', color: '#666',
+  };
 
   return (
     <div style={modalOverlayStyle} onClick={onClose}>
@@ -37,10 +31,8 @@ function OrderDetailsModal({ order, details, onClose }) {
         <h2>Chi tiết Đơn hàng: {order["id order"]}</h2>
         <p><strong>Khách hàng:</strong> {order["tên khách hàng"]}</p>
         <p><strong>Ngày đặt:</strong> {order["thời gian lên đơn"] ? new Date(order["thời gian lên đơn"]).toLocaleDateString('vi-VN') : ''}</p>
-        
         <h4 style={{marginTop: '2rem'}}>Các sản phẩm trong đơn:</h4>
         <div className="table-container">
-          {/* Sửa lại bảng để nó tự điều chỉnh chiều rộng cột */}
           <table className="product-price-table" style={{ tableLayout: 'auto' }}>
             <thead>
               <tr>
@@ -58,7 +50,6 @@ function OrderDetailsModal({ order, details, onClose }) {
                   const total = parseFloat(item["tổng tiền"]) || 0;
                   return (
                     <tr key={item["id order chi tiết"] || index}>
-                      {/* Thêm style để các cột không bị xuống dòng */}
                       <td style={{ whiteSpace: 'nowrap' }}>{item["tên sản phẩm"] || item["tên khóa kết hợp sp"] || ''}</td>
                       <td style={{ whiteSpace: 'nowrap' }}>{item["Kích Thước"] || ''}</td>
                       <td style={{ whiteSpace: 'nowrap' }}>{item["số lượng"]} {item["đơn vị tính"]}</td>
@@ -67,9 +58,7 @@ function OrderDetailsModal({ order, details, onClose }) {
                     </tr>
                   )
                 })
-              ) : (
-                <tr><td colSpan="5" style={{ textAlign: 'center' }}>Không tìm thấy chi tiết cho đơn hàng này.</td></tr>
-              )}
+              ) : ( <tr><td colSpan="5" style={{ textAlign: 'center' }}>Không tìm thấy chi tiết cho đơn hàng này.</td></tr> )}
             </tbody>
           </table>
         </div>
@@ -84,7 +73,6 @@ function Pagination({ itemsPerPage, totalItems, paginate, currentPage }) {
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
-
   const paginationStyle = { display: 'flex', justifyContent: 'center', listStyle: 'none', padding: 0, marginTop: '2rem' };
   const baseLinkStyle = {
     color: '#007bff', padding: '8px 16px', textDecoration: 'none', 
@@ -110,53 +98,125 @@ function Pagination({ itemsPerPage, totalItems, paginate, currentPage }) {
   );
 }
 
-
 // --- COMPONENT CHÍNH ---
 function DashboardPage() {
+  // --- TẤT CẢ HOOKS ĐƯỢC GỌI Ở ĐẦU ---
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [statusFilter, setStatusFilter] = useState('Tất cả');
+  const [customerFilter, setCustomerFilter] = useState('');
+
   const { data: rawOrders, isLoading: isLoadingOrders } = useFetchData(ORDERS_URL);
   const { data: rawOrderDetails, isLoading: isLoadingDetails } = useFetchData(ORDER_DETAILS_URL);
+  
+  const orders = useMemo(() => {
+    if (!rawOrders) return [];
+    return Array.isArray(rawOrders) ? rawOrders : Object.values(rawOrders);
+  }, [rawOrders]);
+
+  const filteredOrders = useMemo(() => {
+    let filtered = [...orders];
+    if (startDate) {
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+      filtered = filtered.filter(order => order["thời gian lên đơn"] && new Date(order["thời gian lên đơn"]) >= start);
+    }
+    if (endDate) {
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
+      filtered = filtered.filter(order => order["thời gian lên đơn"] && new Date(order["thời gian lên đơn"]) <= end);
+    }
+    if (statusFilter && statusFilter !== 'Tất cả') {
+      filtered = filtered.filter(order => order["trạng thái"] === statusFilter);
+    }
+    if (customerFilter) {
+      filtered = filtered.filter(order => 
+        order["tên khách hàng"] && order["tên khách hàng"].toLowerCase().includes(customerFilter.toLowerCase())
+      );
+    }
+    return filtered;
+  }, [orders, startDate, endDate, statusFilter, customerFilter]);
+
+  const availableStatuses = useMemo(() => {
+    const statuses = new Set(orders.map(order => order["trạng thái"]).filter(Boolean));
+    return ['Tất cả', ...statuses];
+  }, [orders]);
+
+  const availableCustomers = useMemo(() => {
+    const customers = new Set(filteredOrders.map(order => order["tên khách hàng"]).filter(Boolean));
+    return [...customers];
+  }, [filteredOrders]);
 
   const selectedOrderDetails = useMemo(() => {
     if (!selectedOrder || !rawOrderDetails) return [];
-    const selectedOrderId = selectedOrder["id order"];
-    return rawOrderDetails[selectedOrderId] || [];
+    return rawOrderDetails[selectedOrder["id order"]] || [];
   }, [selectedOrder, rawOrderDetails]);
 
-  if (isLoadingOrders || isLoadingDetails || !rawOrders) {
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [startDate, endDate, statusFilter, customerFilter]);
+
+  // --- CÁC CÂU LỆNH RETURN SỚM ---
+    if (isLoadingOrders || isLoadingDetails) {
     return <div className="page-container">Loading...</div>;
   }
+  if (!rawOrders) {
+    return <div className="page-container">Could not load order data.</div>;
+  }
 
-  const orders = Array.isArray(rawOrders) ? rawOrders : Object.values(rawOrders);
   
-  const totalRevenue = orders.reduce((sum, order) => sum + (parseFloat(order["tổng tiền dịch vụ"]) || 0), 0);
-  
-  // LOGIC PHÂN TRANG
+  // --- CÁC LOGIC TÍNH TOÁN CÒN LẠI ---
+  const totalRevenue = filteredOrders.reduce((sum, order) => sum + (parseFloat(order["tổng phụ"]) || 0), 0);
+  const totalPackages = filteredOrders.reduce((sum, order) => sum + (parseInt(order["tổng kiện trong đơn"], 10) || 0), 0);
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentOrders = orders.slice(indexOfFirstItem, indexOfLastItem);
+  const currentOrders = filteredOrders.slice(indexOfFirstItem, indexOfLastItem);
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="page-container">
       <h1>Admin Dashboard</h1>
       
-      <div style={{ display: 'flex', gap: '2rem', marginBottom: '2rem' }}>
-        <div style={{ border: '1px solid #ccc', borderRadius: '8px', padding: '1rem', textAlign: 'center' }}>
+      <div className="filter-container">
+        <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} title="Từ ngày" />
+        <input type="date" value={endDate} onChange={e => setEndDate(e.target.value)} title="Đến ngày" />
+        <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
+          {availableStatuses.map(status => <option key={status} value={status}>{status || 'Chưa có'}</option>)}
+        </select>
+        <input 
+          type="text" 
+          placeholder="Lọc theo tên khách hàng..."
+          value={customerFilter} 
+          onChange={e => setCustomerFilter(e.target.value)}
+          list="customer-suggestions"
+        />
+        <datalist id="customer-suggestions">
+          {availableCustomers.map(customer => <option key={customer} value={customer} />)}
+        </datalist>
+      </div>
+
+       {/* --- KHU VỰC THỐNG KÊ (ĐÃ CẬP NHẬT) --- */}
+      <div className="stats-container">
+        <div className="stat-card">
           <h3>Tổng số đơn hàng</h3>
-          <p style={{ fontSize: '2rem', fontWeight: 'bold', margin: 0 }}>{orders.length}</p>
+          <p>{filteredOrders.length}</p>
         </div>
-        <div style={{ border: '1px solid #ccc', borderRadius: '8px', padding: '1rem', textAlign: 'center' }}>
+        <div className="stat-card">
           <h3>Tổng doanh thu</h3>
-          <p style={{ fontSize: '2rem', fontWeight: 'bold', margin: 0 }}>
-            {totalRevenue.toLocaleString('vi-VN')} VNĐ
-          </p>
+          <p>{totalRevenue.toLocaleString('vi-VN')} VNĐ</p>
+        </div>
+        {/* THÊM THẺ MỚI CHO TỔNG KIỆN */}
+        <div className="stat-card">
+          <h3>Tổng kiện</h3>
+          <p>{totalPackages}</p>
         </div>
       </div>
 
-      <h2>Danh sách đơn hàng gần đây</h2>
+      <h2>Danh sách đơn hàng</h2>
       <div className="table-container">
         <table className="product-price-table">
           <thead>
@@ -190,18 +250,27 @@ function DashboardPage() {
         </table>
       </div>
 
-      {/* HIỂN THỊ LẠI COMPONENT PHÂN TRANG */}
       <Pagination 
         itemsPerPage={itemsPerPage} 
-        totalItems={orders.length} 
+        totalItems={filteredOrders.length} 
         paginate={paginate}
         currentPage={currentPage}
       />
       
-      <div style={{ marginTop: '2rem' }}>
-          <h2>Biểu đồ thống kê (sẽ phát triển sau)</h2>
-          <p>Khu vực này sẽ chứa các biểu đồ thống kê doanh thu theo thời gian.</p>
-      </div>
+       <div className="page-container">
+      {/* ... (h1, filter, stats, bảng, pagination) */}
+      
+      {/* --- THAY THẾ KHU VỰC BIỂU ĐỒ --- */}
+      <DashboardCharts orders={filteredOrders} />
+
+      {selectedOrder && (
+        <OrderDetailsModal 
+          order={selectedOrder} 
+          details={selectedOrderDetails}
+          onClose={() => setSelectedOrder(null)} 
+        />
+      )}
+    </div>
 
       {selectedOrder && (
         <OrderDetailsModal 
