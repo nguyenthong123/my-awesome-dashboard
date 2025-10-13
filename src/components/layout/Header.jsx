@@ -18,7 +18,7 @@ function Header() {
     <header className="header">
       <div className="header-logo">
         <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
-          My Awesome Dashboard
+          DURAflex  Tây Nguyên
         </Link>
       </div>
 
