@@ -120,7 +120,7 @@ function DraftOrderCalculator({ products, prices }) {
     <div className="calculator-container">
       <div className="calculator-box">
         <h1>Công cụ Ước tính Vật tư</h1>
-        <p><strong>Hướng dẫn:</strong> Chỉ cần nhập số m² công trình, hệ thống sẽ tính số lượng vật tư. <br /> <i>Lưu ý: nên dựa theo kích thước để tính ra số m2 ví dụ 1 tấm duraflex khổ tiêu chuẩn (1.22m x 2.44m) có diện tích là 2.9768 m² (lấy 1200 x 2440)  .</i></p>
+        <p><strong>Hướng dẫn:</strong> Chỉ cần nhập số m² công trình, hệ thống sẽ tính số lượng vật tư. <br /> <i>Lưu ý: nên dựa theo kích thước để tính ra số m2 ví dụ 1 tấm duraflex khổ tiêu chuẩn (1.22m x 2.44m) có diện tích là 2.9768 m² (lấy 1220 x 2440)  .</i></p>
         <div className="calculator-form">
           <h3>Bước 1: Chọn sản phẩm và Nhập diện tích</h3>
           <select value={selectedProductId} onChange={e => { setSelectedProductId(e.target.value); setSelectedPriceId(''); }}>
