@@ -5,23 +5,30 @@ import './ProductsPage.css'; // Tái sử dụng CSS của bảng giá
 const ORDERS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/orderData.json';
 const ORDER_DETAILS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/orderDetails.json';
 
-// --- COMPONENT CON: MODAL CHI TIẾT ĐƠN HÀNG ---
+// --- COMPONENT CON: MODAL CHI TIẾT ĐƠN HÀNG (ĐÃ SỬA LỖI) ---
+// Trong file DashboardPage.jsx
+
 function OrderDetailsModal({ order, details, onClose }) {
   const modalOverlayStyle = {
-    position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)', display: 'flex',
-    justifyContent: 'center', alignItems: 'center', zIndex: 1001,
+    position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)', display: 'flex',
+    justifyContent: 'center', alignItems: 'center', zIndex: 1050,
   };
+  
   const modalContentStyle = {
     position: 'relative',
-    backgroundColor: 'white', padding: '2rem', borderRadius: '8px',
-    width: '90%', maxWidth: '800px', maxHeight: '90vh', overflowY: 'auto',
+    backgroundColor: 'white',
+    padding: '2rem',
+    borderRadius: '8px',
+    width: '90%',
+    // Tăng chiều rộng tối đa của Modal
+    maxWidth: '90vw', 
+    maxHeight: '90vh',
+    overflowY: 'auto',
+    boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
   };
-  const closeButtonStyle = {
-    position: 'absolute', top: '10px', right: '15px',
-    background: 'none', border: 'none', fontSize: '1.8rem', cursor: 'pointer',
-    color: '#666'
-  };
+
+  const closeButtonStyle = { /* ... giữ nguyên ... */ };
 
   return (
     <div style={modalOverlayStyle} onClick={onClose}>
@@ -33,7 +40,8 @@ function OrderDetailsModal({ order, details, onClose }) {
         
         <h4 style={{marginTop: '2rem'}}>Các sản phẩm trong đơn:</h4>
         <div className="table-container">
-          <table className="product-price-table">
+          {/* Sửa lại bảng để nó tự điều chỉnh chiều rộng cột */}
+          <table className="product-price-table" style={{ tableLayout: 'auto' }}>
             <thead>
               <tr>
                 <th>Tên sản phẩm</th>
@@ -47,14 +55,15 @@ function OrderDetailsModal({ order, details, onClose }) {
               {details.length > 0 ? (
                 details.map((item, index) => {
                   const price = parseFloat(item["giá tiền"]) || 0;
-                  const total = parseFloat(item["Thành tiền"]) || 0;
+                  const total = parseFloat(item["tổng tiền"]) || 0;
                   return (
                     <tr key={item["id order chi tiết"] || index}>
-                      <td>{item["tên sp"] || ''}</td>
-                      <td>{item["Kích Thước"] || ''}</td>
-                      <td>{item["số lượng"]} {item["đơn vị tính"]}</td>
-                      <td style={{ textAlign: 'right' }}>{price.toLocaleString('vi-VN')}</td>
-                      <td style={{ textAlign: 'right' }}>{total.toLocaleString('vi-VN')}</td>
+                      {/* Thêm style để các cột không bị xuống dòng */}
+                      <td style={{ whiteSpace: 'nowrap' }}>{item["tên sản phẩm"] || item["tên khóa kết hợp sp"] || ''}</td>
+                      <td style={{ whiteSpace: 'nowrap' }}>{item["Kích Thước"] || ''}</td>
+                      <td style={{ whiteSpace: 'nowrap' }}>{item["số lượng"]} {item["đơn vị tính"]}</td>
+                      <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>{price.toLocaleString('vi-VN')}</td>
+                      <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>{total.toLocaleString('vi-VN')}</td>
                     </tr>
                   )
                 })
@@ -69,13 +78,13 @@ function OrderDetailsModal({ order, details, onClose }) {
   );
 }
 
-
-// --- COMPONENT CON: PHÂN TRANG (ĐÃ SỬA CẢNH BÁO CSS) ---
+// --- COMPONENT CON: PHÂN TRANG ---
 function Pagination({ itemsPerPage, totalItems, paginate, currentPage }) {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pageNumbers.push(i);
   }
+
   const paginationStyle = { display: 'flex', justifyContent: 'center', listStyle: 'none', padding: 0, marginTop: '2rem' };
   const baseLinkStyle = {
     color: '#007bff', padding: '8px 16px', textDecoration: 'none', 
@@ -102,50 +111,29 @@ function Pagination({ itemsPerPage, totalItems, paginate, currentPage }) {
 }
 
 
-// --- COMPONENT CHÍNH (ĐÃ SỬA LỖI LOGIC LỌC) ---
+// --- COMPONENT CHÍNH ---
 function DashboardPage() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-
   const { data: rawOrders, isLoading: isLoadingOrders } = useFetchData(ORDERS_URL);
   const { data: rawOrderDetails, isLoading: isLoadingDetails } = useFetchData(ORDER_DETAILS_URL);
 
-  // Hook useMemo để lọc chi tiết đơn hàng
   const selectedOrderDetails = useMemo(() => {
-    // Trả về mảng rỗng nếu chưa có dữ liệu cần thiết
     if (!selectedOrder || !rawOrderDetails) return [];
-    
-    // Chuyển đổi dữ liệu chi tiết thành mảng nếu cần
-    const orderDetails = Array.isArray(rawOrderDetails) ? rawOrderDetails : Object.values(rawOrderDetails);
-    
-    // Làm sạch ID của đơn hàng đang được chọn
-    const cleanedSelectedOrderId = String(selectedOrder["id order"]).trim().toLowerCase();
-    
-    // Lọc ra các chi tiết có ID khớp
-    return orderDetails.filter(detail => {
-      // Bỏ qua nếu chi tiết không có ID
-      if (!detail["id order"]) return false;
-      
-      // Làm sạch ID của chi tiết để so sánh
-      const cleanedDetailOrderId = String(detail["id order"]).trim().toLowerCase();
-      
-      return cleanedDetailOrderId === cleanedSelectedOrderId;
-    });
-  }, [selectedOrder, rawOrderDetails]); // Chạy lại mỗi khi selectedOrder hoặc rawOrderDetails thay đổi
+    const selectedOrderId = selectedOrder["id order"];
+    return rawOrderDetails[selectedOrderId] || [];
+  }, [selectedOrder, rawOrderDetails]);
 
-  if (isLoadingOrders || isLoadingDetails) {
-    return <div className="page-container">Loading dashboard data...</div>;
-  }
-
-  if (!rawOrders || !rawOrderDetails) {
-    return <div className="page-container">Could not load order data.</div>;
+  if (isLoadingOrders || isLoadingDetails || !rawOrders) {
+    return <div className="page-container">Loading...</div>;
   }
 
   const orders = Array.isArray(rawOrders) ? rawOrders : Object.values(rawOrders);
   
   const totalRevenue = orders.reduce((sum, order) => sum + (parseFloat(order["tổng tiền dịch vụ"]) || 0), 0);
   
+  // LOGIC PHÂN TRANG
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentOrders = orders.slice(indexOfFirstItem, indexOfLastItem);
@@ -202,6 +190,7 @@ function DashboardPage() {
         </table>
       </div>
 
+      {/* HIỂN THỊ LẠI COMPONENT PHÂN TRANG */}
       <Pagination 
         itemsPerPage={itemsPerPage} 
         totalItems={orders.length} 
