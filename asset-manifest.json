@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.82241b88.css",
-    "main.js": "/static/js/main.f5092769.js",
+    "main.js": "/static/js/main.abb9dcf3.js",
     "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
     "static/media/login-background-house.png": "/static/media/login-background-house.789d0f349b8020e83d15.png",
     "static/media/slider-1.jpg": "/static/media/slider-1.4686ae441127f2e340ae.jpg",
@@ -15,10 +15,10 @@
     "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "/index.html",
     "main.82241b88.css.map": "/static/css/main.82241b88.css.map",
-    "main.f5092769.js.map": "/static/js/main.f5092769.js.map"
+    "main.abb9dcf3.js.map": "/static/js/main.abb9dcf3.js.map"
   },
   "entrypoints": [
     "static/css/main.82241b88.css",
-    "static/js/main.f5092769.js"
+    "static/js/main.abb9dcf3.js"
   ]
 }
