@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/my-awesome-dashboard/static/css/main.48633164.css",
-    "main.js": "/my-awesome-dashboard/static/js/main.803f1e93.js",
-    "static/media/cert-5.png": "/my-awesome-dashboard/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
-    "static/media/login-background-house.png": "/my-awesome-dashboard/static/media/login-background-house.789d0f349b8020e83d15.png",
-    "static/media/slider-1.jpg": "/my-awesome-dashboard/static/media/slider-1.4686ae441127f2e340ae.jpg",
-    "static/media/slider-3.jpg": "/my-awesome-dashboard/static/media/slider-3.de37ef79391f14c04c23.jpg",
-    "static/media/slider-2.jpg": "/my-awesome-dashboard/static/media/slider-2.5abf3640b6b133d950e4.jpg",
-    "static/media/cert-1.png": "/my-awesome-dashboard/static/media/cert-1.0aed60dcfc9f07658a9b.png",
-    "static/media/cert-6.png": "/my-awesome-dashboard/static/media/cert-6.5604f326f64e9a8ffb74.png",
-    "static/media/cert-4.png": "/my-awesome-dashboard/static/media/cert-4.49eee105ae0610015930.png",
-    "static/media/cert-3.png": "/my-awesome-dashboard/static/media/cert-3.e67ad3d77bf5ec6fc94c.png",
-    "static/media/cert-2.png": "/my-awesome-dashboard/static/media/cert-2.e3c9b9db2e32aa714eda.png",
-    "static/media/duraflex-logo.png": "/my-awesome-dashboard/static/media/duraflex-logo.24a4cedb7450545f487d.png",
-    "index.html": "/my-awesome-dashboard/index.html",
-    "main.48633164.css.map": "/my-awesome-dashboard/static/css/main.48633164.css.map",
-    "main.803f1e93.js.map": "/my-awesome-dashboard/static/js/main.803f1e93.js.map"
+    "main.css": "/static/css/main.82241b88.css",
+    "main.js": "/static/js/main.e4399846.js",
+    "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
+    "static/media/login-background-house.png": "/static/media/login-background-house.789d0f349b8020e83d15.png",
+    "static/media/slider-1.jpg": "/static/media/slider-1.4686ae441127f2e340ae.jpg",
+    "static/media/slider-3.jpg": "/static/media/slider-3.de37ef79391f14c04c23.jpg",
+    "static/media/slider-2.jpg": "/static/media/slider-2.5abf3640b6b133d950e4.jpg",
+    "static/media/cert-1.png": "/static/media/cert-1.0aed60dcfc9f07658a9b.png",
+    "static/media/cert-6.png": "/static/media/cert-6.5604f326f64e9a8ffb74.png",
+    "static/media/cert-4.png": "/static/media/cert-4.49eee105ae0610015930.png",
+    "static/media/cert-3.png": "/static/media/cert-3.e67ad3d77bf5ec6fc94c.png",
+    "static/media/cert-2.png": "/static/media/cert-2.e3c9b9db2e32aa714eda.png",
+    "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
+    "index.html": "/index.html",
+    "main.82241b88.css.map": "/static/css/main.82241b88.css.map",
+    "main.e4399846.js.map": "/static/js/main.e4399846.js.map"
   },
   "entrypoints": [
-    "static/css/main.48633164.css",
-    "static/js/main.803f1e93.js"
+    "static/css/main.82241b88.css",
+    "static/js/main.e4399846.js"
   ]
 }
