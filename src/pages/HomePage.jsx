@@ -142,15 +142,14 @@ function DraftOrderCalculator({ products, prices }) {
         </div>
       </div>
 
-      {draftOrder.length > 0 && (
-        <div style={{ marginTop: '2rem', maxWidth: '800px', margin: '2rem auto' }}>
-          {/* --- TIÊU ĐỀ VÀ NÚT XÓA --- */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+       {draftOrder.length > 0 && (
+        <div style={{ marginTop: '2rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
             <h2>Đơn hàng nháp</h2>
             <button 
               onClick={handleClearDraft} 
               style={{ 
-                backgroundColor: '#dc3545', // Màu đỏ
+                backgroundColor: '#dc3545',
                 borderColor: '#dc3545',
                 fontSize: '0.9rem' 
               }}
@@ -158,14 +157,36 @@ function DraftOrderCalculator({ products, prices }) {
               Xóa đơn nháp
             </button>
           </div>
-
-          <table border="1" style={{ width: '100%', borderCollapse: 'collapse' }}>
-            <thead><tr><th>Sản phẩm</th><th>Đơn giá</th><th>Số lượng</th><th>Thành tiền</th></tr></thead>
-            <tbody>
-              {draftOrder.map(item => (<tr key={item.id}><td>{item.name}</td><td style={{ textAlign: 'right' }}>{item.unitPrice.toLocaleString('vi-VN')} VNĐ</td><td style={{ textAlign: 'center' }}>{item.quantity}</td><td style={{ textAlign: 'right' }}>{item.total.toLocaleString('vi-VN')} VNĐ</td></tr>))}
-            </tbody>
-            <tfoot><tr><td colSpan="3" style={{ textAlign: 'right', fontWeight: 'bold' }}>Tổng cộng:</td><td style={{ textAlign: 'right', fontWeight: 'bold' }}>{totalDraftPrice.toLocaleString('vi-VN')} VNĐ</td></tr></tfoot>
-          </table>
+          
+          {/* Tái sử dụng các class đã có để có giao diện đồng nhất */}
+          <div className="table-container">
+            <table className="product-price-table" style={{ minWidth: '600px' }}>
+              <thead>
+                <tr>
+                  <th>Sản phẩm</th>
+                  <th>Đơn giá</th>
+                  <th>Số lượng</th>
+                  <th>Thành tiền</th>
+                </tr>
+              </thead>
+              <tbody>
+                {draftOrder.map(item => (
+                  <tr key={item.id}>
+                    <td>{item.name}</td>
+                    <td className="price-cell">{item.unitPrice.toLocaleString('vi-VN')} VNĐ</td>
+                    <td style={{ textAlign: 'center' }}>{item.quantity}</td>
+                    <td className="price-cell">{item.total.toLocaleString('vi-VN')} VNĐ</td>
+                  </tr>
+                ))}
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colSpan="3" style={{ textAlign: 'right', fontWeight: 'bold' }}>Tổng cộng:</td>
+                  <td className="price-cell">{totalDraftPrice.toLocaleString('vi-VN')} VNĐ</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
         </div>
       )}
     </div>
