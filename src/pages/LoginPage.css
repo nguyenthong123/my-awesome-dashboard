@@ -7,19 +7,20 @@
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  /* Dải màu xanh lá cây như trong hình mẫu */
   background: linear-gradient(135deg, #2E7D32, #4CAF50, #81C784);
 }
 
 .login-container {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Tạo 2 cột bằng nhau */
+  grid-template-columns: 1fr 1fr;
   max-width: 1100px;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.95); /* Nền trắng hơi mờ */
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
   border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 30px var(--shadow-color);
   overflow: hidden;
+  transition: background-color 0.2s, border-color 0.2s;
 }
 
 /* --- Cột bên trái: Form --- */
@@ -32,7 +33,7 @@
 .login-tabs {
   display: flex;
   gap: 1rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border-color);
   margin-bottom: 2rem;
 }
 
@@ -41,7 +42,7 @@
   border: none;
   padding: 0 0 1rem 0;
   font-size: 0.9rem;
-  color: #666;
+  color: var(--text-secondary-color);
   cursor: pointer;
   position: relative;
   border-bottom: 2px solid transparent;
@@ -49,8 +50,8 @@
 
 .login-tab-button.active,
 .login-tab-button:hover {
-  color: #333;
-  border-bottom: 2px solid #2E7D32; /* Màu xanh đậm */
+  color: var(--text-color);
+  border-bottom-color: var(--primary-green);
 }
 
 .login-title-section {
@@ -63,16 +64,25 @@
 .login-title-section .home-icon {
   width: 40px;
   height: 40px;
+  /* Mặc định ở chế độ sáng, không cần filter */
+  filter: invert(0); 
+  transition: filter 0.2s;
+}
+
+/* *** SỬA LỖI Ở ĐÂY *** */
+/* Khi ở chế độ tối, áp dụng filter invert cho icon */
+html.dark .login-title-section .home-icon {
+  filter: invert(1);
 }
 
 .login-title-section h1 {
   font-size: 2.5rem;
   margin: 0;
-  color: #333;
+  color: var(--text-color);
 }
 
 .login-instructions {
-  color: #555;
+  color: var(--text-secondary-color);
   margin-bottom: 2rem;
 }
 
@@ -80,26 +90,34 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  margin-top: auto; /* Đẩy form xuống dưới */
+  margin-top: auto;
 }
 
 .login-form input {
   padding: 14px;
   border-radius: 6px;
-  border: 1px solid #ced4da;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-size: 1rem;
 }
 
 .login-form input:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.25);
 }
 
 .login-form button {
   padding: 14px;
   font-weight: bold;
   font-size: 1rem;
+  background-color: var(--primary-green);
+  border-color: var(--primary-green);
+}
+.login-form button:hover {
+  background-color: var(--primary-green-hover);
+  border-color: var(--primary-green-hover);
 }
 
 /* --- Cột bên phải: Hình ảnh --- */
@@ -107,6 +125,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: var(--background-color);
 }
 
 .login-image-section img {
@@ -117,13 +136,8 @@
 
 /* --- Responsive cho điện thoại --- */
 @media (max-width: 992px) {
-  .login-container {
-    grid-template-columns: 1fr; /* Chuyển thành 1 cột */
-  }
-  .login-image-section {
-    display: none; /* Ẩn ảnh trên màn hình nhỏ để tiết kiệm không gian */
-  }
-  .login-form-section {
-    padding: 2rem;
-  }
+  .login-page { padding: 1rem; }
+  .login-container { grid-template-columns: 1fr; }
+  .login-image-section { display: none; }
+  .login-form-section { padding: 2rem; }
 }

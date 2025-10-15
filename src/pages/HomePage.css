@@ -1,18 +1,24 @@
 /* src/pages/HomePage.css */
 
+/* src/pages/HomePage.css */
+
+/* --- Khu vực Công cụ Ước tính Vật tư --- */
 .calculator-container {
   margin-top: 3rem;
   padding-top: 2rem;
-  border-top: 2px solid #eee;
+  border-top: 2px solid var(--border-color); /* Sử dụng biến */
+  transition: border-color 0.2s;
 }
 
 .calculator-box {
-  background-color: #f8f9fa;
+  background-color: var(--card-background); /* Sử dụng biến */
   padding: 1.5rem;
-  border-radius: 8px;
-  border: 1px solid #dee2e6;
+  border-radius: 12px; /* Tăng bo góc cho đẹp hơn */
+  border: 1px solid var(--border-color); /* Sử dụng biến */
   max-width: 600px;
-  margin: 2rem auto; /* Căn giữa form */
+  margin: 2rem auto;
+  box-shadow: 0 4px 12px var(--shadow-color); /* Sử dụng biến */
+  transition: background-color 0.2s, border-color 0.2s;
 }
 
 .calculator-form {
@@ -23,19 +29,61 @@
 
 .calculator-form select,
 .calculator-form input {
-  padding: 12px;
-  border-radius: 4px;
-  border: 1px solid #ced4da;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
   font-size: 1rem;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
 
 .calculator-form button {
   padding: 12px;
   font-weight: bold;
+  background-color: var(--primary-green);
+  border-color: var(--primary-green);
+  color: white;
 }
-/* Thêm vào cuối file HomePage.css hoặc index.css */
+.calculator-form button:hover {
+  background-color: var(--primary-green-hover);
+  border-color: var(--primary-green-hover);
+}
 
-/* Căn giữa cho cột số lượng */
+/* --- Style cho Bảng Đơn hàng nháp --- */
+.draft-order-table {
+  width: 100%;
+  border-collapse: collapse; /* Bỏ khoảng cách giữa các viền */
+  margin-top: 1rem;
+  background-color: var(--card-background);
+  border-radius: 8px;
+  overflow: hidden; /* Cần thiết để bo góc hoạt động */
+  border: 1px solid var(--border-color);
+}
+
+.draft-order-table th, 
+.draft-order-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+  text-align: left; /* Căn trái mặc định */
+}
+
+.draft-order-table thead {
+  background-color: var(--background-color);
+  font-size: 0.9rem;
+  color: var(--text-secondary-color);
+}
+
+.draft-order-table tbody tr:last-child td {
+  border-bottom: none; /* Bỏ viền cho dòng cuối */
+}
+
+.draft-order-table tfoot td {
+  border-bottom: none;
+  font-weight: bold;
+}
+
+/* --- Các class tiện ích (giữ lại) --- */
 .text-center {
   text-align: center;
 }

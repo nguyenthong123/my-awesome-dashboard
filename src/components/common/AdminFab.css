@@ -12,39 +12,43 @@
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background-color: #007bff; /* Màu xanh dương */
+  background-color: var(--primary-blue); /* Sử dụng biến */
   color: white;
   border: none;
-  font-size: 28px; /* Kích thước icon */
+  font-size: 28px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+  box-shadow: 0 6px 12px hsla(211, 100%, 50%, 0.3); /* Dùng hsla để kiểm soát độ trong suốt tốt hơn */
   transition: transform 0.2s ease-in-out, background-color 0.2s;
+}
+/* Bóng đổ cho chế độ tối */
+html.dark .fab-button {
+  box-shadow: 0 6px 12px hsla(207, 90%, 61%, 0.3);
 }
 
 .fab-button:hover {
   transform: scale(1.1);
-  background-color: #0056b3; /* Đậm hơn khi hover */
+  background-color: var(--primary-blue-hover); /* Sử dụng biến */
 }
 
 /* --- Menu nổi --- */
 .fab-menu {
   position: absolute;
-  bottom: 80px; /* Vị trí ngay trên nút FAB */
+  bottom: 80px;
   left: 0;
-  background-color: white;
+  background-color: var(--card-background); /* Sử dụng biến */
+  border: 1px solid var(--border-color); /* Thêm viền nhẹ */
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px var(--shadow-color); /* Sử dụng biến */
   padding: 0.5rem;
   min-width: 220px;
   
-  /* Hiệu ứng xuất hiện */
   opacity: 0;
   transform: translateY(10px);
   visibility: hidden;
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s, background-color 0.2s, border-color 0.2s;
 }
 
 .fab-menu.open {
@@ -57,7 +61,7 @@
 .fab-menu-item {
   display: block;
   text-decoration: none;
-  color: #333;
+  color: var(--text-color); /* Sử dụng biến */
   padding: 12px 16px;
   border-radius: 8px;
   font-weight: 500;
@@ -65,5 +69,5 @@
 }
 
 .fab-menu-item:hover {
-  background-color: #f0f0f0;
+  background-color: var(--background-color); /* Sử dụng biến */
 }

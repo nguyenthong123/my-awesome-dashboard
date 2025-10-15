@@ -1,6 +1,50 @@
 /* src/index.css */
 
-/* --- Reset & Thiết lập Font chữ cơ bản --- */
+/* ======================================= */
+/* === KHAI BÁO BIẾN MÀU SẮC (THEME) === */
+/* ======================================= */
+
+/* :root định nghĩa các biến cho chế độ mặc định (Sáng) */
+:root {
+  --background-color: #f8f9fa; /* Nền chính hơi xám nhạt */
+  --card-background: #ffffff; /* Nền của các thẻ, header */
+  --text-color: #212529; /* Chữ chính màu đen */
+  --text-secondary-color: #6c757d; /* Chữ phụ màu xám */
+  
+  --primary-green: #28a745;
+  --primary-green-hover: #218838;
+  --primary-blue: #007bff;
+  --primary-blue-hover: #0056b3;
+  --danger-color: #dc3545;
+  --danger-color-hover: #c82333;
+  
+  --border-color: #dee2e6;
+  --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Các biến cho chế độ Tối (Dark Mode) */
+html.dark {
+  --background-color: #121212;
+  --card-background: #1e1e1e;
+  --text-color: #e0e0e0;
+  --text-secondary-color: #adb5bd;
+  
+  --primary-green: #37b24d;
+  --primary-green-hover: #40c057;
+  --primary-blue: #4dabf7;
+  --primary-blue-hover: #74c0fc;
+  --danger-color: #e03131;
+  --danger-color-hover: #f03e3e;
+
+  --border-color: #343a40;
+  --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+/* ======================================= */
+/* === STYLE TOÀN CỤC (GLOBAL STYLES) === */
+/* ======================================= */
+
+/* --- Reset & Thiết lập cơ bản --- */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -8,51 +52,42 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #fff;
-  color: #333;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.2s, color 0.2s; /* Hiệu ứng chuyển đổi mượt mà */
 }
 
-/* 
-  Ngăn chặn lỗi cuộn ngang xảy ra trên toàn bộ trang.
-  Đây là một biện pháp "bảo hiểm" rất quan trọng cho giao diện responsive.
-*/
 html, body {
   overflow-x: hidden;
-  /* Đảm bảo trang chiếm 100% chiều rộng ngay cả khi nội dung ngắn */
   width: 100%; 
 }
 
-/* 
-  Thay đổi cách trình duyệt tính toán kích thước của phần tử.
-  Padding và border sẽ được tính vào bên trong, không làm tăng kích thước tổng thể.
-*/
 * {
   box-sizing: border-box;
 }
 
 /* --- Container Layout chung --- */
-/* Class này sẽ được dùng trên các trang để căn giữa và tạo khoảng trắng */
 .page-container {
   width: 100%;
-  max-width: 1200px; /* Chiều rộng tối đa của nội dung trên màn hình lớn */
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;  /* Khoảng trắng hai bên */
-  padding-right: 1.5rem;
+  padding: 0 1.5rem;
 }
 
 /* --- Style chung cho các Tiêu đề --- */
-h1, h2, h3 {
+h1, h2, h3, h4 {
   margin-top: 2rem;
   margin-bottom: 1.5rem;
+  font-weight: 700;
 }
 
 /* --- Style chung cho các Button --- */
 button {
   padding: 10px 20px;
   border-radius: 6px;
-  border: 1px solid #007bff;
-  background-color: #007bff;
+  border: 1px solid var(--primary-blue);
+  background-color: var(--primary-blue);
   color: white;
   font-size: 1rem;
   font-weight: 500;
@@ -61,8 +96,8 @@ button {
 }
 
 button:hover {
-  background-color: #0056b3;
-  border-color: #0056b3;
+  background-color: var(--primary-blue-hover);
+  border-color: var(--primary-blue-hover);
 }
 
 button:active {
@@ -74,23 +109,18 @@ button:active {
   width: 100%;
   padding: 2rem 1.5rem;
   margin-top: 4rem;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border-color);
   text-align: center;
-  color: #666;
-  background-color: #f8f9fa;
+  color: var(--text-secondary-color);
+  background-color: var(--card-background);
+  transition: background-color 0.2s, border-color 0.2s;
 }
 
-/* --- Responsive cho điện thoại --- */
+/* --- Responsive --- */
 @media (max-width: 768px) {
   .page-container {
-    padding-left: 1rem; /* Giảm khoảng trắng hai bên trên màn hình nhỏ */
-    padding-right: 1rem;
+    padding: 0 1rem;
   }
-
-  h1 {
-    font-size: 1.8rem;
-  }
-  h2 {
-    font-size: 1.5rem;
-  }
+  h1 { font-size: 1.8rem; }
+  h2 { font-size: 1.5rem; }
 }

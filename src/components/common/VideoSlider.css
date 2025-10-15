@@ -2,11 +2,11 @@
 
 .video-slider-container {
   margin-top: 3rem;
-  padding-top: 2rem; /* Chỉ cần padding ở trên */
-  border-top: 2px solid #e0e0e0; /* Viền nhạt hơn cho tinh tế */
+  padding-top: 2rem;
+  border-top: 2px solid var(--border-color); /* Sử dụng biến */
   text-align: center;
-  /* Thêm overflow để đảm bảo không có gì tràn ra ngoài container này */
   overflow: hidden; 
+  transition: border-color 0.2s;
 }
 
 .icon-container {
@@ -15,7 +15,6 @@
   gap: 2rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
-  /* Thêm padding để trên màn hình rất hẹp, các icon không dính sát lề */
   padding: 0 1rem;
 }
 
@@ -36,13 +35,15 @@
   height: 50px;
   border-radius: 50%;
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: var(--background-color); /* Sử dụng biến */
   object-fit: contain;
+  transition: background-color 0.2s;
 }
 
 .icon-title {
   margin-top: 0.5rem;
   font-weight: bold;
+  color: var(--text-color); /* Sử dụng biến */
 }
 
 .video-wrapper {
@@ -52,8 +53,8 @@
   overflow: hidden;
   max-width: 800px;
   background: #000;
-  margin: 0 auto; /* Căn giữa video */
-  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+  margin: 0 auto;
+  box-shadow: 0 8px 16px var(--shadow-color); /* Sử dụng biến */
   border-radius: 8px;
 }
 
@@ -71,18 +72,23 @@
     justify-content: flex-start;
     flex-wrap: nowrap;
     overflow-x: auto;
-    /* 
-      Thanh cuộn sẽ nằm trong khoảng padding của .page-container cha,
-      nên không cần padding riêng ở đây nữa để tránh cộng dồn.
-      padding-bottom để tạo khoảng trống cho thanh cuộn.
-    */
     padding: 0 0 1rem 0; 
-    margin-left: -1rem; /* Trick để slider icon chạm lề trái */
-    margin-right: -1rem; /* Trick để slider icon chạm lề phải */
-    width: calc(100% + 2rem); /* Bù lại cho margin âm */
+    margin-left: -1rem;
+    margin-right: -1rem;
+    width: calc(100% + 2rem);
+    
+    /* Tùy chỉnh thanh cuộn cho đẹp hơn */
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-color) transparent;
+  }
+  .icon-container::-webkit-scrollbar {
+    height: 6px;
+  }
+  .icon-container::-webkit-scrollbar-thumb {
+    background-color: var(--border-color);
+    border-radius: 3px;
   }
 
-  /* Thêm padding cho icon đầu và cuối để chúng không dính sát lề */
   .icon-container > :first-child {
     margin-left: 1rem;
   }
@@ -105,7 +111,6 @@
   }
 
   .video-wrapper {
-    /* Đảm bảo video không bị tràn ra ngoài padding của .page-container */
     width: 100%; 
   }
 }

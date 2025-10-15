@@ -2,103 +2,177 @@
 
 .header {
   display: flex;
-  justify-content: space-between; /* Đẩy các phần tử con ra hai bên */
-  align-items: center; /* Căn giữa theo chiều dọc */
+  justify-content: space-between;
+  align-items: center;
   padding: 0 2rem;
   height: 60px;
-  background-color: white;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: var(--card-background); /* Sử dụng biến */
+  border-bottom: 1px solid var(--border-color); /* Sử dụng biến */
   position: sticky;
   top: 0;
   z-index: 1000;
+  transition: background-color 0.2s, border-color 0.2s; /* Hiệu ứng chuyển theme */
 }
 
 .header-logo a {
   text-decoration: none;
-  color: #333;
-  font-size: 1.5rem;
+  color: var(--text-color); /* Sử dụng biến */
+  font-size: 1.2rem;
   font-weight: bold;
 }
 
 /* --- Giao diện cho máy tính --- */
 .header-nav-desktop {
-  display: flex; /* Mặc định là flex cho máy tính */
+  display: flex;
   align-items: center;
   gap: 1.5rem;
 }
 
-/* ... (Các style khác của .header-nav-desktop giữ nguyên) ... */
-.header-nav-desktop span { color: #555; }
-.header-nav-desktop a,
-.header-nav-desktop button {
-  text-decoration: none;
-  color: #007bff;
-  font-weight: 500;
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+.header-nav-desktop span { 
+  color: var(--text-secondary-color); /* Sử dụng biến */
 }
-.header-nav-desktop a:hover { background-color: #f0f0f0; }
+
+.header-nav-desktop a {
+  text-decoration: none;
+  color: var(--primary-blue); /* Sử dụng biến */
+  font-weight: 500;
+}
+
 .header-nav-desktop .logout-button {
-  border: 1px solid #dc3545;
-  color: #dc3545;
-  background-color: white;
+  border: 1px solid var(--danger-color); /* Sử dụng biến */
+  color: var(--danger-color); /* Sử dụng biến */
+  background-color: transparent; /* Nền trong suốt */
   cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s;
 }
 .header-nav-desktop .logout-button:hover {
-  background-color: #dc3545;
+  background-color: var(--danger-color); /* Sử dụng biến */
   color: white;
 }
 
-
-/* --- Giao diện cho điện thoại --- */
-.hamburger-menu {
-  display: none; /* Ẩn nút hamburger trên máy tính */
+/* --- Nút Chuyển Đổi Theme --- */
+.theme-toggle-button {
+  background: none;
+  border: 1px solid var(--border-color); /* Sử dụng biến */
+  color: var(--text-color); /* Sử dụng biến */
+  cursor: pointer;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  transition: background-color 0.2s;
+}
+.theme-toggle-button:hover {
+  background-color: var(--background-color); /* Sử dụng biến */
 }
 
-.header-nav-mobile {
-  display: none; /* Ẩn menu mobile trên máy tính */
+/* --- Nút Hamburger và Menu Mobile (Mặc định ẩn) --- */
+.hamburger-menu, .mobile-nav-overlay, .header-nav-mobile {
+  display: none;
 }
 
 
-/* --- Responsive (khi màn hình nhỏ hơn 768px) --- */
+/* ============================================== */
+/* === Responsive (khi màn hình nhỏ hơn 768px) === */
+/* ============================================== */
 @media (max-width: 768px) {
   .header {
     padding: 0 1rem;
   }
-
-  /* Ẩn menu máy tính, hiện nút hamburger */
   .header-nav-desktop {
     display: none;
   }
-
   .hamburger-menu {
-    display: block; /* Hiện nút hamburger */
+    display: block;
     font-size: 24px;
     background: none;
     border: none;
     cursor: pointer;
-    color: #333;
-  }
-  
-  .header-nav-mobile {
-    /* Các style này vẫn đúng, không cần sửa */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.5rem;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    width: 100%;
-    background-color: white;
-    padding: 2rem 0;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transform: translateY(-150%);
-    transition: transform 0.3s ease-in-out;
+    color: var(--text-color); /* Sử dụng biến */
+    z-index: 1002;
   }
 
+  .mobile-nav-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+  }
+  .mobile-nav-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .header-nav-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 280px;
+    height: 100%;
+    background-color: var(--card-background); /* Sử dụng biến */
+    padding: 2rem;
+    box-shadow: 4px 0 15px var(--shadow-color); /* Sử dụng biến */
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out, background-color 0.2s;
+    z-index: 1002;
+  }
   .header-nav-mobile.open {
-    transform: translateY(0);
+    transform: translateX(0);
+  }
+  
+  .header-nav-mobile a,
+  .header-nav-mobile span {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text-color); /* Sử dụng biến */
+    padding: 8px 0;
+  }
+  
+  .header-nav-mobile .logout-button {
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .header-nav-mobile .login-link-mobile {
+    background-color: var(--primary-green); /* Sử dụng biến */
+    color: white;
+    border-radius: 6px;
+    text-align: center;
+    padding: 14px;
+    width: 100%;
+    font-weight: bold;
+    border: none; /* Bỏ border mặc định của link */
+  }
+  .header-nav-mobile .login-link-mobile:hover {
+    background-color: var(--primary-green-hover); /* Sử dụng biến */
+  }
+
+  .theme-toggle-button-mobile {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color); /* Sử dụng biến */
+    background-color: var(--background-color); /* Sử dụng biến */
+    color: var(--text-color); /* Sử dụng biến */
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
   }
 }

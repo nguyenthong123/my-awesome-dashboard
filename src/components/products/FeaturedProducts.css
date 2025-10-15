@@ -2,42 +2,42 @@
 
 .featured-products-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* Mặc định 4 cột cho màn hình lớn */
-  gap: 1.5rem; /* Khoảng cách giữa các sản phẩm */
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
 }
 
 .product-card {
-  background-color: white; /* Thêm nền trắng để nổi bật bóng đổ */
-  border: 1px solid #f0f0f0; /* Viền rất nhạt, gần như vô hình */
-  border-radius: 12px; /* Bo góc nhiều hơn cho cảm giác mềm mại */
-  overflow: hidden; /* Đảm bảo ảnh không tràn ra ngoài khi bo góc */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Bóng đổ tinh tế hơn */
-  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out, background-color 0.2s, border-color 0.2s;
   display: flex;
   flex-direction: column;
 }
 
 .product-card:hover {
-  transform: translateY(-5px); /* Hiệu ứng nhấc lên khi di chuột vào */
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px var(--shadow-color);
 }
 
 .product-card-image-wrapper {
   width: 100%;
   height: 180px;
-  background-color: #f5f5f5;
-  overflow: hidden; /* Đảm bảo ảnh được cắt gọn gàng */
+  background-color: var(--background-color);
+  overflow: hidden;
 }
 
 .product-card-image {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Lấp đầy khung mà không làm méo ảnh */
-  transition: transform 0.3s ease; /* Thêm hiệu ứng zoom nhẹ */
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
 .product-card:hover .product-card-image {
-  transform: scale(1.05); /* Zoom ảnh lên một chút khi hover */
+  transform: scale(1.05);
 }
 
 .product-card-content {
@@ -45,38 +45,38 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  text-align: left; /* Căn lề trái nội dung cho chuyên nghiệp */
+  text-align: left;
 }
 
 .product-card-title {
   font-size: 1.1rem;
-  font-weight: 600; /* Dùng 600 thay vì 'bold' cho font chữ hiện đại hơn */
+  font-weight: 600;
   margin: 0 0 0.5rem 0;
-  min-height: 44px; /* Giữ chỗ cho 2 dòng tiêu đề */
-  color: #333;
+  min-height: 44px;
+  color: var(--text-color);
 }
 
 .product-card-info {
   font-size: 0.85rem;
-  color: #757575; /* Màu xám nhạt hơn */
+  color: var(--text-secondary-color);
   margin: 0.25rem 0;
 }
 
 .product-card-price {
   font-size: 1.2rem;
-  color: #d32f2f; /* Màu đỏ đậm hơn */
+  color: var(--danger-color); /* Sử dụng biến màu đỏ */
   font-weight: bold;
-  margin-top: auto; /* Đẩy giá và nút xuống cuối thẻ */
+  margin-top: auto;
   padding-top: 1rem;
 }
 
 .product-card-button {
   margin-top: 1rem;
   padding: 0.6rem 1.2rem;
-  border: 1px solid #007bff;
-  background-color: white;
-  color: #007bff;
-  border-radius: 20px; /* Bo góc tròn cho nút */
+  border: 1px solid var(--primary-blue);
+  background-color: var(--card-background);
+  color: var(--primary-blue);
+  border-radius: 20px;
   cursor: pointer;
   font-weight: bold;
   align-self: flex-start;
@@ -84,25 +84,19 @@
 }
 
 .product-card-button:hover {
-  background-color: #007bff;
+  background-color: var(--primary-blue);
   color: white;
 }
 
-/* --- Responsive Layout --- */
-
-/* Máy tính bảng nhỏ */
+/* --- Responsive Layout (giữ nguyên) --- */
 @media (max-width: 992px) {
   .featured-products-container {
     grid-template-columns: repeat(3, 1fr);
   }
 }
-
-/* Điện thoại (ngang) và Máy tính bảng (dọc) */
 @media (max-width: 768px) {
   .featured-products-container {
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
   }
 }
-
-/* Điện thoại (dọc) - bỏ breakpoint 480px để giữ 2 cột, tạo cảm giác thoáng */
