@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.82241b88.css",
-    "main.js": "/static/js/main.abb9dcf3.js",
+    "main.css": "/static/css/main.69ac83bd.css",
+    "main.js": "/static/js/main.311dc377.js",
     "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
     "static/media/login-background-house.png": "/static/media/login-background-house.789d0f349b8020e83d15.png",
     "static/media/slider-1.jpg": "/static/media/slider-1.4686ae441127f2e340ae.jpg",
@@ -14,11 +14,11 @@
     "static/media/cert-2.png": "/static/media/cert-2.e3c9b9db2e32aa714eda.png",
     "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "/index.html",
-    "main.82241b88.css.map": "/static/css/main.82241b88.css.map",
-    "main.abb9dcf3.js.map": "/static/js/main.abb9dcf3.js.map"
+    "main.69ac83bd.css.map": "/static/css/main.69ac83bd.css.map",
+    "main.311dc377.js.map": "/static/js/main.311dc377.js.map"
   },
   "entrypoints": [
-    "static/css/main.82241b88.css",
-    "static/js/main.abb9dcf3.js"
+    "static/css/main.69ac83bd.css",
+    "static/js/main.311dc377.js"
   ]
 }
