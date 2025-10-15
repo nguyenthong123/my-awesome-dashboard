@@ -33,3 +33,14 @@
   padding: 12px;
   font-weight: bold;
 }
+/* Thêm vào cuối file HomePage.css hoặc index.css */
+
+/* Căn giữa cho cột số lượng */
+.text-center {
+  text-align: center;
+}
+
+/* Căn phải cho các cột tiền tệ */
+.text-right {
+  text-align: right;
+}
