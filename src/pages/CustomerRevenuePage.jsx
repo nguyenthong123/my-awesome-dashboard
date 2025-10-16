@@ -7,27 +7,106 @@ import './DashboardPage.css';
 const ORDERS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/orderData.json';
 const ORDER_DETAILS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/orderDetails.json';
 
-// --- COMPONENT CON: MODAL (Sao chép từ DashboardPage.jsx) ---
+// *** KHÔI PHỤC LẠI COMPONENT BỊ THIẾU ***
 function OrderDetailsModal({ order, details, onClose }) {
-  // ... (Toàn bộ code của component này được giữ nguyên)
+  const modalOverlayStyle = {
+    position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)', display: 'flex',
+    justifyContent: 'center', alignItems: 'center', zIndex: 1050,
+  };
+  const modalContentStyle = {
+    position: 'relative', backgroundColor: 'var(--card-background)', color: 'var(--text-color)', 
+    padding: '2rem', borderRadius: '8px', width: '90%', maxWidth: '960px', 
+    maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
+  };
+  const closeButtonStyle = {
+    position: 'absolute', top: '10px', right: '15px', background: 'none',
+    border: 'none', fontSize: '1.8rem', cursor: 'pointer', color: 'var(--text-secondary-color)',
+  };
+
+  return (
+    <div style={modalOverlayStyle} onClick={onClose}>
+      <div style={modalContentStyle} onClick={(e) => e.stopPropagation()}>
+        <button style={closeButtonStyle} onClick={onClose}>&times;</button>
+        <h2>Chi tiết Đơn hàng: {order["id order"]}</h2>
+        <p><strong>Khách hàng:</strong> {order["tên khách hàng"]}</p>
+        <p><strong>Ngày đặt:</strong> {order["thời gian lên đơn"] ? new Date(order["thời gian lên đơn"]).toLocaleDateString('vi-VN') : ''}</p>
+        <h4 style={{marginTop: '2rem'}}>Các sản phẩm trong đơn:</h4>
+        <div className="table-container">
+          <table className="product-price-table" style={{ tableLayout: 'auto' }}>
+            <thead>
+              <tr>
+                <th>Tên sản phẩm</th>
+                <th>Kích Thước</th>
+                <th>Số lượng</th>
+                <th>Đơn giá</th>
+                <th>Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              {details.length > 0 ? (
+                details.map((item, index) => {
+                  const price = parseFloat(item["giá tiền"]) || 0;
+                  const total = parseFloat(item["tổng tiền"]) || 0;
+                  return (
+                    <tr key={item["id order chi tiết"] || index}>
+                      <td style={{ whiteSpace: 'nowrap' }}>{item["tên sản phẩm"] || item["tên khóa kết hợp sp"] || ''}</td>
+                      <td style={{ whiteSpace: 'nowrap' }}>{item["Kích Thước"] || ''}</td>
+                      <td style={{ whiteSpace: 'nowrap' }}>{item["số lượng"]} {item["đơn vị tính"]}</td>
+                      <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>{price.toLocaleString('vi-VN')}</td>
+                      <td style={{ textAlign: 'right', whiteSpace: 'nowrap' }}>{total.toLocaleString('vi-VN')}</td>
+                    </tr>
+                  )
+                })
+              ) : ( <tr><td colSpan="5" style={{ textAlign: 'center' }}>Không tìm thấy chi tiết cho đơn hàng này.</td></tr> )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-// --- COMPONENT CON: PHÂN TRANG (Sao chép từ DashboardPage.jsx) ---
+// *** KHÔI PHỤC LẠI COMPONENT BỊ THIẾU ***
 function Pagination({ itemsPerPage, totalItems, paginate, currentPage }) {
-  // ... (Toàn bộ code của component này được giữ nguyên)
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+  const paginationStyle = { display: 'flex', justifyContent: 'center', listStyle: 'none', padding: 0, marginTop: '2rem' };
+  const baseLinkStyle = {
+    color: 'var(--primary-blue)', padding: '8px 16px', textDecoration: 'none', 
+    margin: '0 4px', borderRadius: '4px', borderWidth: '1px',
+    borderStyle: 'solid', borderColor: 'var(--border-color)', transition: 'all 0.2s',
+    backgroundColor: 'var(--card-background)'
+  };
+  const activePageLinkStyle = { 
+    backgroundColor: 'var(--primary-blue)', color: 'white', borderColor: 'var(--primary-blue)'
+  };
+  return (
+    <nav>
+      <ul style={paginationStyle}>
+        {pageNumbers.map(number => (
+          <li key={number}>
+            <a onClick={(e) => { e.preventDefault(); paginate(number); }} href="!#" style={currentPage === number ? { ...baseLinkStyle, ...activePageLinkStyle } : baseLinkStyle}>
+              {number}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
 }
 
 // --- COMPONENT CHÍNH ---
 function CustomerRevenuePage() {
   const { user } = useAuth();
-  
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [statusFilter, setStatusFilter] = useState('Tất cả');
-  
   const [customerFilter] = useState(user?.name || '');
 
   const { data: rawOrders, isLoading: isLoadingOrders } = useFetchData(ORDERS_URL);
@@ -40,20 +119,15 @@ function CustomerRevenuePage() {
 
   const filteredOrders = useMemo(() => {
     let filtered = [...orders];
-    
     if (customerFilter) {
-      filtered = filtered.filter(order => 
-        order["tên khách hàng"] && order["tên khách hàng"].toLowerCase().includes(customerFilter.toLowerCase())
-      );
+      filtered = filtered.filter(order => order["tên khách hàng"] && order["tên khách hàng"].toLowerCase().includes(customerFilter.toLowerCase()));
     }
     if (startDate) {
-      const start = new Date(startDate);
-      start.setHours(0, 0, 0, 0);
+      const start = new Date(startDate); start.setHours(0, 0, 0, 0);
       filtered = filtered.filter(order => order["thời gian lên đơn"] && new Date(order["thời gian lên đơn"]) >= start);
     }
     if (endDate) {
-      const end = new Date(endDate);
-      end.setHours(23, 59, 59, 999);
+      const end = new Date(endDate); end.setHours(23, 59, 59, 999);
       filtered = filtered.filter(order => order["thời gian lên đơn"] && new Date(order["thời gian lên đơn"]) <= end);
     }
     if (statusFilter && statusFilter !== 'Tất cả') {
@@ -98,12 +172,7 @@ function CustomerRevenuePage() {
         <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
           {availableStatuses.map(status => <option key={status} value={status}>{status || 'Chưa có'}</option>)}
         </select>
-        <input 
-          type="text" 
-          placeholder="Tên khách hàng"
-          value={customerFilter} 
-          disabled 
-        />
+        <input type="text" placeholder="Tên khách hàng" value={customerFilter} disabled />
       </div>
 
       <div className="stats-container">
@@ -144,12 +213,7 @@ function CustomerRevenuePage() {
         </table>
       </div>
 
-      <Pagination 
-        itemsPerPage={itemsPerPage} 
-        totalItems={filteredOrders.length} 
-        paginate={paginate}
-        currentPage={currentPage}
-      />
+      <Pagination itemsPerPage={itemsPerPage} totalItems={filteredOrders.length} paginate={paginate} currentPage={currentPage} />
       
       {selectedOrder && (
         <OrderDetailsModal 
