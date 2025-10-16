@@ -1,11 +1,13 @@
 {
   "files": {
     "main.css": "/static/css/main.e1348fe5.css",
-    "main.js": "/static/js/main.7e94df77.js",
+    "main.js": "/static/js/main.fe52efb6.js",
     "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
     "static/media/tam-xi-mang-duraflex.png": "/static/media/tam-xi-mang-duraflex.04fb0192c79a0833389e.png",
+    "static/media/lam-3-song.png": "/static/media/lam-3-song.3e34d915d18f929bad49.png",
     "static/media/login-background-house.png": "/static/media/login-background-house.789d0f349b8020e83d15.png",
     "static/media/slider-1.jpg": "/static/media/slider-1.4686ae441127f2e340ae.jpg",
+    "static/media/tam-op-pima.png": "/static/media/tam-op-pima.788416cbe175b73f7e72.png",
     "static/media/slider-3.jpg": "/static/media/slider-3.de37ef79391f14c04c23.jpg",
     "static/media/slider-2.jpg": "/static/media/slider-2.5abf3640b6b133d950e4.jpg",
     "static/media/tam-van-go-durawood.png": "/static/media/tam-van-go-durawood.6259cbf938ee2e1c2524.png",
@@ -20,10 +22,10 @@
     "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "/index.html",
     "main.e1348fe5.css.map": "/static/css/main.e1348fe5.css.map",
-    "main.7e94df77.js.map": "/static/js/main.7e94df77.js.map"
+    "main.fe52efb6.js.map": "/static/js/main.fe52efb6.js.map"
   },
   "entrypoints": [
     "static/css/main.e1348fe5.css",
-    "static/js/main.7e94df77.js"
+    "static/js/main.fe52efb6.js"
   ]
 }
