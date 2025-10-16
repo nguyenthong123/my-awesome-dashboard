@@ -7,7 +7,7 @@ import './DashboardPage.css';
 const ORDERS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/orderData.json';
 const ORDER_DETAILS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/orderDetails.json';
 
-// *** KHÔI PHỤC LẠI COMPONENT BỊ THIẾU ***
+// --- COMPONENT CON: MODAL (Giữ nguyên) ---
 function OrderDetailsModal({ order, details, onClose }) {
   const modalOverlayStyle = {
     position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
@@ -67,7 +67,7 @@ function OrderDetailsModal({ order, details, onClose }) {
   );
 }
 
-// *** KHÔI PHỤC LẠI COMPONENT BỊ THIẾU ***
+// --- COMPONENT CON: PHÂN TRANG (Giữ nguyên) ---
 function Pagination({ itemsPerPage, totalItems, paginate, currentPage }) {
   const pageNumbers = [];
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
@@ -107,21 +107,35 @@ function CustomerRevenuePage() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [statusFilter, setStatusFilter] = useState('Tất cả');
-  const [customerFilter] = useState(user?.name || '');
 
   const { data: rawOrders, isLoading: isLoadingOrders } = useFetchData(ORDERS_URL);
   const { data: rawOrderDetails, isLoading: isLoadingDetails } = useFetchData(ORDER_DETAILS_URL);
 
-  const orders = useMemo(() => {
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [startDate, endDate, statusFilter]);
+  
+  // *** LOGIC MỚI ĐÃ ĐƯỢC CẬP NHẬT ***
+  const allOrders = useMemo(() => {
     if (!rawOrders) return [];
     return Array.isArray(rawOrders) ? rawOrders : Object.values(rawOrders);
   }, [rawOrders]);
 
+  const customerOrders = useMemo(() => {
+    if (!user?.name || allOrders.length === 0) return [];
+    const customerName = user.name.toLowerCase();
+    return allOrders.filter(order => 
+      order["tên khách hàng"] && order["tên khách hàng"].toLowerCase().includes(customerName)
+    );
+  }, [allOrders, user]);
+
+  const availableStatuses = useMemo(() => {
+    const statuses = new Set(customerOrders.map(order => order["trạng thái"]).filter(Boolean));
+    return ['Tất cả', ...statuses];
+  }, [customerOrders]);
+
   const filteredOrders = useMemo(() => {
-    let filtered = [...orders];
-    if (customerFilter) {
-      filtered = filtered.filter(order => order["tên khách hàng"] && order["tên khách hàng"].toLowerCase().includes(customerFilter.toLowerCase()));
-    }
+    let filtered = [...customerOrders];
     if (startDate) {
       const start = new Date(startDate); start.setHours(0, 0, 0, 0);
       filtered = filtered.filter(order => order["thời gian lên đơn"] && new Date(order["thời gian lên đơn"]) >= start);
@@ -134,21 +148,12 @@ function CustomerRevenuePage() {
       filtered = filtered.filter(order => order["trạng thái"] === statusFilter);
     }
     return filtered;
-  }, [orders, customerFilter, startDate, endDate, statusFilter]);
+  }, [customerOrders, startDate, endDate, statusFilter]);
   
-  const availableStatuses = useMemo(() => {
-    const statuses = new Set(filteredOrders.map(order => order["trạng thái"]).filter(Boolean));
-    return ['Tất cả', ...statuses];
-  }, [filteredOrders]);
-
   const selectedOrderDetails = useMemo(() => {
     if (!selectedOrder || !rawOrderDetails) return [];
     return rawOrderDetails[selectedOrder["id order"]] || [];
   }, [selectedOrder, rawOrderDetails]);
-  
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [startDate, endDate, statusFilter]);
 
   if (isLoadingOrders || isLoadingDetails) {
     return <div className="page-container">Đang tải dữ liệu...</div>;
@@ -172,7 +177,12 @@ function CustomerRevenuePage() {
         <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
           {availableStatuses.map(status => <option key={status} value={status}>{status || 'Chưa có'}</option>)}
         </select>
-        <input type="text" placeholder="Tên khách hàng" value={customerFilter} disabled />
+        <input 
+          type="text" 
+          placeholder="Tên khách hàng"
+          value={user?.name || ''} 
+          disabled 
+        />
       </div>
 
       <div className="stats-container">

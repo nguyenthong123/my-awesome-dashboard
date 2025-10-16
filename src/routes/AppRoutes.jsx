@@ -4,11 +4,11 @@ import { Routes, Route } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout';
 import ProtectedRoute from './ProtectedRoute';
 import AdminRoute from './AdminRoute';
+import SalesRoute from './SalesRoute'; // <-- Import route mới
 
-// Import tất cả các trang cần thiết
+// Import tất cả các trang
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
-// import WelcomePage from '../pages/WelcomePage'; // <-- Đã xóa, không cần nữa
 import DashboardPage from '../pages/DashboardPage';
 import ProductsPage from '../pages/ProductsPage';
 import CustomerRevenuePage from '../pages/CustomerRevenuePage';
@@ -22,17 +22,17 @@ function AppRoutes() {
         {/* Trang công khai */}
         <Route path="/" element={<HomePage />} />
 
-        {/* Các trang cần đăng nhập (cho mọi vai trò đã đăng nhập) */}
+        {/* Trang cần đăng nhập chung */}
         <Route element={<ProtectedRoute />}>
           <Route path="/products" element={<ProductsPage />} />
-          {/* 
-            CustomerRevenuePage được chuyển vào đây để "Cửa Hàng", "Nhà Máy Tôn" 
-            và "ad mind" đều có thể truy cập
-          */}
+        </Route>
+        
+        {/* Trang chỉ cho Đối tác Bán hàng */}
+        <Route element={<SalesRoute />}>
           <Route path="/customer-revenue" element={<CustomerRevenuePage />} />
         </Route>
 
-        {/* Các trang chỉ dành riêng cho Admin */}
+        {/* Trang chỉ cho Admin */}
         <Route element={<AdminRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
         </Route>
