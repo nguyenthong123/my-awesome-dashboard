@@ -10,10 +10,13 @@ function Header() {
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
 
+  // --- HÀM LOGOUT ĐÃ ĐƯỢC CẬP NHẬT ---
   const handleLogout = () => {
-    logout();
-    setIsMobileMenuOpen(false);
-    navigate('/login');
+    logout(); // Gọi hàm logout từ context để xóa state và localStorage
+    closeMenu(); // Đảm bảo menu mobile đóng lại
+    // Điều hướng về trang login sau khi đã xóa thông tin user
+    // `replace: true` ngăn người dùng nhấn "Back" để quay lại trang cũ
+    navigate('/login', { replace: true }); 
   };
 
   const closeMenu = () => {
@@ -43,7 +46,7 @@ function Header() {
           ) : (
             <Link to="/login">Đăng nhập</Link>
           )}
-        </nav> {/* <-- ĐÃ SỬA LỖI, THÊM DẤU > */}
+        </nav>
 
         {/* --- Nút Hamburger cho điện thoại --- */}
         <button 

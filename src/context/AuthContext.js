@@ -31,8 +31,13 @@ export function AuthProvider({ children }) {
     return false;
   };
 
-  const logout = () => {
-    setCurrentUser(null); // Trigger useEffect để xóa khỏi storage
+ const logout = () => {
+    // Xóa khỏi localStorage TRƯỚC
+    localStorage.removeItem('user');
+    // SAU ĐÓ mới cập nhật state
+    setCurrentUser(null);
+    // Quan trọng: Hàm logout trong context không nên chịu trách nhiệm điều hướng.
+    // Component gọi nó sẽ tự điều hướng.
     console.log('Đã đăng xuất');
   };
 
