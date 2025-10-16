@@ -1,11 +1,14 @@
 {
   "files": {
     "main.css": "/static/css/main.e1348fe5.css",
-    "main.js": "/static/js/main.5d920db9.js",
+    "main.js": "/static/js/main.893918fc.js",
     "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
     "static/media/tam-xi-mang-duraflex.png": "/static/media/tam-xi-mang-duraflex.04fb0192c79a0833389e.png",
+    "static/media/lam-4-song-thap.png": "/static/media/lam-4-song-thap.b092b3e7bc20794f899e.png",
     "static/media/lam-3-song.png": "/static/media/lam-3-song.3e34d915d18f929bad49.png",
+    "static/media/lam-4-song-cao.png": "/static/media/lam-4-song-cao.c3499e07e77315d1cff0.png",
     "static/media/login-background-house.png": "/static/media/login-background-house.789d0f349b8020e83d15.png",
+    "static/media/phao-co-tran.jpg": "/static/media/phao-co-tran.63c464df1843700a9759.jpg",
     "static/media/slider-1.jpg": "/static/media/slider-1.4686ae441127f2e340ae.jpg",
     "static/media/tam-op-pima.png": "/static/media/tam-op-pima.788416cbe175b73f7e72.png",
     "static/media/slider-3.jpg": "/static/media/slider-3.de37ef79391f14c04c23.jpg",
@@ -13,19 +16,19 @@
     "static/media/tam-van-go-durawood.png": "/static/media/tam-van-go-durawood.6259cbf938ee2e1c2524.png",
     "static/media/cert-1.png": "/static/media/cert-1.0aed60dcfc9f07658a9b.png",
     "static/media/cert-6.png": "/static/media/cert-6.5604f326f64e9a8ffb74.png",
+    "static/media/phu-kien-nano-lamsong.jpg": "/static/media/phu-kien-nano-lamsong.f8b380a4105f64f0f762.jpg",
     "static/media/vit-chuyen-dung-duravis.png": "/static/media/vit-chuyen-dung-duravis.f9bfe2d2201e333630ab.png",
     "static/media/cert-4.png": "/static/media/cert-4.49eee105ae0610015930.png",
     "static/media/cert-3.png": "/static/media/cert-3.e67ad3d77bf5ec6fc94c.png",
     "static/media/keo-xu-ly-mui-noi-durafiler.png": "/static/media/keo-xu-ly-mui-noi-durafiler.131e8a0725242b60b7ef.png",
-    "static/media/placeholder.png": "/static/media/placeholder.6f74c465b3eeaa08d083.png",
     "static/media/cert-2.png": "/static/media/cert-2.e3c9b9db2e32aa714eda.png",
     "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "/index.html",
     "main.e1348fe5.css.map": "/static/css/main.e1348fe5.css.map",
-    "main.5d920db9.js.map": "/static/js/main.5d920db9.js.map"
+    "main.893918fc.js.map": "/static/js/main.893918fc.js.map"
   },
   "entrypoints": [
     "static/css/main.e1348fe5.css",
-    "static/js/main.5d920db9.js"
+    "static/js/main.893918fc.js"
   ]
 }
