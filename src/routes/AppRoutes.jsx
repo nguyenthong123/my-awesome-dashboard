@@ -1,17 +1,17 @@
 import { Routes, Route } from 'react-router-dom';
 
-// Import layouts and routes
+// Import các component layout và route bảo vệ
 import MainLayout from '../components/layout/MainLayout';
 import ProtectedRoute from './ProtectedRoute';
 import AdminRoute from './AdminRoute';
 
-// Import pages
+// Import tất cả các trang cần thiết
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
-import WelcomePage from '../pages/WelcomePage';
+// import WelcomePage from '../pages/WelcomePage'; // <-- Đã xóa, không cần nữa
 import DashboardPage from '../pages/DashboardPage';
 import ProductsPage from '../pages/ProductsPage';
-import CustomerRevenuePage from '../pages/CustomerRevenuePage'; // <-- THÊM DÒNG NÀY
+import CustomerRevenuePage from '../pages/CustomerRevenuePage';
 import NotFoundPage from '../pages/NotFoundPage';
 
 function AppRoutes() {
@@ -22,23 +22,26 @@ function AppRoutes() {
         {/* Trang công khai */}
         <Route path="/" element={<HomePage />} />
 
-        {/* Các trang cần đăng nhập */}
+        {/* Các trang cần đăng nhập (cho mọi vai trò đã đăng nhập) */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/welcome" element={<WelcomePage />} />
           <Route path="/products" element={<ProductsPage />} />
+          {/* 
+            CustomerRevenuePage được chuyển vào đây để "Cửa Hàng", "Nhà Máy Tôn" 
+            và "ad mind" đều có thể truy cập
+          */}
+          <Route path="/customer-revenue" element={<CustomerRevenuePage />} />
         </Route>
 
-        {/* Các trang cần quyền Admin */}
+        {/* Các trang chỉ dành riêng cho Admin */}
         <Route element={<AdminRoute />}>
           <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/customer-revenue" element={<CustomerRevenuePage />} /> {/* <-- THÊM DÒNG NÀY */}
         </Route>
       </Route>
 
-      {/* Nhóm 2: Các trang không sử dụng Layout chung (ví dụ: trang Login toàn màn hình) */}
+      {/* Nhóm 2: Các trang không có layout */}
       <Route path="/login" element={<LoginPage />} />
 
-      {/* Nhóm 3: Trang 404 (nên đặt ở ngoài cùng và cuối cùng) */}
+      {/* Nhóm 3: Trang 404 */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

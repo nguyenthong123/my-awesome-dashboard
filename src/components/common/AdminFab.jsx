@@ -27,9 +27,11 @@ function AdminFab() {
           </Link>
         )}
 
-        <Link to="/customer-revenue" className="fab-menu-item" onClick={() => setIsOpen(false)}>
-          Doanh thu khách hàng
-        </Link>
+  
+<Link to="/customer-revenue" className="fab-menu-item" onClick={() => setIsOpen(false)}>
+  Doanh thu khách hàng
+</Link>
+
       </div>
 
       <button onClick={toggleMenu} className="fab-button">
