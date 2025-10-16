@@ -1,11 +1,14 @@
+// src/pages/ProductsPage.jsx
+
 import React, { useState, useMemo, useEffect } from 'react';
 import useFetchData from '../hooks/useFetchData';
 import { useAuth } from '../context/AuthContext';
 import './ProductsPage.css';
-
-// Import các component con
-import TabSlider from '../components/products/TabSlider'; // <-- Import component mới
+import TabSlider from '../components/products/TabSlider';
 import duraflexLogo from '../assets/images/duraflex-logo.png';
+// *** ĐƯỜNG DẪN ĐÚNG LÀ ĐÂY ***
+import { getProductImage } from '../utils/imageLoader';
+// ... (phần còn lại của file giữ nguyên)
 
 const PRODUCTS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/products.json';
 const PRICES_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/prices.json';
@@ -14,11 +17,13 @@ const SPECIAL_PRICE_TYPES = ['giá niêm yết', 'Giá Thầu Thợ', 'Giá ch�
 
 function ProductsPage() {
   const { user } = useAuth();
+  
+  // *** KHÔI PHỤC LẠI CÁC DÒNG BỊ THIẾU ***
   const { data: products, isLoading: isLoadingProducts } = useFetchData(PRODUCTS_URL);
   const { data: prices, isLoading: isLoadingPrices } = useFetchData(PRICES_URL);
+  
   const [selectedPriceType, setSelectedPriceType] = useState('Giá chủ nhà');
 
-  // ... (useMemo và useEffect không thay đổi) ...
   const availablePriceTypes = useMemo(() => {
     if (!prices) return [];
     const priceKeys = new Set();
@@ -72,7 +77,6 @@ function ProductsPage() {
                 <h2>{product.name}</h2>
               </div>
               <div className="table-container">
-                {/* === PHẦN BẢNG GIÁ ĐÃ ĐƯỢC KHÔI PHỤC ĐẦY ĐỦ === */}
                 <table className="product-price-table">
                   <thead>
                     <tr>
@@ -85,25 +89,28 @@ function ProductsPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {product.variants.map(variant => (
-                      <tr key={variant.id_san_pham}>
-                        <td className="product-image-cell">
-                          <img src={variant["image sản phẩm"]} alt={variant["Tên sản phẩm"]} className="product-image" 
-                            onError={(e) => { e.target.onerror = null; e.target.src="https://via.placeholder.com/60x40?text=No+Img"; }}
-                          />
-                        </td>
-                        <td>{variant["Tên sản phẩm"]}</td>
-                        <td>{variant["kích thước"]}</td>
-                        <td>{variant["số kg trên tấm"]}</td>
-                        <td>{variant["số tấm /kiện"]}</td>
-                        <td className="price-cell">
-                          {variant[selectedPriceType] 
-                            ? `${variant[selectedPriceType].toLocaleString('vi-VN')} VNĐ` 
-                            : 'N/A'
-                          }
-                        </td>
-                      </tr>
-                    ))}
+                    {product.variants.map(variant => {
+                      const imageSrc = getProductImage(variant["image sản phẩm"]);
+                      return (
+                        <tr key={variant.id_san_pham}>
+                          <td className="product-image-cell">
+                            <img 
+                              src={imageSrc} 
+                              alt={variant["Tên sản phẩm"]} 
+                              className="product-image" 
+                              onError={(e) => { e.target.onerror = null; e.target.src="https://via.placeholder.com/60x40?text=No+Img"; }}
+                            />
+                          </td>
+                          <td>{variant["Tên sản phẩm"]}</td>
+                          <td>{variant["kích thước"]}</td>
+                          <td>{variant["số kg trên tấm"]}</td>
+                          <td>{variant["số tấm /kiện"]}</td>
+                          <td className="price-cell">
+                            {variant[selectedPriceType] ? `${variant[selectedPriceType].toLocaleString('vi-VN')} VNĐ` : 'N/A'}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -118,13 +125,11 @@ function ProductsPage() {
               <li>Miễn phí vận chuyển với tổng đơn hàng &gt;= 5,5 tr ; đơn hàng dưới 5,5 tr phí vận chuyển cần cộng thêm 250 ngàn/ đơn .</li>
               <li>Đơn giá đã được sự chấp thuận của các đại lý phân phối ( Hoàng Sa Phước An , Phú Cường Cư M'gar, Ngọc Linh Cư kuin,Xuân Quỳnh Tuy Đức ,Trường Thọ tp.bmt.,nmt Buôn Ma Thuột ).</li>
               <li>Sản phẩm luôn có QR chính hãng được dán trên tấm.</li>
-              <li>© 2024 - DURAfex Vĩnh Tường. Mọi quyền được bảo lưu.</li>
+              <li>© 2024 - DURAfex Vinh Tường. Mọi quyền được bảo lưu.</li>
             </ul>
           </div>
         )}
       </div>
-
-      {/* --- SỬ DỤNG COMPONENT TAB SLIDER MỚI --- */}
       <TabSlider />
     </>
   );
