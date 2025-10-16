@@ -106,7 +106,7 @@ function ProductsPage() {
                           <td>{variant["số kg trên tấm"]}</td>
                           <td>{variant["số tấm /kiện"]}</td>
                           <td className="price-cell">
-                            {variant[selectedPriceType] ? `${variant[selectedPriceType].toLocaleString('vi-VN')} VNĐ` : 'N/A'}
+                            {variant[selectedPriceType] ? `${variant[selectedPriceType].toLocaleString('vi-VN')} VNĐ` : ''}
                           </td>
                         </tr>
                       );

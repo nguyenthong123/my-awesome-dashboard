@@ -8,14 +8,13 @@ function importAll(r) {
   return images;
 }
 
-// *** SỬA LẠI ĐƯỜNG DẪN Ở ĐÂY ***
-// Xóa `/products` để nó tìm trực tiếp trong `../assets/images`
+// Đường dẫn đúng: từ `src/utils` đi ra (`..`), rồi vào `assets/images`
 const images = importAll(require.context('../assets/images', false, /\.(png|jpe?g|svg)$/));
 
 export const getProductImage = (imageFilename) => {
   if (!imageFilename || !images[imageFilename]) {
-    // File placeholder.png của bạn cũng nằm trong `../assets/images`
     try {
+      // Đường dẫn đến placeholder cũng phải đúng
       return require('../assets/images/placeholder.png');
     } catch (e) {
       return null;
