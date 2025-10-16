@@ -1,24 +1,29 @@
 {
   "files": {
-    "main.css": "/static/css/main.69ac83bd.css",
-    "main.js": "/static/js/main.6b11eb6d.js",
+    "main.css": "/static/css/main.e1348fe5.css",
+    "main.js": "/static/js/main.7e94df77.js",
     "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
+    "static/media/tam-xi-mang-duraflex.png": "/static/media/tam-xi-mang-duraflex.04fb0192c79a0833389e.png",
     "static/media/login-background-house.png": "/static/media/login-background-house.789d0f349b8020e83d15.png",
     "static/media/slider-1.jpg": "/static/media/slider-1.4686ae441127f2e340ae.jpg",
     "static/media/slider-3.jpg": "/static/media/slider-3.de37ef79391f14c04c23.jpg",
     "static/media/slider-2.jpg": "/static/media/slider-2.5abf3640b6b133d950e4.jpg",
+    "static/media/tam-van-go-durawood.png": "/static/media/tam-van-go-durawood.6259cbf938ee2e1c2524.png",
     "static/media/cert-1.png": "/static/media/cert-1.0aed60dcfc9f07658a9b.png",
     "static/media/cert-6.png": "/static/media/cert-6.5604f326f64e9a8ffb74.png",
+    "static/media/vit-chuyen-dung-duravis.png": "/static/media/vit-chuyen-dung-duravis.f9bfe2d2201e333630ab.png",
     "static/media/cert-4.png": "/static/media/cert-4.49eee105ae0610015930.png",
     "static/media/cert-3.png": "/static/media/cert-3.e67ad3d77bf5ec6fc94c.png",
+    "static/media/keo-xu-ly-mui-noi-durafiler.png": "/static/media/keo-xu-ly-mui-noi-durafiler.131e8a0725242b60b7ef.png",
+    "static/media/placeholder.png": "/static/media/placeholder.6f74c465b3eeaa08d083.png",
     "static/media/cert-2.png": "/static/media/cert-2.e3c9b9db2e32aa714eda.png",
     "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "/index.html",
-    "main.69ac83bd.css.map": "/static/css/main.69ac83bd.css.map",
-    "main.6b11eb6d.js.map": "/static/js/main.6b11eb6d.js.map"
+    "main.e1348fe5.css.map": "/static/css/main.e1348fe5.css.map",
+    "main.7e94df77.js.map": "/static/js/main.7e94df77.js.map"
   },
   "entrypoints": [
-    "static/css/main.69ac83bd.css",
-    "static/js/main.6b11eb6d.js"
+    "static/css/main.e1348fe5.css",
+    "static/js/main.7e94df77.js"
   ]
 }
