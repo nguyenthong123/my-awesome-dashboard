@@ -1,5 +1,6 @@
 import React from 'react';
-import './FeaturedProducts.css'; // <-- BƯỚC 1: ĐẢM BẢO DÒNG NÀY TỒN TẠI
+import { Link } from 'react-router-dom'; // <-- 1. Import Link từ react-router-dom
+import './FeaturedProducts.css';
 import { getProductImage } from '../../utils/imageLoader';
 
 function FeaturedProducts({ prices }) {
@@ -8,10 +9,14 @@ function FeaturedProducts({ prices }) {
   }
 
   return (
-    // BƯỚC 2: SỬ DỤNG ĐÚNG className
     <div className="featured-products-container">
       {prices.map(item => {
         const imageSrc = getProductImage(item["image sản phẩm"]);
+
+        // Kiểm tra xem sản phẩm có slug không trước khi render
+        if (!item.product_slug) {
+          return null; // Bỏ qua không hiển thị các sản phẩm chưa có slug
+        }
 
         return (
           <div key={item.id_san_pham} className="product-card">
@@ -30,7 +35,11 @@ function FeaturedProducts({ prices }) {
               <p className="product-card-price">
                 Giá từ: {item["Giá chủ nhà"]?.toLocaleString('vi-VN') || 'Liên hệ'} VNĐ
               </p>
-              <button className="product-card-button">Chi tiết</button>
+              
+              {/* 2. Thay thế <button> bằng <Link> */}
+              <Link to={`/san-pham/${item.product_slug}`} className="product-card-button">
+                Chi tiết
+              </Link>
             </div>
           </div>
         );

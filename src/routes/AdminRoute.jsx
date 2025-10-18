@@ -8,20 +8,19 @@ const ALLOWED_ROLES = ['ad mind'];
 function AdminRoute() {
   const { user, isLoadingUsers } = useAuth();
 
-  // Vẫn hiển thị loading trong khi chờ xác thực
+  // Hiển thị loading trong khi chờ lấy thông tin user
   if (isLoadingUsers) {
-    return <div>Verifying access...</div>;
+    return <div>Verifying admin access...</div>;
   }
 
-  // Kiểm tra xem người dùng đã đăng nhập VÀ vai trò của họ có trong danh sách được phép không
+  // Kiểm tra xem người dùng đã đăng nhập VÀ có vai trò là 'ad mind' không
   if (user && ALLOWED_ROLES.includes(user.phan_loai)) {
     // Nếu hợp lệ, cho phép render trang con (DashboardPage)
     return <Outlet />;
   }
 
-  // Nếu không hợp lệ (chưa đăng nhập hoặc sai vai trò), điều hướng về trang welcome
-  // Chúng ta có thể hiển thị một thông báo "Không có quyền truy cập" ở trang welcome sau này
-  return <Navigate to="/welcome" replace />;
+  // Nếu không hợp lệ (chưa đăng nhập hoặc sai vai trò), điều hướng về trang chủ
+  return <Navigate to="/" replace />;
 }
 
 export default AdminRoute;

@@ -13,6 +13,8 @@ import sliderImage3 from '../assets/images/slider-3.jpg';
 
 const sliderImages = [sliderImage1, sliderImage2, sliderImage3];
 
+
+
 // --- URLs và Cấu hình ---
 const PRODUCTS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/products.json';
 const PRICES_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/prices.json';
@@ -24,6 +26,9 @@ const PRICES_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-d
 // ==================================================================
 // Trong file HomePage.jsx, tìm và thay thế toàn bộ function DraftOrderCalculator
 
+// ==================================================================
+// === COMPONENT CON: CÔNG CỤ TÍNH TOÁN (ĐÃ HOÀN THIỆN)
+// ==================================================================
 function DraftOrderCalculator({ products, prices }) {
   const [selectedProductId, setSelectedProductId] = useState('');
   const [selectedPriceId, setSelectedPriceId] = useState('');
@@ -33,11 +38,13 @@ function DraftOrderCalculator({ products, prices }) {
   const calculableProducts = useMemo(() => {
     if (!products || !prices) return [];
     const priceGroupIds = new Set(prices.map(p => p.group_id));
+    // Chỉ hiển thị các sản phẩm có thể tính toán diện tích (có width_mm và length_mm)
     return Object.values(products).filter(p => priceGroupIds.has(p.id));
   }, [products, prices]);
 
   const selectedProductVariants = useMemo(() => {
     if (!selectedProductId || !prices) return [];
+    // Chỉ hiển thị các biến thể có đủ thông tin kích thước
     return prices.filter(p => p.group_id === selectedProductId && p.width_mm && p.length_mm);
   }, [selectedProductId, prices]);
   
@@ -61,7 +68,7 @@ function DraftOrderCalculator({ products, prices }) {
     if (!variantInfo) return;
 
     if (!variantInfo.width_mm || !variantInfo.length_mm) {
-      alert("Sản phẩm này chưa có thông tin kích thước để tính toán.");
+      alert("Sản phẩm này chưa có thông tin kích thước (width_mm, length_mm) để tính toán.");
       return;
     }
     const areaPerSheet = (variantInfo.width_mm / 1000) * (variantInfo.length_mm / 1000);
@@ -71,17 +78,13 @@ function DraftOrderCalculator({ products, prices }) {
     }
 
     const m2 = parseFloat(squareMeters);
-    
-    // --- LOGIC TÍNH SỐ TẤM CHÍNH XÁC HƠN ---
-    const rawSheets = m2 / areaPerSheet; // Kết quả thô, có thể là 10.000000001
+    const rawSheets = m2 / areaPerSheet;
     let numberOfSheets;
 
-    // So sánh kết quả thô với kết quả đã làm tròn (ví dụ 10)
-    // Nếu sự chênh lệch là cực kỳ nhỏ, coi như là phép chia hết
     if (Math.abs(rawSheets - Math.round(rawSheets)) < 0.00001) {
-      numberOfSheets = Math.round(rawSheets); // Lấy số nguyên (10)
+      numberOfSheets = Math.round(rawSheets);
     } else {
-      numberOfSheets = Math.ceil(rawSheets); // Ngược lại, làm tròn lên (10.25 -> 11)
+      numberOfSheets = Math.ceil(rawSheets);
     }
     
     const mainItem = {
@@ -111,7 +114,6 @@ function DraftOrderCalculator({ products, prices }) {
 
   const totalDraftPrice = draftOrder.reduce((sum, item) => sum + item.total, 0);
 
-  // --- HÀM MỚI ĐỂ XÓA ĐƠN HÀNG NHÁP ---
   const handleClearDraft = () => {
     setDraftOrder([]);
   };
@@ -120,7 +122,7 @@ function DraftOrderCalculator({ products, prices }) {
     <div className="calculator-container">
       <div className="calculator-box">
         <h1>Công cụ Ước tính Vật tư</h1>
-        <p><strong>Hướng dẫn:</strong> Chỉ cần nhập số m² công trình, hệ thống sẽ tính số lượng vật tư. <br /> <i>Lưu ý: nên dựa theo kích thước để tính ra số m2 ví dụ 1 tấm duraflex khổ tiêu chuẩn (1.22m x 2.44m) có diện tích là 2.9768 m² (lấy 1220 x 2440)  .</i></p>
+        <p><strong>Hướng dẫn:</strong> Chỉ cần nhập số m² công trình, hệ thống sẽ tính số lượng vật tư. <br /> <i>Lưu ý: nên dựa theo kích thước để tính ra số m2 ví dụ 1 tấm duraflex khổ tiêu chuẩn (1.22m x 2.44m) có diện tích là 2.9768 m² (lấy 1220 x 2440).</i></p>
         <div className="calculator-form">
           <h3>Bước 1: Chọn sản phẩm và Nhập diện tích</h3>
           <select value={selectedProductId} onChange={e => { setSelectedProductId(e.target.value); setSelectedPriceId(''); }}>
@@ -142,20 +144,18 @@ function DraftOrderCalculator({ products, prices }) {
         </div>
       </div>
 
-   {draftOrder.length > 0 && (
+      {draftOrder.length > 0 && (
         <div style={{ marginTop: '2rem', maxWidth: '800px', margin: '2rem auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
             <h2>Đơn hàng nháp</h2>
             <button 
               onClick={handleClearDraft} 
-              style={{ backgroundColor: 'var(--danger-color)', borderColor: 'var(--danger-color)' }}
+              style={{ backgroundColor: 'var(--danger-color)', borderColor: 'var(--danger-color)', fontSize: '0.9rem' }}
             >
               Xóa đơn nháp
             </button>
           </div>
           
-          {/* *** THAY ĐỔI CHÍNH Ở ĐÂY *** */}
-          {/* Bảng đã được đổi sang sử dụng className */}
           <table className="draft-order-table">
             <thead>
               <tr>
@@ -177,8 +177,8 @@ function DraftOrderCalculator({ products, prices }) {
             </tbody>
             <tfoot>
               <tr>
-                <td colSpan="3" className="text-right">Tổng cộng:</td>
-                <td className="text-right">{totalDraftPrice.toLocaleString('vi-VN')} VNĐ</td>
+                <td colSpan="3" className="text-right" style={{fontWeight: 'bold'}}>Tổng cộng:</td>
+                <td className="text-right" style={{fontWeight: 'bold'}}>{totalDraftPrice.toLocaleString('vi-VN')} VNĐ</td>
               </tr>
             </tfoot>
           </table>

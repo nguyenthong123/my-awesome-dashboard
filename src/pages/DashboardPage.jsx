@@ -9,29 +9,21 @@ const ORDER_DETAILS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dash
 
 // --- COMPONENT CON: MODAL CHI TIẾT ĐƠN HÀNG ---
 function OrderDetailsModal({ order, details, onClose }) {
-  const modalOverlayStyle = {
-    position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
-    backgroundColor: 'rgba(0, 0, 0, 0.6)', display: 'flex',
-    justifyContent: 'center', alignItems: 'center', zIndex: 1050,
-  };
-  const modalContentStyle = {
-    position: 'relative', backgroundColor: 'white', padding: '2rem', borderRadius: '8px',
-    width: '90%', maxWidth: '960px', maxHeight: '90vh', overflowY: 'auto',
-    boxShadow: '0 5px 15px rgba(0,0,0,0.3)',
-  };
-  const closeButtonStyle = {
-    position: 'absolute', top: '10px', right: '15px', background: 'none',
-    border: 'none', fontSize: '1.8rem', cursor: 'pointer', color: '#666',
-  };
+  // Đã xóa toàn bộ các biến style inline (modalOverlayStyle, modalContentStyle...)
 
   return (
-    <div style={modalOverlayStyle} onClick={onClose}>
-      <div style={modalContentStyle} onClick={(e) => e.stopPropagation()}>
-        <button style={closeButtonStyle} onClick={onClose}>&times;</button>
+    // Sử dụng className cho các phần tử chính của Modal
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close-button" onClick={onClose}>&times;</button>
+        
+        {/* Nội dung bên trong Modal */}
         <h2>Chi tiết Đơn hàng: {order["id order"]}</h2>
         <p><strong>Khách hàng:</strong> {order["tên khách hàng"]}</p>
         <p><strong>Ngày đặt:</strong> {order["thời gian lên đơn"] ? new Date(order["thời gian lên đơn"]).toLocaleDateString('vi-VN') : ''}</p>
+        
         <h4 style={{marginTop: '2rem'}}>Các sản phẩm trong đơn:</h4>
+        
         <div className="table-container">
           <table className="product-price-table" style={{ tableLayout: 'auto' }}>
             <thead>
@@ -58,7 +50,9 @@ function OrderDetailsModal({ order, details, onClose }) {
                     </tr>
                   )
                 })
-              ) : ( <tr><td colSpan="5" style={{ textAlign: 'center' }}>Không tìm thấy chi tiết cho đơn hàng này.</td></tr> )}
+              ) : ( 
+                <tr><td colSpan="5" style={{ textAlign: 'center' }}>Không tìm thấy chi tiết cho đơn hàng này.</td></tr> 
+              )}
             </tbody>
           </table>
         </div>
