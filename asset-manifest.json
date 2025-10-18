@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.e1348fe5.css",
-    "main.js": "/static/js/main.8a25a6b0.js",
+    "main.css": "/static/css/main.630f798b.css",
+    "main.js": "/static/js/main.5cc96902.js",
     "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
     "static/media/tam-xi-mang-duraflex.png": "/static/media/tam-xi-mang-duraflex.04fb0192c79a0833389e.png",
     "static/media/lam-4-song-thap.png": "/static/media/lam-4-song-thap.b092b3e7bc20794f899e.png",
@@ -23,15 +23,16 @@
     "static/media/cert-4.png": "/static/media/cert-4.49eee105ae0610015930.png",
     "static/media/cert-3.png": "/static/media/cert-3.e67ad3d77bf5ec6fc94c.png",
     "static/media/keo-xu-ly-mui-noi-durafiler.png": "/static/media/keo-xu-ly-mui-noi-durafiler.131e8a0725242b60b7ef.png",
+    "static/media/placeholder.png": "/static/media/placeholder.ed8c78ed79ad299ecc17.png",
     "static/media/mau-alu-viet-star.jpg": "/static/media/mau-alu-viet-star.7c7d5ab1ee1e9e3ac42d.jpg",
     "static/media/cert-2.png": "/static/media/cert-2.e3c9b9db2e32aa714eda.png",
     "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "/index.html",
-    "main.e1348fe5.css.map": "/static/css/main.e1348fe5.css.map",
-    "main.8a25a6b0.js.map": "/static/js/main.8a25a6b0.js.map"
+    "main.630f798b.css.map": "/static/css/main.630f798b.css.map",
+    "main.5cc96902.js.map": "/static/js/main.5cc96902.js.map"
   },
   "entrypoints": [
-    "static/css/main.e1348fe5.css",
-    "static/js/main.8a25a6b0.js"
+    "static/css/main.630f798b.css",
+    "static/js/main.5cc96902.js"
   ]
 }
