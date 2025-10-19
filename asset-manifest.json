@@ -1,15 +1,25 @@
 {
   "files": {
-    "main.css": "/static/css/main.630f798b.css",
-    "main.js": "/static/js/main.5cc96902.js",
+    "main.css": "/static/css/main.5bffea3e.css",
+    "main.js": "/static/js/main.3dce6d7a.js",
     "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
     "static/media/tam-xi-mang-duraflex.png": "/static/media/tam-xi-mang-duraflex.04fb0192c79a0833389e.png",
     "static/media/lam-4-song-thap.png": "/static/media/lam-4-song-thap.b092b3e7bc20794f899e.png",
     "static/media/pvc-pima-noithat.png": "/static/media/pvc-pima-noithat.2fe96bb8bc32f9e834ce.png",
+    "static/media/nano-26.png": "/static/media/nano-26.370736590a006aa6f4ed.png",
+    "static/media/nano-10.png": "/static/media/nano-10.ed1a4af5048ea5411ea5.png",
+    "static/media/nano-09.png": "/static/media/nano-09.9602db7e987888959f4f.png",
+    "static/media/nano-12.png": "/static/media/nano-12.372053c43dde233da0a6.png",
+    "static/media/nano-11.png": "/static/media/nano-11.4d530c644ccbf66cb1a2.png",
+    "static/media/nano-17.png": "/static/media/nano-17.7310bac442dd12bd34d6.png",
     "static/media/lam-3-song.png": "/static/media/lam-3-song.3e34d915d18f929bad49.png",
     "static/media/alu-noi-that-vietstar.png": "/static/media/alu-noi-that-vietstar.96dcb4819e4c57e36907.png",
+    "static/media/nano-05.png": "/static/media/nano-05.a7d247b84d62f51d48d4.png",
     "static/media/lam-4-song-cao.png": "/static/media/lam-4-song-cao.c3499e07e77315d1cff0.png",
+    "static/media/nano-07.png": "/static/media/nano-07.002c028d0529601436e4.png",
+    "static/media/nano-03.png": "/static/media/nano-03.268282ca20791c732721.png",
     "static/media/login-background-house.png": "/static/media/login-background-house.789d0f349b8020e83d15.png",
+    "static/media/nano-02.png": "/static/media/nano-02.a5803d2465417e7939a6.png",
     "static/media/phao-co-tran.jpg": "/static/media/phao-co-tran.63c464df1843700a9759.jpg",
     "static/media/slider-1.jpg": "/static/media/slider-1.4686ae441127f2e340ae.jpg",
     "static/media/tam-op-pima.png": "/static/media/tam-op-pima.788416cbe175b73f7e72.png",
@@ -28,11 +38,11 @@
     "static/media/cert-2.png": "/static/media/cert-2.e3c9b9db2e32aa714eda.png",
     "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "/index.html",
-    "main.630f798b.css.map": "/static/css/main.630f798b.css.map",
-    "main.5cc96902.js.map": "/static/js/main.5cc96902.js.map"
+    "main.5bffea3e.css.map": "/static/css/main.5bffea3e.css.map",
+    "main.3dce6d7a.js.map": "/static/js/main.3dce6d7a.js.map"
   },
   "entrypoints": [
-    "static/css/main.630f798b.css",
-    "static/js/main.5cc96902.js"
+    "static/css/main.5bffea3e.css",
+    "static/js/main.3dce6d7a.js"
   ]
 }
