@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'; // <-- 1. Import Link từ react-router-dom
+import { Link } from 'react-router-dom';
 import './FeaturedProducts.css';
 import { getProductImage } from '../../utils/imageLoader';
 
@@ -11,11 +11,19 @@ function FeaturedProducts({ prices }) {
   return (
     <div className="featured-products-container">
       {prices.map(item => {
-        const imageSrc = getProductImage(item["image sản phẩm"]);
+        // --- THAY ĐỔI CHÍNH Ở ĐÂY ---
+        
+        // 1. Lấy toàn bộ chuỗi tên file ảnh từ JSON
+        const imageFileNamesString = item["image sản phẩm"] || '';
+        
+        // 2. Tách chuỗi thành mảng và lấy ra phần tử đầu tiên
+        const firstImageName = imageFileNamesString.split(',')[0].trim();
+        
+        // 3. Dùng tên file đầu tiên đó để lấy ảnh
+        const imageSrc = getProductImage(firstImageName);
 
-        // Kiểm tra xem sản phẩm có slug không trước khi render
         if (!item.product_slug) {
-          return null; // Bỏ qua không hiển thị các sản phẩm chưa có slug
+          return null;
         }
 
         return (
@@ -35,8 +43,6 @@ function FeaturedProducts({ prices }) {
               <p className="product-card-price">
                 Giá từ: {item["Giá chủ nhà"]?.toLocaleString('vi-VN') || 'Liên hệ'} VNĐ
               </p>
-              
-              {/* 2. Thay thế <button> bằng <Link> */}
               <Link to={`/san-pham/${item.product_slug}`} className="product-card-button">
                 Chi tiết
               </Link>

@@ -1,0 +1,10 @@
+/* src/components/layout/Footer.css */
+.footer {
+  padding: 2rem 1.5rem;
+  margin-top: 4rem;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  color: var(--text-secondary-color);
+  background-color: var(--card-background);
+  transition: background-color 0.2s, border-color 0.2s;
+}

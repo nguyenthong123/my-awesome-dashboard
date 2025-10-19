@@ -211,10 +211,8 @@ function HomePage() {
         <DraftOrderCalculator products={products} prices={prices} />
         <VideoSlider videoList={videos} />
       </div>
-      <footer className="footer">
-        <p>© 2025 My Awesome Dashboard. All Rights Reserved.</p>
-        <p>Thông tin liên hệ | Chính sách bảo mật</p>
-      </footer>
+      
+      {/* KHỐI FOOTER ĐÃ ĐƯỢC XÓA KHỎI ĐÂY */}
     </div>
   );
 }

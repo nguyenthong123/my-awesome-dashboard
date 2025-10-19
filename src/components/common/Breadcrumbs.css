@@ -1,0 +1,25 @@
+/* src/components/common/Breadcrumbs.css */
+.breadcrumbs {
+  padding: 0.75rem 0;
+  margin-bottom: 1.5rem;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+.breadcrumbs-item a {
+  color: var(--primary-blue);
+  text-decoration: none;
+}
+.breadcrumbs-item a:hover {
+  text-decoration: underline;
+}
+.breadcrumbs-item.active {
+  color: var(--text-secondary-color);
+  font-weight: 500;
+}
+.breadcrumbs-separator {
+  color: var(--text-secondary-color);
+}

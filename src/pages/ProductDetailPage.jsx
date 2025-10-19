@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import useFetchData from '../hooks/useFetchData';
 import { getProductImage } from '../utils/imageLoader';
+import Breadcrumbs from '../components/common/Breadcrumbs'; // <-- Thêm import
 import './ProductDetailPage.css';
 
 const PRICES_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/prices.json';
@@ -11,23 +12,39 @@ function ProductDetailPage() {
   const { slug } = useParams();
   const { data: prices, isLoading: isLoadingPrices } = useFetchData(PRICES_URL);
   const { data: products, isLoading: isLoadingProducts } = useFetchData(PRODUCTS_URL);
+  const [mainImage, setMainImage] = useState(null);
+
+  const productVariant = useMemo(() => {
+    if (!prices) return null;
+    return prices.find(p => p.product_slug === slug);
+  }, [prices, slug]);
+
+  const images = useMemo(() => {
+    if (!productVariant || !productVariant["image sản phẩm"]) return [];
+    return String(productVariant["image sản phẩm"])
+      .split(',')
+      .map(name => name.trim())
+      .filter(Boolean)
+      .map(name => getProductImage(name))
+      .filter(Boolean);
+  }, [productVariant]);
+
+  useEffect(() => {
+    if (images.length > 0) {
+      setMainImage(images[0]);
+    }
+  }, [images]);
 
   if (isLoadingPrices || isLoadingProducts) {
     return <div className="page-container" style={{ textAlign: 'center', padding: '4rem 0' }}>Đang tải thông tin sản phẩm...</div>;
   }
-
-  if (!prices || !products) {
-    return <div className="page-container" style={{ textAlign: 'center', padding: '4rem 0' }}>Không thể tải dữ liệu sản phẩm.</div>;
-  }
-  
-  const productVariant = prices.find(p => p.product_slug === slug);
 
   if (!productVariant) {
     return (
       <div className="page-container" style={{ textAlign: 'center', padding: '4rem 0' }}>
         <h1 style={{ fontSize: '6rem', margin: 0, color: 'var(--primary-green)' }}>404</h1>
         <h2>Sản phẩm không tồn tại</h2>
-        <p>Rất tiếc, chúng tôi không tìm thấy sản phẩm bạn yêu cầu. Có thể đường dẫn đã bị thay đổi hoặc sản phẩm không còn tồn tại.</p>
+        <p>Rất tiếc, chúng tôi không tìm thấy sản phẩm bạn yêu cầu.</p>
         <Link to="/" style={{ display: 'inline-block', marginTop: '1.5rem', padding: '10px 20px', backgroundColor: 'var(--primary-blue)', color: 'white', textDecoration: 'none', borderRadius: '6px' }}>
           Quay về Trang chủ
         </Link>
@@ -35,14 +52,44 @@ function ProductDetailPage() {
     );
   }
 
-  const productGroup = products[productVariant.group_id];
-  const imageSrc = getProductImage(productVariant["image sản phẩm"]);
+  const productGroup = products ? products[productVariant.group_id] : null;
+
+ // --- TẠO DỮ LIỆU CHO BREADCRUMBS ---
+  const breadcrumbCrumbs = [
+    { label: 'Trang chủ', link: '/' },
+    // Thêm danh mục nếu có
+    ...(productGroup ? [{ label: productGroup.category, link: `/category/${productGroup.category.toLowerCase().replace(' ', '-')}` }] : []),
+    // Thêm tên sản phẩm hiện tại
+    { label: productVariant["Tên sản phẩm"], link: `/san-pham/${slug}` }
+  ];
+
 
   return (
     <div className="page-container">
+		 {/* --- THÊM BREADCRUMBS VÀO ĐÂY --- */}
+      <Breadcrumbs crumbs={breadcrumbCrumbs} />
       <div className="product-detail-container">
-        <div className="product-detail-image-wrapper">
-          <img src={imageSrc} alt={productVariant["Tên sản phẩm"]} className="product-detail-image" />
+        <div className="product-gallery">
+          <div className="product-detail-image-wrapper">
+            {mainImage ? (
+              <img src={mainImage} alt={productVariant["Tên sản phẩm"]} className="product-detail-image" />
+            ) : (
+              <div>Loading image...</div>
+            )}
+          </div>
+          {images.length > 1 && (
+            <div className="thumbnail-container">
+              {images.map((imgSrc, index) => (
+                <div 
+                  key={index} 
+                  className={`thumbnail-item ${imgSrc === mainImage ? 'active' : ''}`}
+                  onClick={() => setMainImage(imgSrc)}
+                >
+                  <img src={imgSrc} alt={`Thumbnail ${index + 1}`} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
         
         <div className="product-detail-info">
@@ -51,7 +98,7 @@ function ProductDetailPage() {
           <div className="product-detail-price">
             {productVariant["Giá chủ nhà"]?.toLocaleString('vi-VN')} VNĐ
           </div>
-          <p>Đây là khu vực mô tả ngắn về sản phẩm, nêu bật các ưu điểm chính và ứng dụng của nó.</p>
+          <p>{productVariant.long_description || 'Chưa có mô tả chi tiết cho sản phẩm này.'}</p>
           
           <h3 style={{ marginTop: '2.5rem' }}>Thông số kỹ thuật</h3>
           <table className="product-specs-table">
@@ -59,17 +106,26 @@ function ProductDetailPage() {
               <tr><td>Kích thước</td><td>{productVariant["kích thước"]}</td></tr>
               <tr><td>Số kg / tấm</td><td>{productVariant["số kg trên tấm"]}</td></tr>
               <tr><td>Số tấm / kiện</td><td>{productVariant["số tấm /kiện"]}</td></tr>
-              {/* Thêm các hàng thông số khác nếu cần */}
             </tbody>
           </table>
         </div>
       </div>
       
-      {/* Khu vực video có thể thêm ở đây */}
-      {/* <div style={{marginTop: '4rem'}}>
-        <h2>Video hướng dẫn</h2>
-        // Logic hiển thị video
-      </div> */}
+      {productVariant.youtube_id && (
+        <div style={{marginTop: '4rem'}}>
+          <h2 style={{ textAlign: 'center' }}>Video Hướng dẫn Thi công</h2>
+          <div className="video-wrapper" style={{ maxWidth: '800px', margin: '2rem auto', borderRadius: '12px' }}>
+            <iframe
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '12px' }}
+              src={`https://www.youtube.com/embed/${productVariant.youtube_id}`}
+              title={`Video for ${productVariant["Tên sản phẩm"]}`}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
