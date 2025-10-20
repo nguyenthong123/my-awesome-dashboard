@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import useFetchData from '../hooks/useFetchData';
 import ImageSlider from '../components/common/ImageSlider';
 import VideoSlider from '../components/common/VideoSlider';
+import TabSlider from '../components/products/TabSlider'; // <-- 1. IMPORT COMPONENT
 import { videos } from '../config/videoData';
 import FeaturedProducts from '../components/products/FeaturedProducts';
 import './HomePage.css';
@@ -205,12 +206,17 @@ function HomePage() {
   return (
     <div>
       <ImageSlider images={sliderImages} />
+      
       <div className="page-container">
         <h1>Sản Phẩm Nổi Bật</h1>
         <FeaturedProducts prices={prices} />
         <DraftOrderCalculator products={products} prices={prices} />
         <VideoSlider videoList={videos} />
       </div>
+
+      {/* 2. THÊM COMPONENT CHỨNG NHẬN VÀO ĐÂY */}
+      {/* Nó nằm ngoài .page-container vì nó có layout full-width riêng */}
+      <TabSlider />
       
       {/* KHỐI FOOTER ĐÃ ĐƯỢC XÓA KHỎI ĐÂY */}
     </div>
