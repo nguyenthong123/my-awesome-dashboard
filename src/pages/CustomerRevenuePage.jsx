@@ -30,7 +30,7 @@ function OrderDetailsModal({ order, details, onClose }) {
         <button style={closeButtonStyle} onClick={onClose}>&times;</button>
         <h2>Chi tiết Đơn hàng: {order["id order"]}</h2>
         <p><strong>Khách hàng:</strong> {order["tên khách hàng"]}</p>
-        <p><strong>Ngày đặt:</strong> {order["thời gian lên đơn"] ? new Date(order["thời gian lên đơn"]).toLocaleDateString('vi-VN') : ''}</p>
+        <p><strong>Ngày đặt:</strong> {order["thời gian lên đơn"] || ''}</p>
         <h4 style={{marginTop: '2rem'}}>Các sản phẩm trong đơn:</h4>
         <div className="table-container">
           <table className="product-price-table" style={{ tableLayout: 'auto' }}>
@@ -122,10 +122,16 @@ function CustomerRevenuePage() {
 
   const customerOrders = useMemo(() => {
     if (!user?.name || allOrders.length === 0) return [];
-    const customerName = user.name.toLowerCase();
-    return allOrders.filter(order => 
-      order["tên khách hàng"] && order["tên khách hàng"].toLowerCase().includes(customerName)
-    );
+    
+    // Chuẩn hóa tên khách hàng (bỏ khoảng trắng thừa, chuyển về chữ thường)
+    const normalizedUserName = user.name.toLowerCase().trim().replace(/\s+/g, ' ');
+    
+    return allOrders.filter(order => {
+      if (!order["tên khách hàng"]) return false;
+      // Chuẩn hóa tên trong đơn hàng
+      const normalizedOrderCustomer = order["tên khách hàng"].toLowerCase().trim().replace(/\s+/g, ' ');
+      return normalizedOrderCustomer === normalizedUserName;
+    });
   }, [allOrders, user]);
 
   const availableStatuses = useMemo(() => {
@@ -136,12 +142,24 @@ function CustomerRevenuePage() {
   const filteredOrders = useMemo(() => {
     let filtered = [...customerOrders];
     if (startDate) {
-      const start = new Date(startDate); start.setHours(0, 0, 0, 0);
-      filtered = filtered.filter(order => order["thời gian lên đơn"] && new Date(order["thời gian lên đơn"]) >= start);
+      const start = new Date(startDate);
+      start.setHours(0, 0, 0, 0);
+      filtered = filtered.filter(order => {
+        if (!order["thời gian lên đơn"]) return false;
+        const [day, month, year] = order["thời gian lên đơn"].split('/');
+        const orderDate = new Date(year, month - 1, day);
+        return orderDate >= start;
+      });
     }
     if (endDate) {
-      const end = new Date(endDate); end.setHours(23, 59, 59, 999);
-      filtered = filtered.filter(order => order["thời gian lên đơn"] && new Date(order["thời gian lên đơn"]) <= end);
+      const end = new Date(endDate);
+      end.setHours(23, 59, 59, 999);
+      filtered = filtered.filter(order => {
+        if (!order["thời gian lên đơn"]) return false;
+        const [day, month, year] = order["thời gian lên đơn"].split('/');
+        const orderDate = new Date(year, month - 1, day);
+        return orderDate <= end;
+      });
     }
     if (statusFilter && statusFilter !== 'Tất cả') {
       filtered = filtered.filter(order => order["trạng thái"] === statusFilter);
@@ -210,7 +228,7 @@ function CustomerRevenuePage() {
               const remainingAmount = parseFloat(order["số tiền còn lại trong đơn"]);
               return (
                 <tr key={order["id order"] || index} onClick={() => setSelectedOrder(order)} style={{ cursor: 'pointer' }}>
-                  <td>{order["thời gian lên đơn"] ? new Date(order["thời gian lên đơn"]).toLocaleDateString('vi-VN') : ''}</td>
+                  <td>{order["thời gian lên đơn"] ? order["thời gian lên đơn"].split('/').reverse().join('-') : ''}</td>
                   <td>{order["id order"]}</td>
                   <td>{order["trạng thái"] || ''}</td>
                   <td style={{ textAlign: 'right' }}>{subTotal > 0 ? `${subTotal.toLocaleString('vi-VN')} VNĐ` : ''}</td>

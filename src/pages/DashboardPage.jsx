@@ -20,7 +20,7 @@ function OrderDetailsModal({ order, details, onClose }) {
         {/* Nội dung bên trong Modal */}
         <h2>Chi tiết Đơn hàng: {order["id order"]}</h2>
         <p><strong>Khách hàng:</strong> {order["tên khách hàng"]}</p>
-        <p><strong>Ngày đặt:</strong> {order["thời gian lên đơn"] ? new Date(order["thời gian lên đơn"]).toLocaleDateString('vi-VN') : ''}</p>
+        <p><strong>Ngày đặt:</strong> {order["thời gian lên đơn"] || ''}</p>
         
         <h4 style={{marginTop: '2rem'}}>Các sản phẩm trong đơn:</h4>
         
@@ -116,12 +116,22 @@ function DashboardPage() {
     if (startDate) {
       const start = new Date(startDate);
       start.setHours(0, 0, 0, 0);
-      filtered = filtered.filter(order => order["thời gian lên đơn"] && new Date(order["thời gian lên đơn"]) >= start);
+      filtered = filtered.filter(order => {
+        if (!order["thời gian lên đơn"]) return false;
+        const [day, month, year] = order["thời gian lên đơn"].split('/');
+        const orderDate = new Date(year, month - 1, day);
+        return orderDate >= start;
+      });
     }
     if (endDate) {
       const end = new Date(endDate);
       end.setHours(23, 59, 59, 999);
-      filtered = filtered.filter(order => order["thời gian lên đơn"] && new Date(order["thời gian lên đơn"]) <= end);
+      filtered = filtered.filter(order => {
+        if (!order["thời gian lên đơn"]) return false;
+        const [day, month, year] = order["thời gian lên đơn"].split('/');
+        const orderDate = new Date(year, month - 1, day);
+        return orderDate <= end;
+      });
     }
     if (statusFilter && statusFilter !== 'Tất cả') {
       filtered = filtered.filter(order => order["trạng thái"] === statusFilter);
@@ -230,7 +240,7 @@ function DashboardPage() {
               const remainingAmount = parseFloat(order["số tiền còn lại trong đơn"]);
               return (
                 <tr key={order["id order"] || index} onClick={() => setSelectedOrder(order)} style={{ cursor: 'pointer' }}>
-                  <td>{order["thời gian lên đơn"] ? new Date(order["thời gian lên đơn"]).toLocaleDateString('vi-VN') : ''}</td>
+                  <td>{order["thời gian lên đơn"] ? order["thời gian lên đơn"].split('/').reverse().join('-') : ''}</td>
                   <td>{order["id order"]}</td>
                   <td>{order["tên khách hàng"]}</td>
                   <td>{order["trạng thái"] || ''}</td>
