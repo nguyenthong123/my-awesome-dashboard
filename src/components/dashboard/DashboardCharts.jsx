@@ -30,10 +30,13 @@ function DashboardCharts({ orders }) {
     );
   }
 
-  // --- Logic xử lý dữ liệu (giữ nguyên) ---
+  // --- Logic xử lý dữ liệu và chuyển đổi định dạng ngày ---
   const monthlyRevenue = orders.reduce((acc, order) => {
-    const date = new Date(order["thời gian lên đơn"]);
-    const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    // Parse ngày từ định dạng dd/MM/yyyy
+    const [day, month, year] = (order["thời gian lên đơn"] || '').split('/');
+    if (!day || !month || !year) return acc;
+
+    const monthKey = `${year}-${month.padStart(2, '0')}`;
     const revenue = parseFloat(order["tổng phụ"]) || 0;
     
     acc[monthKey] = (acc[monthKey] || 0) + revenue;
@@ -43,7 +46,10 @@ function DashboardCharts({ orders }) {
   const sortedMonths = Object.keys(monthlyRevenue).sort();
   
   const chartData = {
-    labels: sortedMonths,
+    labels: sortedMonths.map(monthKey => {
+      const [year, month] = monthKey.split('-');
+      return `Tháng ${parseInt(month)}/${year}`;
+    }),
     datasets: [
       {
         label: 'Doanh thu (VNĐ)',
