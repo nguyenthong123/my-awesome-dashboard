@@ -66,7 +66,39 @@
 .warranty-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 1rem 1.5rem; /* khoảng cách dọc và ngang */
+  gap: 1rem 1.5rem;
+}
+
+.form-container {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 1rem 0;
+}
+
+.form-left, .form-right {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  resize: vertical;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: inherit;
+}
+
+textarea:focus {
+  outline: none;
+  border-color: var(--primary-green);
+  box-shadow: 0 0 0 2px rgba(40, 167, 69, 0.2);
 }
 
 .form-group {

@@ -1,0 +1,177 @@
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
+import './WarrantySection.css';
+import warrantyBanner from '../../assets/images/warranty-banner.jpg';
+
+// Cấu hình Cloudinary
+const CLOUDINARY_UPLOAD_PRESET = 'my_preset'; // Thay bằng upload preset của bạn
+const CLOUDINARY_CLOUD_NAME = 'dtdgrcznj'; // Thay bằng cloud name của bạn
+
+// Hàm upload ảnh lên Cloudinary
+async function uploadToCloudinary(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+
+  try {
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+      {
+        method: 'POST',
+        body: formData
+      }
+    );
+    const data = await response.json();
+    return data.secure_url;
+  } catch (error) {
+    console.error('Error uploading to Cloudinary:', error);
+    throw error;
+  }
+}
+
+function WarrantySection({ warrantyData, productList }) {
+  const form = useRef();
+  const [isSending, setIsSending] = useState(false);
+  const [message, setMessage] = useState('');
+  
+  const sendEmail = async (e) => {
+    e.preventDefault();
+    setIsSending(true);
+    setMessage('');
+
+    try {
+      // Upload tất cả các ảnh lên Cloudinary trước
+      const imageUrls = [];
+      const fileInputs = form.current.querySelectorAll('input[type="file"]');
+      
+      for (const input of fileInputs) {
+        if (input.files.length > 0) {
+          setMessage('Đang tải ảnh lên...');
+          const url = await uploadToCloudinary(input.files[0]);
+          imageUrls.push(url);
+        }
+      }
+
+      setMessage('Đang gửi yêu cầu bảo hành...');
+
+      // Tạo template params với URLs của ảnh
+      const templateParams = {
+        to_name: "Admin",
+        from_name: form.current.name.value,
+        name: form.current.name.value,
+        phone: form.current.phone.value,
+        address: form.current.address.value,
+        product: form.current.product.value,
+        purchaseDate: form.current.purchaseDate.value,
+        description: form.current.description.value || "Không có mô tả",
+        imageUrls: imageUrls.length > 0 ? imageUrls.join('\n') : "Không có hình ảnh đính kèm",
+        reply_to: "dunvex.green@gmail.com"
+      };
+
+      // Các "chìa khóa" từ tài khoản EmailJS của bạn
+      const SERVICE_ID = 'service_cmur83g';
+      const TEMPLATE_ID = 'template_jvhla1o';
+      const PUBLIC_KEY = 'ucjcJro8eNU36M-J4';
+
+      // Gửi email với URLs thay vì files
+      // Log để debug
+      console.log('Sending email with params:', templateParams);
+      const result = await emailjs.send(SERVICE_ID, TEMPLATE_ID, templateParams, PUBLIC_KEY);
+      console.log(result.text);
+      setMessage('Yêu cầu của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ lại sớm.');
+      form.current.reset();
+    } catch (error) {
+      console.error('Error:', error);
+      setMessage(`Gửi yêu cầu thất bại. Lỗi: ${error.message}. Vui lòng thử lại.`);
+    } finally {
+      setIsSending(false);
+    }
+  };
+  
+  if (!warrantyData) {
+    return null;
+  }
+
+  return (
+    <section className="warranty-section">
+      <img src={warrantyData.bannerImage} alt="Bảo hành" className="warranty-banner" />
+      
+      {warrantyData.sections.map((section, index) => (
+        <div key={index} className="warranty-content">
+          <h3>{section.title}</h3>
+          <p dangerouslySetInnerHTML={{ __html: section.content.replace(/\n/g, '<br />') }} />
+        </div>
+      ))}
+      
+      <div className="warranty-form-container">
+        <h3>Yêu cầu Bảo hành</h3>
+        <p>Vui lòng điền đầy đủ thông tin và đính kèm hình ảnh theo yêu cầu bên dưới.</p>
+        
+        <form ref={form} onSubmit={sendEmail} className="warranty-form">
+          <div className="form-group">
+            <label htmlFor="name-input">Họ và tên</label>
+            <input id="name-input" type="text" name="name" required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="phone-input">Số điện thoại</label>
+            <input id="phone-input" type="tel" name="phone" required />
+          </div>
+          <div className="form-group full-width">
+            <label htmlFor="address-input">Địa chỉ</label>
+            <input id="address-input" type="text" name="address" required />
+          </div>
+          <div className="form-group">
+            <label htmlFor="product-select">Sản phẩm cần bảo hành</label>
+            <select id="product-select" name="product" required>
+              <option value="">-- Chọn sản phẩm --</option>
+              {productList.map(p => (
+                <option key={p.id_san_pham} value={p["Tên sản phẩm"]}>
+                  {p["Tên sản phẩm"]}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="date-input">Ngày mua hàng</label>
+            <input id="date-input" type="date" name="purchaseDate" required />
+          </div>
+          
+          <div className="form-container">
+            <div className="form-left">
+              <div className="form-group">
+                <label>Hình ảnh đính kèm (tối đa 4 file)</label>
+                <input type="file" name="attachment_1" accept="image/*" />
+                <input type="file" name="attachment_2" accept="image/*" />
+                <input type="file" name="attachment_3" accept="image/*" />
+                <input type="file" name="attachment_4" accept="image/*" />
+              </div>
+            </div>
+            
+            <div className="form-right">
+              <div className="form-group">
+                <label htmlFor="description">Mô tả lỗi sản phẩm</label>
+                <textarea 
+                  id="description" 
+                  name="description" 
+                  rows="8" 
+                  placeholder="Vui lòng mô tả chi tiết về tình trạng lỗi của sản phẩm..."
+                  required
+                ></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <div className="form-group full-width">
+            <button type="submit" disabled={isSending}>
+              {isSending ? 'Đang gửi...' : 'Gửi Yêu cầu'}
+            </button>
+          </div>
+        </form>
+        {/* Hiển thị thông báo thành công hoặc thất bại */}
+        {message && <p className="form-message">{message}</p>}
+      </div>
+    </section>
+  );
+}
+
+export default WarrantySection;
