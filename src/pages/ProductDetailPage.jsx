@@ -2,7 +2,9 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import useFetchData from '../hooks/useFetchData';
 import { getProductImage } from '../utils/imageLoader';
-import Breadcrumbs from '../components/common/Breadcrumbs'; // <-- Thêm import
+import Breadcrumbs from '../components/common/Breadcrumbs';
+import WarrantySection from '../components/products/WarrantySection';
+import { warrantyDetails } from '../config/warrantyData';
 import './ProductDetailPage.css';
 
 const PRICES_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/prices.json';
@@ -53,80 +55,88 @@ function ProductDetailPage() {
   }
 
   const productGroup = products ? products[productVariant.group_id] : null;
+  const warrantyId = productVariant.warranty_id; 
+  const selectedWarrantyData = warrantyId ? warrantyDetails[warrantyId] : null;
 
- // --- TẠO DỮ LIỆU CHO BREADCRUMBS ---
   const breadcrumbCrumbs = [
     { label: 'Trang chủ', link: '/' },
-    // Thêm danh mục nếu có
-    ...(productGroup ? [{ label: productGroup.category, link: `/category/${productGroup.category.toLowerCase().replace(' ', '-')}` }] : []),
-    // Thêm tên sản phẩm hiện tại
+    ...(productGroup ? [{ label: productGroup.category, link: `/category/${productGroup.category.toLowerCase().replace(/ /g, '-')}` }] : []),
     { label: productVariant["Tên sản phẩm"], link: `/san-pham/${slug}` }
   ];
 
-
   return (
-    <div className="page-container">
-		 {/* --- THÊM BREADCRUMBS VÀO ĐÂY --- */}
-      <Breadcrumbs crumbs={breadcrumbCrumbs} />
-      <div className="product-detail-container">
-        <div className="product-gallery">
-          <div className="product-detail-image-wrapper">
-            {mainImage ? (
-              <img src={mainImage} alt={productVariant["Tên sản phẩm"]} className="product-detail-image" />
-            ) : (
-              <div>Loading image...</div>
+    // Sử dụng Fragment để <WarrantySection> có thể là một section full-width riêng
+    <>
+      <div className="page-container">
+        <Breadcrumbs crumbs={breadcrumbCrumbs} />
+        <div className="product-detail-container">
+          <div className="product-gallery">
+            <div className="product-detail-image-wrapper">
+              {mainImage ? (
+                <img src={mainImage} alt={productVariant["Tên sản phẩm"]} className="product-detail-image" />
+              ) : (
+                <div>Loading image...</div>
+              )}
+            </div>
+            {images.length > 1 && (
+              <div className="thumbnail-container">
+                {images.map((imgSrc, index) => (
+                  <div 
+                    key={index} 
+                    className={`thumbnail-item ${imgSrc === mainImage ? 'active' : ''}`}
+                    onClick={() => setMainImage(imgSrc)}
+                  >
+                    <img src={imgSrc} alt={`Thumbnail ${index + 1}`} />
+                  </div>
+                ))}
+              </div>
             )}
           </div>
-          {images.length > 1 && (
-            <div className="thumbnail-container">
-              {images.map((imgSrc, index) => (
-                <div 
-                  key={index} 
-                  className={`thumbnail-item ${imgSrc === mainImage ? 'active' : ''}`}
-                  onClick={() => setMainImage(imgSrc)}
-                >
-                  <img src={imgSrc} alt={`Thumbnail ${index + 1}`} />
-                </div>
-              ))}
+          
+          <div className="product-detail-info">
+            {productGroup && <p style={{ color: 'var(--text-secondary-color)' }}>{productGroup.category}</p>}
+            <h1>{productVariant["Tên sản phẩm"]}</h1>
+            <div className="product-detail-price">
+              {productVariant["Giá chủ nhà"]?.toLocaleString('vi-VN')} VNĐ
             </div>
-          )}
+            <p>{productVariant.long_description || 'Chưa có mô tả chi tiết cho sản phẩm này.'}</p>
+            
+            <h3 style={{ marginTop: '2.5rem' }}>Thông số kỹ thuật</h3>
+            <table className="product-specs-table">
+              <tbody>
+                <tr><td>Kích thước</td><td>{productVariant["kích thước"]}</td></tr>
+                <tr><td>Số kg / tấm</td><td>{productVariant["số kg trên tấm"]}</td></tr>
+                <tr><td>Số tấm / kiện</td><td>{productVariant["số tấm /kiện"]}</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
         
-        <div className="product-detail-info">
-          {productGroup && <p style={{ color: 'var(--text-secondary-color)' }}>{productGroup.category}</p>}
-          <h1>{productVariant["Tên sản phẩm"]}</h1>
-          <div className="product-detail-price">
-            {productVariant["Giá chủ nhà"]?.toLocaleString('vi-VN')} VNĐ
+        {productVariant.youtube_id && (
+          <div style={{marginTop: '4rem'}}>
+            <h2 style={{ textAlign: 'center' }}>Video Hướng dẫn Thi công</h2>
+            <div className="video-wrapper" style={{ maxWidth: '800px', margin: '2rem auto', borderRadius: '12px' }}>
+              <iframe
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '12px' }}
+                src={`https://www.youtube.com/embed/${productVariant.youtube_id}`}
+                title={`Video for ${productVariant["Tên sản phẩm"]}`}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
           </div>
-          <p>{productVariant.long_description || 'Chưa có mô tả chi tiết cho sản phẩm này.'}</p>
-          
-          <h3 style={{ marginTop: '2.5rem' }}>Thông số kỹ thuật</h3>
-          <table className="product-specs-table">
-            <tbody>
-              <tr><td>Kích thước</td><td>{productVariant["kích thước"]}</td></tr>
-              <tr><td>Số kg / tấm</td><td>{productVariant["số kg trên tấm"]}</td></tr>
-              <tr><td>Số tấm / kiện</td><td>{productVariant["số tấm /kiện"]}</td></tr>
-            </tbody>
-          </table>
-        </div>
+        )}
       </div>
-      
-      {productVariant.youtube_id && (
-        <div style={{marginTop: '4rem'}}>
-          <h2 style={{ textAlign: 'center' }}>Video Hướng dẫn Thi công</h2>
-          <div className="video-wrapper" style={{ maxWidth: '800px', margin: '2rem auto', borderRadius: '12px' }}>
-            <iframe
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', borderRadius: '12px' }}
-              src={`https://www.youtube.com/embed/${productVariant.youtube_id}`}
-              title={`Video for ${productVariant["Tên sản phẩm"]}`}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
-          </div>
-        </div>
+
+      {/* --- ĐẶT COMPONENT BẢO HÀNH Ở ĐÚNG VỊ TRÍ --- */}
+      {selectedWarrantyData && (
+        <WarrantySection 
+          warrantyData={selectedWarrantyData}
+          productList={prices.filter(p => p.group_id === productVariant.group_id)}
+        />
       )}
-    </div>
+    </>
   );
 }
 

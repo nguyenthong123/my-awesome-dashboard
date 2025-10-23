@@ -1,0 +1,126 @@
+/* src/components/products/WarrantySection.css */
+
+/* --- Container chính --- */
+.warranty-section {
+  margin-top: 4rem;
+  padding-top: 3rem;
+  /* Thêm đường kẻ ngang ở trên */
+  border-top: 1px solid var(--border-color);
+  /* Container để giới hạn chiều rộng */
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.warranty-banner {
+  width: 100%;
+  max-width: 800px;
+  height: auto;
+  display: block;
+  margin: 0 auto 3rem auto;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+/* --- Khu vực nội dung chính sách --- */
+.warranty-content {
+  margin-bottom: 2rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.warranty-content h3 {
+  font-size: 1.5rem;
+  color: var(--text-color);
+  border-bottom: 2px solid var(--primary-green);
+  padding-bottom: 0.5rem;
+  display: inline-block; /* Làm cho đường viền chỉ dài bằng chữ */
+}
+
+.warranty-content p {
+  line-height: 1.7;
+  color: var(--text-secondary-color);
+  white-space: pre-wrap; /* Giữ lại các lần xuống dòng từ dữ liệu */
+}
+
+/* --- Khu vực Form yêu cầu --- */
+.warranty-form-container {
+  margin-top: 4rem;
+  padding: 2rem;
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.warranty-form-container h3 {
+  margin-top: 0;
+  text-align: center;
+}
+
+.warranty-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem; /* khoảng cách dọc và ngang */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1; /* Chiếm cả 2 cột */
+}
+
+.warranty-form label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-secondary-color);
+}
+
+.warranty-form input,
+.warranty-form select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
+.warranty-form input[type="file"] {
+  padding: 8px; /* Tùy chỉnh riêng cho input file */
+}
+
+.warranty-form ul {
+  font-size: 0.9rem;
+  color: var(--text-secondary-color);
+  padding-left: 20px;
+}
+
+.form-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 1rem;
+  color: var(--primary-green);
+}
+
+html.dark .form-message {
+  color: #69db7c;
+}
+
+/* --- Responsive cho Form --- */
+@media (max-width: 768px) {
+  .warranty-form {
+    grid-template-columns: 1fr; /* Chuyển thành 1 cột trên điện thoại */
+  }
+}
