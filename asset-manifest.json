@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.9f9c1863.css",
-    "main.js": "/static/js/main.7ff817a2.js",
+    "main.css": "/static/css/main.563c5b56.css",
+    "main.js": "/static/js/main.21afe3cf.js",
     "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
     "static/media/tam-xi-mang-duraflex.png": "/static/media/tam-xi-mang-duraflex.04fb0192c79a0833389e.png",
     "static/media/lam-4-song-thap.png": "/static/media/lam-4-song-thap.b092b3e7bc20794f899e.png",
@@ -39,11 +39,11 @@
     "static/media/cert-2.png": "/static/media/cert-2.e3c9b9db2e32aa714eda.png",
     "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "/index.html",
-    "main.9f9c1863.css.map": "/static/css/main.9f9c1863.css.map",
-    "main.7ff817a2.js.map": "/static/js/main.7ff817a2.js.map"
+    "main.563c5b56.css.map": "/static/css/main.563c5b56.css.map",
+    "main.21afe3cf.js.map": "/static/js/main.21afe3cf.js.map"
   },
   "entrypoints": [
-    "static/css/main.9f9c1863.css",
-    "static/js/main.7ff817a2.js"
+    "static/css/main.563c5b56.css",
+    "static/js/main.21afe3cf.js"
   ]
 }
