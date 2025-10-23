@@ -48,7 +48,7 @@ function ProductsPage() {
   const availablePriceTypes = useMemo(() => {
     if (!prices) return [];
     const priceKeys = new Set();
-    const excludedKeys = ['group_id', 'id_san_pham', 'Tên sản phẩm', 'kích thước', 'số kg trên tấm', 'số tấm /kiện', 'image sản phẩm', 'width_mm', 'length_mm', 'product_slug', 'long_description', 'youtube_id'];
+    const excludedKeys = ['group_id', 'id_san_pham', 'Tên sản phẩm', 'kích thước', 'số kg trên tấm', 'số tấm /kiện', 'image sản phẩm', 'width_mm', 'length_mm', 'product_slug', 'long_description', 'youtube_id', 'warranty_id'];
     prices.forEach(price => {
       Object.keys(price).forEach(key => {
         if (!excludedKeys.includes(key) && price[key] !== "" && price[key] !== null && price[key] !== 0) {
