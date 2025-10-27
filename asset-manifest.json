@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.563c5b56.css",
-    "main.js": "/static/js/main.3081d706.js",
+    "main.js": "/static/js/main.b65521b9.js",
     "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
     "static/media/tam-xi-mang-duraflex.png": "/static/media/tam-xi-mang-duraflex.04fb0192c79a0833389e.png",
     "static/media/lam-4-song-thap.png": "/static/media/lam-4-song-thap.b092b3e7bc20794f899e.png",
@@ -11,6 +11,7 @@
     "static/media/nano-09.png": "/static/media/nano-09.9602db7e987888959f4f.png",
     "static/media/nano-12.png": "/static/media/nano-12.372053c43dde233da0a6.png",
     "static/media/nano-11.png": "/static/media/nano-11.4d530c644ccbf66cb1a2.png",
+    "static/media/Bac-cau-thang-PIMA-3.jpg": "/static/media/Bac-cau-thang-PIMA-3.12330bb35f762e2550c2.jpg",
     "static/media/nano-17.png": "/static/media/nano-17.7310bac442dd12bd34d6.png",
     "static/media/lam-3-song.png": "/static/media/lam-3-song.3e34d915d18f929bad49.png",
     "static/media/alu-noi-that-vietstar.png": "/static/media/alu-noi-that-vietstar.96dcb4819e4c57e36907.png",
@@ -21,6 +22,8 @@
     "static/media/login-background-house.png": "/static/media/login-background-house.789d0f349b8020e83d15.png",
     "static/media/nano-02.png": "/static/media/nano-02.a5803d2465417e7939a6.png",
     "static/media/phao-co-tran.jpg": "/static/media/phao-co-tran.63c464df1843700a9759.jpg",
+    "static/media/NEP-BO-CANH.jpg": "/static/media/NEP-BO-CANH.82e2c88a7e844241cca9.jpg",
+    "static/media/TAM-BAC-CAU-THANG-W462-1.jpg": "/static/media/TAM-BAC-CAU-THANG-W462-1.9534c2b743604551a56b.jpg",
     "static/media/slider-1.jpg": "/static/media/slider-1.4686ae441127f2e340ae.jpg",
     "static/media/tam-op-pima.png": "/static/media/tam-op-pima.788416cbe175b73f7e72.png",
     "static/media/slider-3.jpg": "/static/media/slider-3.de37ef79391f14c04c23.jpg",
@@ -37,6 +40,7 @@
     "static/media/san-gac-pima-w36.jpg": "/static/media/san-gac-pima-w36.10464245a8f290dc57f2.jpg",
     "static/media/san-gac-pima-w38.jpg": "/static/media/san-gac-pima-w38.3f7a15da3b2817060a42.jpg",
     "static/media/san-gac-pima-w13.jpg": "/static/media/san-gac-pima-w13.67dfc73573819f676e70.jpg",
+    "static/media/TAM-BAC-CAU-THANG-W131-1536x1024.jpg": "/static/media/TAM-BAC-CAU-THANG-W131-1536x1024.1c4a37a4ccc9dee82ca9.jpg",
     "static/media/phu-kien-nano-lamsong.jpg": "/static/media/phu-kien-nano-lamsong.f8b380a4105f64f0f762.jpg",
     "static/media/vit-chuyen-dung-duravis.png": "/static/media/vit-chuyen-dung-duravis.f9bfe2d2201e333630ab.png",
     "static/media/san-gac-pima-w39.jpg": "/static/media/san-gac-pima-w39.f8bf00b5f9a2e49cc46f.jpg",
@@ -47,14 +51,20 @@
     "static/media/keo-xu-ly-mui-noi-durafiler.png": "/static/media/keo-xu-ly-mui-noi-durafiler.131e8a0725242b60b7ef.png",
     "static/media/placeholder.png": "/static/media/placeholder.ed8c78ed79ad299ecc17.png",
     "static/media/mau-alu-viet-star.jpg": "/static/media/mau-alu-viet-star.7c7d5ab1ee1e9e3ac42d.jpg",
+    "static/media/TAM-BAC-CAU-THANG-W171-1536x1024.jpg": "/static/media/TAM-BAC-CAU-THANG-W171-1536x1024.3931bc5e3800fbc046d0.jpg",
+    "static/media/TAM-BAC-CAU-THANG-W392-768x512.jpg": "/static/media/TAM-BAC-CAU-THANG-W392-768x512.f76f2ee96e1e6b0baaaa.jpg",
     "static/media/cert-2.png": "/static/media/cert-2.e3c9b9db2e32aa714eda.png",
+    "static/media/TAM-BAC-CAU-THANG-W36-768x1152.jpg": "/static/media/TAM-BAC-CAU-THANG-W36-768x1152.5c8ed007615f13eafbe5.jpg",
+    "static/media/TAM-BAC-CAU-THANG-W381-768x512.jpg": "/static/media/TAM-BAC-CAU-THANG-W381-768x512.1c1ea2baa5e45f72d598.jpg",
+    "static/media/TAM-BAC-CAU-THANG-W452-768x512.jpg": "/static/media/TAM-BAC-CAU-THANG-W452-768x512.4082d4ee1cabb7088e18.jpg",
+    "static/media/TAM-BAC-CAU-THANG-W411-300x300.jpg": "/static/media/TAM-BAC-CAU-THANG-W411-300x300.1d58de5eb31f919c7929.jpg",
     "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "/index.html",
     "main.563c5b56.css.map": "/static/css/main.563c5b56.css.map",
-    "main.3081d706.js.map": "/static/js/main.3081d706.js.map"
+    "main.b65521b9.js.map": "/static/js/main.b65521b9.js.map"
   },
   "entrypoints": [
     "static/css/main.563c5b56.css",
-    "static/js/main.3081d706.js"
+    "static/js/main.b65521b9.js"
   ]
 }
