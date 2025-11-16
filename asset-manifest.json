@@ -1,9 +1,10 @@
 {
   "files": {
     "main.css": "/static/css/main.563c5b56.css",
-    "main.js": "/static/js/main.ee8f13f6.js",
+    "main.js": "/static/js/main.c317a670.js",
     "static/media/cert-5.png": "/static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
     "static/media/durawood-6mmx200x2440.jpg": "/static/media/durawood-6mmx200x2440.73765017bc5dede41389.jpg",
+    "static/media/vachduraday5.jpg": "/static/media/vachduraday5.2b8236c9c6093cd1640a.jpg",
     "static/media/tam-xi-mang-duraflex.png": "/static/media/tam-xi-mang-duraflex.04fb0192c79a0833389e.png",
     "static/media/lam-4-song-thap.png": "/static/media/lam-4-song-thap.b092b3e7bc20794f899e.png",
     "static/media/pvc-pima-noithat.png": "/static/media/pvc-pima-noithat.2fe96bb8bc32f9e834ce.png",
@@ -37,13 +38,17 @@
     "static/media/duramong10.jpg": "/static/media/duramong10.adcb6d1655f877c4d9ed.jpg",
     "static/media/San-gac-pima.jpg": "/static/media/San-gac-pima.895d8a4e373bf2f74190.jpg",
     "static/media/duramong5.jpg": "/static/media/duramong5.6eac3495426e644bf469.jpg",
+    "static/media/tamdura9ly.jpg": "/static/media/tamdura9ly.4e8d0b8450ddf6a81a9e.jpg",
+    "static/media/vachduraday8.jpg": "/static/media/vachduraday8.66831e75cb5fcc6a3b5d.jpg",
     "static/media/duramong12.jpg": "/static/media/duramong12.c5096c3ceed1564951f0.jpg",
     "static/media/tam-van-go-durawood.png": "/static/media/tam-van-go-durawood.6259cbf938ee2e1c2524.png",
+    "static/media/vachdaydura2.jpg": "/static/media/vachdaydura2.7ad4a014762b9c908472.jpg",
     "static/media/cert-1.png": "/static/media/cert-1.0aed60dcfc9f07658a9b.png",
     "static/media/cert-6.png": "/static/media/cert-6.5604f326f64e9a8ffb74.png",
     "static/media/duramong9.jpg": "/static/media/duramong9.e13bbbae0fdbf3d5c94c.jpg",
     "static/media/san-gac-pima-w17.jpg": "/static/media/san-gac-pima-w17.7e89b47839fc76b7f9f8.jpg",
     "static/media/cong-trinh-durawooc-3.jpg": "/static/media/cong-trinh-durawooc-3.6d5bad1c66fb8ea20b4e.jpg",
+    "static/media/vachduraday6.jpg": "/static/media/vachduraday6.bdbf7ad7ac7ede98ef39.jpg",
     "static/media/duramong11.jpg": "/static/media/duramong11.d9b2fa8a56176f6c14f1.jpg",
     "static/media/san-gac-pima-w46.jpg": "/static/media/san-gac-pima-w46.ea013d34ce7b299f738e.jpg",
     "static/media/san-gac-pima-w41.jpg": "/static/media/san-gac-pima-w41.a27275ea2ae7b7fa3b5d.jpg",
@@ -54,7 +59,9 @@
     "static/media/san-gac-pima-w13.jpg": "/static/media/san-gac-pima-w13.67dfc73573819f676e70.jpg",
     "static/media/TAM-BAC-CAU-THANG-W131-1536x1024.jpg": "/static/media/TAM-BAC-CAU-THANG-W131-1536x1024.1c4a37a4ccc9dee82ca9.jpg",
     "static/media/phu-kien-nano-lamsong.jpg": "/static/media/phu-kien-nano-lamsong.f8b380a4105f64f0f762.jpg",
+    "static/media/vachdaynen.jpg": "/static/media/vachdaynen.830a53341ab5607f4ab1.jpg",
     "static/media/duramong.jpg": "/static/media/duramong.30f87f1c4124bf9df827.jpg",
+    "static/media/duravachday.jpg": "/static/media/duravachday.2c5bc43053214adb970d.jpg",
     "static/media/duramong4.jpg": "/static/media/duramong4.66ea85927ba75539b4d2.jpg",
     "static/media/vit-chuyen-dung-duravis.png": "/static/media/vit-chuyen-dung-duravis.f9bfe2d2201e333630ab.png",
     "static/media/san-gac-pima-w39.jpg": "/static/media/san-gac-pima-w39.f8bf00b5f9a2e49cc46f.jpg",
@@ -81,10 +88,10 @@
     "static/media/duraflex-logo.png": "/static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "/index.html",
     "main.563c5b56.css.map": "/static/css/main.563c5b56.css.map",
-    "main.ee8f13f6.js.map": "/static/js/main.ee8f13f6.js.map"
+    "main.c317a670.js.map": "/static/js/main.c317a670.js.map"
   },
   "entrypoints": [
     "static/css/main.563c5b56.css",
-    "static/js/main.ee8f13f6.js"
+    "static/js/main.c317a670.js"
   ]
 }
