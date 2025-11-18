@@ -1,0 +1,283 @@
+/* src/components/products/GuideSection.css */
+
+/* --- Container chính --- */
+.guide-section {
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border-color);
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.guide-banner {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 3rem auto;
+  padding: 2rem;
+  background: linear-gradient(135deg, var(--primary-green) 0%, rgba(40, 167, 69, 0.8) 100%);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.guide-title {
+  margin: 0;
+  font-size: 2rem;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* --- Container để chứa các bước --- */
+.guide-container {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.guide-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* --- Mỗi bước hướng dẫn --- */
+.guide-step {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.guide-step:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Header của mỗi bước --- */
+.step-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  user-select: none;
+}
+
+.step-header:hover {
+  background-color: var(--background-color);
+}
+
+.step-header.active {
+  background-color: rgba(40, 167, 69, 0.05);
+  border-bottom: 2px solid var(--primary-green);
+}
+
+html.dark .step-header.active {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+/* --- Số bước --- */
+.step-number-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, var(--primary-green) 0%, rgba(40, 167, 69, 0.8) 100%);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.step-number {
+  color: white;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* --- Tiêu đề và nội dung --- */
+.step-title-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.step-title {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+/* --- Toggle icon --- */
+.step-toggle {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.toggle-icon {
+  color: var(--text-secondary-color);
+  transition: transform 0.3s ease;
+}
+
+.step-header.active .toggle-icon {
+  transform: rotate(180deg);
+  color: var(--primary-green);
+}
+
+/* --- Nội dung bước khi mở rộng --- */
+.step-content {
+  padding: 0 2rem 2rem 2rem;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Hình ảnh trong bước --- */
+.step-image-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background-color: var(--card-background);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+}
+
+.step-image {
+  max-width: 100%;
+  max-height: 400px;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+/* --- Mô tả bước --- */
+.step-description {
+  flex: 1;
+}
+
+.step-description p {
+  margin: 0;
+  line-height: 1.8;
+  color: var(--text-secondary-color);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* --- Dark mode --- */
+html.dark .guide-section {
+  color: var(--text-color);
+}
+
+html.dark .guide-step {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+}
+
+html.dark .step-header {
+  color: var(--text-color);
+}
+
+html.dark .step-header:hover {
+  background-color: var(--background-color);
+}
+
+html.dark .step-title {
+  color: var(--text-color);
+}
+
+html.dark .step-description p {
+  color: var(--text-secondary-color);
+}
+
+/* --- Responsive cho điện thoại --- */
+@media (max-width: 768px) {
+  .guide-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .guide-banner {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .guide-title {
+    font-size: 1.5rem;
+  }
+
+  .step-header {
+    padding: 1.2rem;
+    gap: 1rem;
+  }
+
+  .step-number-badge {
+    width: 40px;
+    height: 40px;
+  }
+
+  .step-number {
+    font-size: 1.1rem;
+  }
+
+  .step-title {
+    font-size: 1rem;
+  }
+
+  .step-content {
+    padding: 0 1.2rem 1.2rem 1.2rem;
+  }
+
+  .step-image {
+    max-height: 300px;
+  }
+
+  .step-description p {
+    font-size: 0.95rem;
+  }
+
+  .guide-steps {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .guide-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+  }
+
+  .guide-title {
+    font-size: 1.3rem;
+  }
+
+  .step-number-badge {
+    width: 35px;
+    height: 35px;
+  }
+
+  .step-title-area {
+    min-width: 0;
+  }
+
+  .step-description p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+}

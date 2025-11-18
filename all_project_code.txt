@@ -1,0 +1,10 @@
+
+# Lệnh chính để tìm và gộp file
+find . -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" -o -name "*.java" \) \
+-not -path "./node_modules/*" -not -path "./.git/*" | while read -r file; do
+    echo "--- START FILE: ${file} ---" >> "$OUTPUT_FILE"
+    cat "${file}" >> "$OUTPUT_FILE"
+    echo -e "\n--- END FILE: ${file} ---\n\n" >> "$OUTPUT_FILE"
+done
+
+echo "Xong! Toan bo code da duoc gop vao file '$OUTPUT_FILE'"[201~

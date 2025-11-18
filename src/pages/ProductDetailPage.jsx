@@ -4,16 +4,19 @@ import useFetchData from '../hooks/useFetchData';
 import { getProductImage } from '../utils/imageLoader';
 import Breadcrumbs from '../components/common/Breadcrumbs';
 import WarrantySection from '../components/products/WarrantySection';
+import GuideSection from '../components/products/GuideSection';
 import { warrantyDetails } from '../config/warrantyData';
 import './ProductDetailPage.css';
 
 const PRICES_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/prices.json';
 const PRODUCTS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/products.json';
+const GUIDES_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/guides.json';
 
 function ProductDetailPage() {
   const { slug } = useParams();
   const { data: prices, isLoading: isLoadingPrices } = useFetchData(PRICES_URL);
   const { data: products, isLoading: isLoadingProducts } = useFetchData(PRODUCTS_URL);
+  const { data: guides, isLoading: isLoadingGuides } = useFetchData(GUIDES_URL);
   const [mainImage, setMainImage] = useState(null);
 
   const productVariant = useMemo(() => {
@@ -37,7 +40,7 @@ function ProductDetailPage() {
     }
   }, [images]);
 
-  if (isLoadingPrices || isLoadingProducts) {
+  if (isLoadingPrices || isLoadingProducts || isLoadingGuides) {
     return <div className="page-container" style={{ textAlign: 'center', padding: '4rem 0' }}>Đang tải thông tin sản phẩm...</div>;
   }
 
@@ -57,6 +60,15 @@ function ProductDetailPage() {
   const productGroup = products ? products[productVariant.group_id] : null;
   const warrantyId = productVariant.warranty_id; 
   const selectedWarrantyData = warrantyId ? warrantyDetails[warrantyId] : null;
+
+  // Get guide data based on guide_id from product variant
+  const guideId = productVariant.guide_id;
+  const selectedGuideData = guideId && guides && guides[guideId] 
+    ? { 
+        title: productVariant["Tên sản phẩm"],
+        steps: guides[guideId]
+      }
+    : null;
 
   const breadcrumbCrumbs = [
     { label: 'Trang chủ', link: '/' },
@@ -129,7 +141,12 @@ function ProductDetailPage() {
         )}
       </div>
 
-      {/* --- ĐẶT COMPONENT BẢO HÀNH Ở ĐÚNG VỊ TRÍ --- */}
+      {/* --- HƯỚNG DẪN THI CÔNG --- */}
+      {selectedGuideData && (
+        <GuideSection guideData={selectedGuideData} />
+      )}
+
+      {/* --- BẢO HÀNH --- */}
       {selectedWarrantyData && (
         <WarrantySection 
           warrantyData={selectedWarrantyData}
