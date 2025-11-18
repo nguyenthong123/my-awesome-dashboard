@@ -6,6 +6,41 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+## Deploying
+
+This project uses `gh-pages` to deploy the static build to GitHub Pages.
+
+1. If you haven't already, install dependencies and add `gh-pages`:
+
+```bash
+npm install --save-dev gh-pages
+```
+
+2. `package.json` already has these scripts:
+
+```json
+	"scripts": {
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build"
+	}
+```
+
+3. Also set `homepage` in `package.json` to your GitHub Pages URL, e.g.:
+
+```json
+	"homepage": "https://<your-github-username>.github.io/my-awesome-dashboard"
+```
+
+4. Run deploy:
+
+```bash
+npm run deploy
+```
+
+Alternative hosts:
+- Vercel / Netlify: connect the repo and set Build command to `npm run build` and Publish directory to `build`.
+- GitHub Actions: create an action that runs `npm ci && npm run build` and push the build to `gh-pages` or use the `peaceiris/actions-gh-pages` action.
+
 ### `npm start`
 
 Runs the app in the development mode.\
