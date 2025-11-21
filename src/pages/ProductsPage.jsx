@@ -82,10 +82,20 @@ function ProductsPage() {
     }
     currentPrices = currentPrices.filter(p => p[selectedPriceType]);
     const grouped = currentPrices.reduce((acc, variant) => {
-      const groupInfo = products[variant.group_id];
+      // Try to find matching group in `products` using the variant.group_id.
+      // Some data sources use underscores while `products.json` uses hyphens.
+      let groupKey = variant.group_id;
+      let groupInfo = products[groupKey];
+      if (!groupInfo && typeof groupKey === 'string') {
+        const altKey = groupKey.replace(/_/g, '-');
+        groupInfo = products[altKey];
+        groupKey = altKey;
+      }
       if (!groupInfo) return acc;
-      acc[groupInfo.name] = acc[groupInfo.name] || { ...groupInfo, variants: [] };
-      acc[groupInfo.name].variants.push(variant);
+
+      const groupName = groupInfo.name || groupKey;
+      acc[groupName] = acc[groupName] || { ...groupInfo, id: groupInfo.id || groupKey, name: groupName, variants: [] };
+      acc[groupName].variants.push(variant);
       return acc;
     }, {});
     
