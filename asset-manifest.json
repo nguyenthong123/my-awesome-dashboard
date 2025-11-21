@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.da940afb.css",
-    "main.js": "./static/js/main.1ab64b22.js",
+    "main.js": "./static/js/main.f7b25a5a.js",
     "static/media/cert-5.png": "./static/media/cert-5.3ac9f1d3e9a9b81c63d2.png",
     "static/media/durawood-6mmx200x2440.jpg": "./static/media/durawood-6mmx200x2440.73765017bc5dede41389.jpg",
     "static/media/vachduraday5.jpg": "./static/media/vachduraday5.2b8236c9c6093cd1640a.jpg",
@@ -108,10 +108,10 @@
     "static/media/duraflex-logo.png": "./static/media/duraflex-logo.24a4cedb7450545f487d.png",
     "index.html": "./index.html",
     "main.da940afb.css.map": "./static/css/main.da940afb.css.map",
-    "main.1ab64b22.js.map": "./static/js/main.1ab64b22.js.map"
+    "main.f7b25a5a.js.map": "./static/js/main.f7b25a5a.js.map"
   },
   "entrypoints": [
     "static/css/main.da940afb.css",
-    "static/js/main.1ab64b22.js"
+    "static/js/main.f7b25a5a.js"
   ]
 }
