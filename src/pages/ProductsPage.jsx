@@ -8,7 +8,7 @@ import duraflexLogo from '../assets/images/duraflex-logo.png';
 import { getProductImage } from '../utils/imageLoader';
 
 const PRODUCTS_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/products.json';
-const PRICES_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/prices.json';
+const PRICES_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/bang_gia_dai_ly.json';
 const ADVANCED_ROLES = ['Cửa Hàng', 'Nhà Máy Tôn', 'ad mind'];
 const SPECIAL_PRICE_TYPES = ['giá niêm yết', 'Giá Thầu Thợ', 'Giá chủ nhà'];
 
