@@ -29,6 +29,7 @@ function WarrantySection({ warrantyData, productList }) {
   // Fetch order data to get list of stores
   const { data: orderData } = useFetchData(ORDER_DATA_URL);
 
+  
   // Extract stores from orderData with status "Đơn Chốt"
   useEffect(() => {
     if (orderData && Array.isArray(orderData)) {
@@ -84,6 +85,45 @@ function WarrantySection({ warrantyData, productList }) {
       };
       reader.onerror = reject;
     });
+  };
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('api_key', CLOUDINARY_API_KEY);
+      formData.append('folder', 'warranty_images');
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-Requested-With': 'XMLHttpRequest',
+          }
+        }
+      );
+
+      const data = await response.json();
+      
+      if (response.ok && data.secure_url) {
+        console.log('Upload successful:', data);
+        return data.secure_url;
+      } else {
+        console.error('Upload failed:', {
+          status: response.status,
+          statusText: response.statusText,
+          data: data
+        });
+        throw new Error(
+          data.error 
+            ? `Cloudinary error: ${data.error.message}` 
+            : `Upload failed with status ${response.status}`
+        );
+      }
+    } catch (error) {
+      console.error('Error uploading to Cloudinary:', error);
+      return null;
+    }
   };
 
   // Send warranty data to Google Apps Script
@@ -173,14 +213,8 @@ function WarrantySection({ warrantyData, productList }) {
     
     for (const img of images) {
       try {
-        const binaryString = atob(img.data);
-        const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-          bytes[i] = binaryString.charCodeAt(i);
-        }
-        
         const formData = new FormData();
-        formData.append('file', new Blob([bytes], { type: img.mimeType }));
+        formData.append('file', new Blob([Uint8Array.from(atob(img.data), c => c.charCodeAt(0))], { type: img.mimeType }));
         formData.append('api_key', CLOUDINARY_API_KEY);
         formData.append('folder', 'warranty_images');
 
@@ -223,6 +257,76 @@ function WarrantySection({ warrantyData, productList }) {
       setMessage('Yêu cầu của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ lại sớm.');
       form.current.reset();
       setLocation(null);
+    }
+  };
+
+  const uploadToCloudinary = async (file) => {
+    e.preventDefault();
+    setIsSending(true);
+    setMessage('');
+
+    try {
+      // Validate form
+      if (!form.current.name.value || !form.current.phone.value || 
+          !form.current.address.value || !form.current.product.value || 
+          !form.current.purchaseDate.value || !form.current.description.value) {
+        throw new Error('Vui lòng điền đầy đủ thông tin bắt buộc');
+      }
+
+      // Handle image uploads
+      const imageUrls = [];
+      const fileInputs = form.current.querySelectorAll('input[type="file"]');
+      
+      for (const input of fileInputs) {
+        if (input.files.length > 0) {
+          setMessage('Đang tải ảnh lên...');
+          const url = await uploadToCloudinary(input.files[0]);
+          if (url) {
+            imageUrls.push(url);
+          }
+        }
+      }
+
+      setMessage('Đang gửi yêu cầu bảo hành...');
+
+      // Initialize EmailJS
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+
+      // Prepare email parameters
+      const templateParams = {
+        product: form.current.product.value,
+        name: form.current.name.value,
+        phone: form.current.phone.value,
+        address: form.current.address.value,
+        purchaseDate: form.current.purchaseDate.value,
+        description: form.current.description.value,
+        imageUrls: imageUrls.join('\n'),
+        reply_to: 'dunvex.green@gmail.com'
+      };
+
+      // Send email
+      const result = await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        templateParams
+      );
+
+      console.log('Email sent successfully:', result.text);
+      setMessage('Yêu cầu của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ lại sớm.');
+      form.current.reset();
+    } catch (error) {
+      console.error('Error:', error);
+      if (error.message === 'Vui lòng điền đầy đủ thông tin bắt buộc') {
+        setMessage(error.message);
+      } else if (error.message.includes('service ID is required')) {
+        setMessage('Lỗi cấu hình hệ thống. Vui lòng liên hệ admin.');
+      } else if (error.message.includes('dynamic variables are corrupted')) {
+        setMessage('Lỗi định dạng dữ liệu. Vui lòng liên hệ admin.');
+      } else {
+        setMessage(`Gửi yêu cầu thất bại. Vui lòng thử lại sau. (${error.message})`);
+      }
+    } finally {
+      setIsSending(false);
     }
   };
 

@@ -80,7 +80,15 @@ function ProductsPage() {
     if (searchTerm) {
       currentPrices = currentPrices.filter(p => p["Tên sản phẩm"] && p["Tên sản phẩm"].toLowerCase().includes(searchTerm.toLowerCase()));
     }
-    currentPrices = currentPrices.filter(p => p[selectedPriceType]);
+    // Keep variants that have the currently selected price type OR any available price type.
+    currentPrices = currentPrices.filter(p => {
+      if (p[selectedPriceType]) return true;
+      // Fallback: if the variant has any of the other available price keys with a value, include it.
+      for (const key of availablePriceTypes) {
+        if (p[key]) return true;
+      }
+      return false;
+    });
     const grouped = currentPrices.reduce((acc, variant) => {
       // Try to find matching group in `products` using the variant.group_id.
       // Some data sources use underscores while `products.json` uses hyphens.
