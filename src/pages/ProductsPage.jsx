@@ -113,7 +113,7 @@ function ProductsPage() {
       result = result.filter(group => selectedGroupNames.includes(group.name));
     }
     return result;
-  }, [products, prices, selectedPriceType, selectedGroups, searchTerm]);
+  }, [products, prices, selectedPriceType, selectedGroups, searchTerm, availablePriceTypes]);
 
   if (isLoadingProducts || isLoadingPrices) {
     return <div className="page-container">Loading product details...</div>;
