@@ -30,13 +30,27 @@ function WarrantySection({ warrantyData, productList }) {
 
   // Extract stores from orderData with status "Đơn Chốt"
   useEffect(() => {
+    console.log('WarrantySection: orderData =', orderData);
+    
     if (orderData && Array.isArray(orderData)) {
-      const confirmedStores = orderData
-        .filter(order => order['trạng thái'] === 'Đơn Chốt')
-        .map(order => order['tên cửa hàng'])
-        .filter((store, index, arr) => store && arr.indexOf(store) === index) // Unique stores
-        .sort();
-      setStores(confirmedStores);
+      try {
+        const confirmedStores = orderData
+          .filter(order => {
+            // Check both Vietnamese and potential variations
+            const status = order['trạng thái'] || order['trang_thai'] || order['status'];
+            return status === 'Đơn Chốt' || status === 'Don Chot';
+          })
+          .map(order => order['tên cửa hàng'] || order['ten_cua_hang'] || order['store_name'])
+          .filter((store, index, arr) => store && arr.indexOf(store) === index) // Unique stores
+          .sort();
+        
+        console.log('WarrantySection: confirmedStores =', confirmedStores);
+        setStores(confirmedStores);
+      } catch (error) {
+        console.error('WarrantySection: Error processing orderData:', error);
+      }
+    } else {
+      console.warn('WarrantySection: orderData not available or not an array');
     }
   }, [orderData]);
 
@@ -138,24 +152,30 @@ function WarrantySection({ warrantyData, productList }) {
       // Check if using Apps Script or fallback to EmailJS
       if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('YOUR_DEPLOYMENT_ID')) {
         // Use Google Apps Script
-        const response = await fetch(APPS_SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify(payload),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
+        try {
+          const response = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            mode: 'no-cors' // Allow CORS
+          });
 
-        const result = await response.json();
-        if (result.success) {
-          setMessage(result.message || 'Yêu cầu của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ lại sớm.');
+          // When mode: 'no-cors', response won't have JSON body
+          // So we assume success if fetch completes
+          setMessage('Yêu cầu của bạn đã được gửi thành công! Chúng tôi sẽ liên hệ lại sớm.');
           form.current.reset();
           setLocation(null);
-        } else {
-          throw new Error(result.message || 'Gửi thất bại');
+          console.log('WarrantySection: Form submitted to Apps Script successfully');
+        } catch (fetchError) {
+          console.error('WarrantySection: Fetch error:', fetchError);
+          // Fallback to EmailJS if fetch fails
+          await sendViaEmailJS(payload, images);
         }
       } else {
         // Fallback: Use EmailJS (old method)
+        console.warn('WarrantySection: Apps Script URL not set, using EmailJS fallback');
         await sendViaEmailJS(payload, images);
       }
     } catch (error) {

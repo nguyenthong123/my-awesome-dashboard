@@ -67,6 +67,17 @@ function doPost(e) {
 }
 
 /**
+ * Handle CORS preflight requests
+ */
+function doOptions(e) {
+  return ContentService.createTextOutput('')
+    .setMimeType(ContentService.MimeType.TEXT)
+    .addHeader('Access-Control-Allow-Origin', '*')
+    .addHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+    .addHeader('Access-Control-Allow-Headers', 'Content-Type');
+}
+
+/**
  * Save image to Google Drive
  */
 function saveImageToDrive(imageData) {
