@@ -12,9 +12,8 @@ const EMAILJS_PUBLIC_KEY = 'ucjcJro8eNU36M-J4';
 const CLOUDINARY_CLOUD_NAME = 'dtdgrcznj';
 const CLOUDINARY_API_KEY = '693591154735455';
 
-// Google Apps Script deployment URL - ⚠️ BẠN CẦN CẬP NHẬT URL NÀY
-// Sau khi deploy Apps Script trên Google, copy URL đặt ở đây
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/d/YOUR_DEPLOYMENT_ID/usercopy'; // ← Thay YOUR_DEPLOYMENT_ID
+// Google Apps Script deployment URL
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxyVb1paI9qY0m5d_SywfAEt-1-WstPsEWv_zsuGIE7IAnhFY-Z1LWQjL18C-lpmB1D/exec';
 
 // Data source
 const ORDER_DATA_URL = 'https://raw.githubusercontent.com/nguyenthong123/dashboard-data/main/data/orderData.json';
